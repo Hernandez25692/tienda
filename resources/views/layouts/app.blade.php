@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
+<head>
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>{{ config('app.name', 'Laravel') }}</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.bunny.net">
+    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+
+    <!-- Scripts -->
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+</head>
+
+<body class="font-sans antialiased bg-gray-100">
+
+    @auth
+        <div x-data="{ sidebarOpen: true }" class="flex min-h-screen">
+
+            <!-- Sidebar -->
+            <div :class="sidebarOpen ? 'w-64' : 'w-16'"
+                class="bg-white border-r transition-all duration-300 ease-in-out overflow-hidden">
+                <div class="h-16 flex items-center justify-between px-4 border-b">
+                    <span class="font-bold text-gray-800 text-lg" x-show="sidebarOpen">🛍️ Tu Tienda</span>
+                    <button @click="sidebarOpen = !sidebarOpen" class="text-gray-500 focus:outline-none">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+
+                <nav class="px-4 pt-4 space-y-2">
+                    <a href="{{ route('dashboard') }}"
+                        class="flex items-center px-3 py-2 rounded hover:bg-blue-100 {{ request()->routeIs('dashboard') ? 'bg-blue-50 font-bold' : '' }}">
+                        📊 <span class="ml-2" x-show="sidebarOpen">Dashboard</span>
+                    </a>
+
+                    <a href="{{ route('productos.index') }}"
+                        class="flex items-center px-3 py-2 rounded hover:bg-blue-100 {{ request()->routeIs('productos.*') ? 'bg-blue-50 font-bold' : '' }}">
+                        📦 <span class="ml-2" x-show="sidebarOpen">Catálogo</span>
+                    </a>
+
+                    <a href="{{ route('profile.edit') }}"
+                        class="flex items-center px-3 py-2 rounded hover:bg-blue-100 {{ request()->routeIs('profile.edit') ? 'bg-blue-50 font-bold' : '' }}">
+                        👤 <span class="ml-2" x-show="sidebarOpen">Perfil</span>
+                    </a>
+
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <button type="submit"
+                            class="flex items-center w-full text-left px-3 py-2 rounded hover:bg-red-100 text-red-600">
+                            🚪 <span class="ml-2" x-show="sidebarOpen">Cerrar sesión</span>
+                        </button>
+                    </form>
+                </nav>
+            </div>
+
+            <!-- Contenido principal -->
+            <div class="flex-1">
+                @isset($header)
+                    <header class="bg-white shadow">
+                        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+                            {{ $header }}
+                        </div>
+                    </header>
+                @endisset
+
+                <main class="p-4">
+                    {{ $slot }}
+                </main>
+            </div>
+        </div>
+    @endauth
+
+    @guest
+        <!-- Contenido sin sidebar (login, registro, etc.) -->
+        <div class="min-h-screen flex flex-col justify-center items-center bg-gray-100">
+            <main class="w-full max-w-md px-6">
+                {{ $slot }}
+            </main>
+        </div>
+    @endguest
+
+</body>
+
+</html>
