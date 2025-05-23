@@ -63,7 +63,7 @@
                                     <td class="p-2">L
                                         {{ number_format($producto->pivot->cantidad * $producto->pivot->precio_unitario, 2) }}
                                     </td>
-                                    <td class="p-2">{{ $producto->pivot->comentario ?? '-' }}</td>
+                                    <td>{{ $producto->pivot->comentario ?? '-' }}</td>
                                 </tr>
                             @endforeach
                         </tbody>
