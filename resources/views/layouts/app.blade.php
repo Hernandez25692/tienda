@@ -44,6 +44,23 @@
                         class="flex items-center px-3 py-2 rounded hover:bg-blue-100 {{ request()->routeIs('productos.*') ? 'bg-blue-50 font-bold' : '' }}">
                         📦 <span class="ml-2" x-show="sidebarOpen">Catálogo</span>
                     </a>
+                    <a href="{{ route('pedidos.mis') }}"
+                        class="flex items-center px-3 py-2 rounded hover:bg-blue-100 {{ request()->routeIs('pedidos.mis') ? 'bg-blue-50 font-bold' : '' }}">
+                        📦 <span class="ml-2">Mis pedidos</span>
+                    </a>
+                    <a href="{{ route('carrito.index') }}"
+                        class="flex items-center px-3 py-2 rounded hover:bg-blue-100 {{ request()->routeIs('carrito.*') ? 'bg-blue-50 font-bold' : '' }}">
+                        🛒 <span class="ml-2" x-show="sidebarOpen">Carrito</span>
+                    <!-- Solo visible para el admin -->
+                    @auth
+                        @if (Auth::user()->is_admin ?? true)
+                            <a href="{{ route('admin.pedidos.index') }}"
+                                class="flex items-center px-3 py-2 rounded hover:bg-blue-100 {{ request()->routeIs('admin.pedidos.*') ? 'bg-blue-50 font-bold' : '' }}">
+                                📋 <span class="ml-2" x-show="sidebarOpen">Gestionar Pedidos</span>
+                            </a>
+                        @endif
+                    @endauth
+
 
                     <a href="{{ route('profile.edit') }}"
                         class="flex items-center px-3 py-2 rounded hover:bg-blue-100 {{ request()->routeIs('profile.edit') ? 'bg-blue-50 font-bold' : '' }}">

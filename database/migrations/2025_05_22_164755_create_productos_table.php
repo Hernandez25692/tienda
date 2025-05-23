@@ -17,7 +17,7 @@ return new class extends Migration
             $table->text('descripcion')->nullable();
             $table->decimal('precio_venta', 10, 2);
             $table->decimal('precio_compra', 10, 2)->nullable(); // Solo visible al admin
-            $table->string('link_compra')->nullable();           // Solo admin
+            $table->text('link_compra')->nullable();           // Solo admin, soporta URLs largas
             $table->boolean('disponible')->default(true);        // Agotado = false
             $table->timestamps();
         });
