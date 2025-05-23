@@ -19,6 +19,7 @@ return new class extends Migration
             $table->decimal('precio_compra', 10, 2)->nullable(); // Solo visible al admin
             $table->text('link_compra')->nullable();           // Solo admin, soporta URLs largas
             $table->boolean('disponible')->default(true);        // Agotado = false
+            $table->boolean('visible')->default(true);
             $table->timestamps();
         });
     }

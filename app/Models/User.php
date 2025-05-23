@@ -21,7 +21,10 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'celular',
+        'role',
     ];
+
 
     /**
      * The attributes that should be hidden for serialization.
@@ -49,5 +52,10 @@ class User extends Authenticatable
     public function pedidos()
     {
         return $this->hasMany(Pedido::class);
+    }
+
+    public function esAdmin()
+    {
+        return $this->role === 'admin';
     }
 }

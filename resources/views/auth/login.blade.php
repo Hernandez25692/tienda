@@ -45,7 +45,7 @@
                     @endif
                 </div>
 
-                <!-- Submit -->
+                <!-- Botón de Iniciar sesión -->
                 <div>
                     <button type="submit"
                         class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 transition">
@@ -53,6 +53,15 @@
                     </button>
                 </div>
             </form>
+
+            <!-- Enlace a registro -->
+            <div class="mt-6 text-center">
+                <p class="text-sm text-gray-600">¿No tienes cuenta?</p>
+                <a href="{{ route('register') }}"
+                    class="text-indigo-600 hover:text-indigo-800 font-semibold text-sm inline-block mt-1">
+                    Crear una cuenta
+                </a>
+            </div>
         </div>
     </div>
 </x-guest-layout>

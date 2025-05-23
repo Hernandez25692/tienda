@@ -51,29 +51,35 @@
                     <a href="{{ route('carrito.index') }}"
                         class="flex items-center px-3 py-2 rounded hover:bg-blue-100 {{ request()->routeIs('carrito.*') ? 'bg-blue-50 font-bold' : '' }}">
                         🛒 <span class="ml-2" x-show="sidebarOpen">Carrito</span>
-                    <!-- Solo visible para el admin -->
-                    @auth
-                        @if (Auth::user()->is_admin ?? true)
-                            <a href="{{ route('admin.pedidos.index') }}"
-                                class="flex items-center px-3 py-2 rounded hover:bg-blue-100 {{ request()->routeIs('admin.pedidos.*') ? 'bg-blue-50 font-bold' : '' }}">
-                                📋 <span class="ml-2" x-show="sidebarOpen">Gestionar Pedidos</span>
-                            </a>
-                        @endif
-                    @endauth
+                        <!-- Solo visible para el admin -->
+                        @auth
+                            @if (Auth::user()->role === 'admin')
+                                <a href="{{ route('admin.pedidos.index') }}"
+                                    class="flex items-center px-3 py-2 rounded hover:bg-blue-100 {{ request()->routeIs('admin.pedidos.*') ? 'bg-blue-50 font-bold' : '' }}">
+                                    📋 <span class="ml-2" x-show="sidebarOpen">Gestionar Pedidos</span>
+                                </a>
+
+                                <a href="{{ route('admin.clientes.index') }}"
+                                    class="flex items-center px-3 py-2 rounded hover:bg-blue-100 {{ request()->routeIs('admin.clientes.*') ? 'bg-blue-50 font-bold' : '' }}">
+                                    👥 <span class="ml-2" x-show="sidebarOpen">Clientes</span>
+                                </a>
+                            @endif
+
+                        @endauth
 
 
-                    <a href="{{ route('profile.edit') }}"
-                        class="flex items-center px-3 py-2 rounded hover:bg-blue-100 {{ request()->routeIs('profile.edit') ? 'bg-blue-50 font-bold' : '' }}">
-                        👤 <span class="ml-2" x-show="sidebarOpen">Perfil</span>
-                    </a>
+                        <a href="{{ route('profile.edit') }}"
+                            class="flex items-center px-3 py-2 rounded hover:bg-blue-100 {{ request()->routeIs('profile.edit') ? 'bg-blue-50 font-bold' : '' }}">
+                            👤 <span class="ml-2" x-show="sidebarOpen">Perfil</span>
+                        </a>
 
-                    <form method="POST" action="{{ route('logout') }}">
-                        @csrf
-                        <button type="submit"
-                            class="flex items-center w-full text-left px-3 py-2 rounded hover:bg-red-100 text-red-600">
-                            🚪 <span class="ml-2" x-show="sidebarOpen">Cerrar sesión</span>
-                        </button>
-                    </form>
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+                            <button type="submit"
+                                class="flex items-center w-full text-left px-3 py-2 rounded hover:bg-red-100 text-red-600">
+                                🚪 <span class="ml-2" x-show="sidebarOpen">Cerrar sesión</span>
+                            </button>
+                        </form>
                 </nav>
             </div>
 

@@ -11,9 +11,19 @@ class ProductoController extends Controller
 {
     public function index()
     {
-        $productos = Producto::with('imagenes')->latest()->paginate(10);
+        if (auth()->check() && auth()->user()->esAdmin()) {
+            // Admin ve todos
+            $productos = Producto::all();
+        } else {
+            // Cliente ve solo visibles y disponibles
+            $productos = Producto::where('visible', true)
+                ->where('disponible', true)
+                ->get();
+        }
+
         return view('productos.index', compact('productos'));
     }
+
 
     public function create()
     {
