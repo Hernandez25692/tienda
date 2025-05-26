@@ -42,5 +42,7 @@ Route::post('/mis-pedidos/{pedido}/subir-comprobante', [PedidoController::class,
     ->name('pedidos.subirComprobante')
     ->middleware('auth');
 
+Route::get('/catalogo', [App\Http\Controllers\ProductoController::class, 'catalogoPublico'])->name('catalogo.publico');
+Route::get('/catalogo-libre', [App\Http\Controllers\ProductoController::class, 'vistaLibreCatalogo'])->name('catalogo.landing');
 
 require __DIR__ . '/auth.php';

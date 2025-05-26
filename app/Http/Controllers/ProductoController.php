@@ -109,4 +109,26 @@ class ProductoController extends Controller
 
         return back()->with('success', 'Producto actualizado en el catálogo.');
     }
+
+    public function catalogoPublico()
+    {
+        $productos = Producto::where('visible', true)
+            ->where('disponible', true)
+            ->latest()
+            ->take(10)
+            ->get();
+
+        return view('productos.catalogo_publico', compact('productos'));
+    }
+    public function vistaCatalogoLibre()
+    {
+        $productos = Producto::with('imagenes')
+            ->where('visible', true)
+            ->where('disponible', true)
+            ->latest()
+            ->take(12)
+            ->get();
+
+        return view('catalogo_publico', compact('productos'));
+    }
 }
