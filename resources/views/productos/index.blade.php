@@ -8,145 +8,132 @@
     <div class="bg-white p-6 rounded shadow">
         @auth
             @if (Auth::user()->role === 'admin')
-                <a href="{{ route('productos.create') }}" class="bg-blue-600 text-white px-4 py-2 rounded">Agregar Producto</a>
+                <a href="{{ route('productos.create') }}" class="bg-blue-600 text-white px-4 py-2 rounded mb-6 inline-block">
+                    Agregar Producto
+                </a>
             @endif
         @endauth
 
-        <div class="overflow-x-auto mt-8">
-            <div class="shadow-lg rounded-lg border border-gray-200">
-                <table class="min-w-full bg-white rounded-lg overflow-hidden">
-                    <thead>
-                        <tr class="bg-gradient-to-r from-blue-700 to-blue-400 text-white">
-                            <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider rounded-tl-lg">
-                                Imagen</th>
-                            <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider">Nombre</th>
-                            <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider">Precio Venta</th>
-                            <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider">Estado</th>
-                            <th class="px-6 py-4 text-center text-xs font-bold uppercase tracking-wider" colspan="2"
-                                rounded-tr-lg>Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @forelse ($productos as $producto)
-                            <tr class="border-b last:border-b-0 hover:bg-blue-50 transition-colors">
-                                <td class="px-6 py-4">
-                                    <div class="flex items-center justify-center">
-                                        @if ($producto->imagenes->first())
-                                            <img src="{{ asset('storage/' . $producto->imagenes->first()->ruta) }}"
-                                                alt="Imagen"
-                                                class="w-16 h-16 object-cover rounded-lg shadow border border-gray-200">
-                                        @else
-                                            <span class="text-gray-400 italic">Sin imagen</span>
-                                        @endif
-                                    </div>
-                                </td>
-                                <td class="px-6 py-4 font-semibold text-gray-800">
-                                    <span class="block truncate max-w-xs">{{ $producto->nombre }}</span>
-                                </td>
-                                <td class="px-6 py-4">
-                                    <span
-                                        class="inline-block bg-green-50 text-green-700 px-3 py-1 rounded font-bold shadow-sm">
-                                        L {{ number_format($producto->precio_venta, 2) }}
-                                    </span>
-                                </td>
-                                <td class="px-6 py-4">
-                                    @if ($producto->disponible)
-                                        <span
-                                            class="inline-flex items-center px-3 py-1 bg-green-100 text-green-700 rounded-full text-xs font-semibold gap-1">
-                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2"
-                                                viewBox="0 0 24 24">
-                                                <circle cx="12" cy="12" r="10" stroke="currentColor" />
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                    d="M9 12l2 2 4-4" />
-                                            </svg>
-                                            Disponible
-                                        </span>
-                                    @else
-                                        <span
-                                            class="inline-flex items-center px-3 py-1 bg-red-100 text-red-700 rounded-full text-xs font-semibold gap-1">
-                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2"
-                                                viewBox="0 0 24 24">
-                                                <circle cx="12" cy="12" r="10" stroke="currentColor" />
-                                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 9l-6 6" />
-                                            </svg>
-                                            Agotado
-                                        </span>
-                                    @endif
-                                </td>
-                                @auth
-                                    @if (Auth::user()->role === 'admin')
-                                        <td class="px-3 py-4 text-center">
-                                            <a href="{{ route('productos.edit', $producto) }}"
-                                                class="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded shadow transition-colors font-medium">
-                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2"
-                                                    viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        d="M15.232 5.232l3.536 3.536M9 13l6-6 3 3-6 6H9v-3z" />
-                                                </svg>
-                                                Editar
-                                            </a>
-                                        </td>
-                                    @endif
-                                @endauth
-                                <td class="px-3 py-4 text-center">
-                                    <div class="flex items-center justify-center gap-2">
-                                        <a href="{{ route('productos.show', $producto->id) }}"
-                                            class="inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded shadow transition-colors font-medium">
-                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2"
-                                                viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                                            </svg>
-                                            Ver
-                                        </a>
-                                        @auth
-                                            @if (Auth::user()->role === 'admin')
-                                                <form action="{{ route('productos.toggleVisibilidad', $producto->id) }}"
-                                                    method="POST" class="inline">
-                                                    @csrf
-                                                    <button type="submit"
-                                                        class="inline-flex items-center gap-1 text-sm text-gray-500 hover:text-indigo-600 px-2 py-1 rounded transition-colors">
-                                                        @if ($producto->visible)
-                                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5"
-                                                                fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                                    stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                                    stroke-width="2"
-                                                                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                                                            </svg>
-                                                            <span>Ocultar</span>
-                                                        @else
-                                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5"
-                                                                fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                                    stroke-width="2"
-                                                                    d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.542-7a9.956 9.956 0 012.293-3.95M6.873 6.873A9.956 9.956 0 0112 5c4.478 0 8.268 2.943 9.542 7a9.956 9.956 0 01-4.293 5.95M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                                    stroke-width="2" d="M3 3l18 18" />
-                                                            </svg>
-                                                            <span>Mostrar</span>
-                                                        @endif
-                                                    </button>
-                                                </form>
-                                            @endif
-                                        @endauth
-                                    </div>
-                                </td>
-                            </tr>
-                        @empty
-                            <tr>
-                                <td colspan="6"
-                                    class="px-6 py-8 text-center text-gray-400 text-lg font-semibold bg-gray-50 rounded-b-lg">
-                                    No hay productos registrados.
-                                </td>
-                            </tr>
-                        @endforelse
-                    </tbody>
-                </table>
+        <!-- Filtros -->
+        <form method="GET" action="{{ route('productos.index') }}" class="mb-8 grid md:grid-cols-6 gap-4 items-end">
+            <div>
+                <label for="nombre" class="text-sm text-gray-600">Nombre:</label>
+                <input type="text" name="nombre" id="nombre" value="{{ request('nombre') }}"
+                       class="w-full rounded border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
             </div>
+
+            <div>
+                <label for="estado" class="text-sm text-gray-600">Estado:</label>
+                <select name="estado" id="estado"
+                        class="w-full rounded border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                    <option value="">Todos</option>
+                    <option value="disponible" {{ request('estado') === 'disponible' ? 'selected' : '' }}>Disponible</option>
+                    <option value="agotado" {{ request('estado') === 'agotado' ? 'selected' : '' }}>Agotado</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="precio_min" class="text-sm text-gray-600">Precio mínimo:</label>
+                <input type="number" step="0.01" name="precio_min" id="precio_min" value="{{ request('precio_min') }}"
+                       class="w-full rounded border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+            </div>
+
+            <div>
+                <label for="precio_max" class="text-sm text-gray-600">Precio máximo:</label>
+                <input type="number" step="0.01" name="precio_max" id="precio_max" value="{{ request('precio_max') }}"
+                       class="w-full rounded border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+            </div>
+
+            <div>
+                <label for="ordenar" class="text-sm text-gray-600">Ordenar por:</label>
+                <select name="ordenar" id="ordenar"
+                        class="w-full rounded border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                    <option value="">Más recientes</option>
+                    <option value="nombre_asc" {{ request('ordenar') === 'nombre_asc' ? 'selected' : '' }}>Nombre A-Z</option>
+                    <option value="nombre_desc" {{ request('ordenar') === 'nombre_desc' ? 'selected' : '' }}>Nombre Z-A</option>
+                    <option value="precio_asc" {{ request('ordenar') === 'precio_asc' ? 'selected' : '' }}>Precio ↑</option>
+                    <option value="precio_desc" {{ request('ordenar') === 'precio_desc' ? 'selected' : '' }}>Precio ↓</option>
+                </select>
+            </div>
+
+            <div class="flex gap-2">
+                <button type="submit"
+                        class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold px-4 py-2 rounded shadow">
+                    Filtrar
+                </button>
+                <a href="{{ route('productos.index') }}"
+                   class="w-full bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold px-4 py-2 rounded shadow text-center">
+                    Limpiar
+                </a>
+            </div>
+        </form>
+
+        <!-- Grid de productos -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            @forelse ($productos as $producto)
+                <div class="bg-white border border-gray-200 rounded-lg shadow hover:shadow-md transition p-4 flex flex-col justify-between">
+                    @if ($producto->imagenes->first())
+                        <img src="{{ asset('storage/' . $producto->imagenes->first()->ruta) }}"
+                             alt="{{ $producto->nombre }}"
+                             class="w-full h-48 object-cover rounded mb-3">
+                    @else
+                        <div class="w-full h-48 bg-gray-100 flex items-center justify-center rounded mb-3 text-gray-400">
+                            <span>Sin imagen</span>
+                        </div>
+                    @endif
+
+                    <div class="flex-1">
+                        <h3 class="text-lg font-bold text-gray-800 truncate">{{ $producto->nombre }}</h3>
+                        <p class="text-yellow-600 font-semibold text-base mt-1">
+                            L {{ number_format($producto->precio_venta, 2) }}
+                        </p>
+
+                        <p class="text-sm mt-2">
+                            @if ($producto->disponible)
+                                <span class="inline-flex items-center px-2 py-1 bg-green-100 text-green-700 rounded-full text-xs font-semibold">
+                                    Disponible
+                                </span>
+                            @else
+                                <span class="inline-flex items-center px-2 py-1 bg-red-100 text-red-700 rounded-full text-xs font-semibold">
+                                    Agotado
+                                </span>
+                            @endif
+                        </p>
+                    </div>
+
+                    <div class="mt-4 flex flex-wrap gap-2">
+                        <a href="{{ route('productos.show', $producto->id) }}"
+                           class="flex-1 text-center bg-indigo-600 hover:bg-indigo-700 text-white text-sm py-2 rounded">
+                            Ver
+                        </a>
+
+                        @auth
+                            @if (Auth::user()->role === 'admin')
+                                <a href="{{ route('productos.edit', $producto) }}"
+                                   class="flex-1 text-center bg-blue-600 hover:bg-blue-700 text-white text-sm py-2 rounded">
+                                    Editar
+                                </a>
+                                <form action="{{ route('productos.toggleVisibilidad', $producto->id) }}" method="POST" class="w-full">
+                                    @csrf
+                                    <button type="submit"
+                                            class="w-full mt-2 text-sm py-2 rounded bg-gray-100 hover:bg-gray-200 text-gray-700">
+                                        {{ $producto->visible ? 'Ocultar' : 'Mostrar' }}
+                                    </button>
+                                </form>
+                            @endif
+                        @endauth
+                    </div>
+                </div>
+            @empty
+                <div class="col-span-full text-center text-gray-500 py-8">
+                    No hay productos registrados.
+                </div>
+            @endforelse
+        </div>
+
+        <!-- Paginación -->
+        <div class="mt-8">
+            {{ $productos->links() }}
         </div>
     </div>
 </x-app-layout>

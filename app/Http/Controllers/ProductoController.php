@@ -9,20 +9,63 @@ use Illuminate\Support\Facades\Storage;
 
 class ProductoController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        if (auth()->check() && auth()->user()->esAdmin()) {
-            // Admin ve todos
-            $productos = Producto::all();
-        } else {
-            // Cliente ve solo visibles y disponibles
-            $productos = Producto::where('visible', true)
-                ->where('disponible', true)
-                ->get();
+        $query = Producto::with('imagenes');
+
+        // Si no es admin, mostrar solo productos disponibles y visibles
+        if (!auth()->user()->esAdmin()) {
+            $query->where('visible', true)->where('disponible', true);
         }
+
+        // Filtro: nombre
+        if ($request->filled('nombre')) {
+            $query->where('nombre', 'like', '%' . $request->nombre . '%');
+        }
+
+        // Filtro: estado
+        if ($request->filled('estado')) {
+            if ($request->estado === 'disponible') {
+                $query->where('disponible', true);
+            } elseif ($request->estado === 'agotado') {
+                $query->where('disponible', false);
+            }
+        }
+
+        // Filtro: precio
+        if ($request->filled('precio_min')) {
+            $query->where('precio_venta', '>=', $request->precio_min);
+        }
+
+        if ($request->filled('precio_max')) {
+            $query->where('precio_venta', '<=', $request->precio_max);
+        }
+
+        // Ordenamiento dinámico
+        switch ($request->ordenar) {
+            case 'nombre_asc':
+                $query->orderBy('nombre', 'asc');
+                break;
+            case 'nombre_desc':
+                $query->orderBy('nombre', 'desc');
+                break;
+            case 'precio_asc':
+                $query->orderBy('precio_venta', 'asc');
+                break;
+            case 'precio_desc':
+                $query->orderBy('precio_venta', 'desc');
+                break;
+            default:
+                $query->latest();
+                break;
+        }
+
+        $productos = $query->paginate(12)->withQueryString();
 
         return view('productos.index', compact('productos'));
     }
+
+
 
 
     public function create()
