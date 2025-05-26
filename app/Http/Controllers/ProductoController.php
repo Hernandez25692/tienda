@@ -31,6 +31,9 @@ class ProductoController extends Controller
                 $query->where('disponible', false);
             }
         }
+        if ($request->filled('categoria_id')) {
+            $query->where('categoria_id', $request->categoria_id);
+        }
 
         // Filtro: precio
         if ($request->filled('precio_min')) {
@@ -70,8 +73,10 @@ class ProductoController extends Controller
 
     public function create()
     {
-        return view('productos.create');
+        $categorias = \App\Models\Categoria::all();
+        return view('productos.create', compact('categorias'));
     }
+
 
     public function store(Request $request)
     {
@@ -88,7 +93,8 @@ class ProductoController extends Controller
             'precio_venta' => $request->precio_venta,
             'precio_compra' => $request->precio_compra,
             'link_compra' => $request->link_compra,
-            'disponible' => $request->disponible
+            'disponible' => $request->disponible,
+            'categoria_id' => $request->categoria_id,
         ]);
 
         if ($request->hasFile('imagenes')) {
@@ -107,8 +113,10 @@ class ProductoController extends Controller
     public function edit(Producto $producto)
     {
         $producto->load('imagenes');
-        return view('productos.edit', compact('producto'));
+        $categorias = \App\Models\Categoria::all();
+        return view('productos.edit', compact('producto', 'categorias'));
     }
+
 
     public function update(Request $request, Producto $producto)
     {
@@ -125,6 +133,7 @@ class ProductoController extends Controller
             'precio_compra' => $request->precio_compra,
             'link_compra' => $request->link_compra,
             'disponible' => $request->disponible,
+            'categoria_id' => $request->categoria_id,
         ]);
 
         if ($request->hasFile('imagenes')) {

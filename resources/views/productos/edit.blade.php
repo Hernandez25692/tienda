@@ -9,7 +9,8 @@
         <div class="bg-white shadow-xl rounded-2xl p-8 border border-gray-100">
 
             {{-- FORMULARIO PRINCIPAL DE EDICIÓN --}}
-            <form action="{{ route('productos.update', $producto->id) }}" method="POST" enctype="multipart/form-data" class="space-y-6">
+            <form action="{{ route('productos.update', $producto->id) }}" method="POST" enctype="multipart/form-data"
+                class="space-y-6">
                 @csrf
                 @method('PUT')
 
@@ -24,12 +25,26 @@
                     <textarea name="descripcion" rows="3"
                         class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition mt-1 px-4 py-2">{{ $producto->descripcion }}</textarea>
                 </div>
+                <div>
+                    <label class="block font-semibold text-gray-700 mb-1">Categoría</label>
+                    <select name="categoria_id"
+                        class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition mt-1 px-4 py-2">
+                        <option value="">Seleccione una categoría</option>
+                        @foreach ($categorias as $cat)
+                            <option value="{{ $cat->id }}"
+                                {{ $producto->categoria_id == $cat->id ? 'selected' : '' }}>
+                                {{ $cat->nombre }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                         <label class="block font-semibold text-gray-700 mb-1">Precio de Venta (L)</label>
                         <input type="number" name="precio_venta" step="0.01" value="{{ $producto->precio_venta }}"
-                            required class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition mt-1 px-4 py-2">
+                            required
+                            class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition mt-1 px-4 py-2">
                     </div>
                     <div>
                         <label class="block font-semibold text-gray-700 mb-1">Precio de Compra</label>

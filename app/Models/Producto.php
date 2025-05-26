@@ -13,7 +13,8 @@ class Producto extends Model
         'precio_compra',
         'link_compra',
         'disponible',
-        'visible'
+        'visible',
+        'categoria_id',
     ];
 
     public function pedidos()
@@ -27,5 +28,10 @@ class Producto extends Model
     public function imagenes()
     {
         return $this->hasMany(ImagenProducto::class);
+    }
+
+    public function categoria()
+    {
+        return $this->belongsTo(Categoria::class);
     }
 }

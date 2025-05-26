@@ -6,6 +6,7 @@ use App\Http\Controllers\ImagenProductoController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\PedidoController;
 use App\Http\Controllers\Admin\ClienteController;
+use App\Http\Controllers\CarritoController;
 
 
 Route::get('/', function () {
@@ -14,6 +15,7 @@ Route::get('/', function () {
 
 Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
     Route::resource('clientes', ClienteController::class)->except(['show']);
+    Route::resource('categorias', App\Http\Controllers\CategoriaController::class)->middleware('auth');
 });
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -36,6 +38,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/admin/pedidos/{pedido}/editar', [PedidoController::class, 'adminEdit'])->name('admin.pedidos.edit');
     Route::put('/admin/pedidos/{pedido}', [PedidoController::class, 'adminUpdate'])->name('admin.pedidos.update');
     Route::get('/carrito/index', [PedidoController::class, 'verCarrito'])->name('carrito.index');
+    Route::resource('categorias', App\Http\Controllers\CategoriaController::class)->except(['show']);
 });
 
 Route::post('/mis-pedidos/{pedido}/subir-comprobante', [PedidoController::class, 'subirComprobante'])
@@ -44,5 +47,15 @@ Route::post('/mis-pedidos/{pedido}/subir-comprobante', [PedidoController::class,
 
 Route::get('/catalogo', [App\Http\Controllers\ProductoController::class, 'catalogoPublico'])->name('catalogo.publico');
 Route::get('/catalogo-libre', [App\Http\Controllers\ProductoController::class, 'vistaLibreCatalogo'])->name('catalogo.landing');
+
+// Aquí van otras rutas relacionadas con el carrito
+Route::middleware('auth')->group(function () {
+    Route::get('/carrito', [CarritoController::class, 'verCarrito'])->name('carrito.index');
+    Route::post('/carrito/agregar', [CarritoController::class, 'agregarProducto'])->name('carrito.agregar');
+    Route::post('/carrito/actualizar/{key}', [CarritoController::class, 'actualizarProducto'])->name('carrito.actualizar');
+    Route::post('/carrito/eliminar/{key}', [CarritoController::class, 'eliminarProducto'])->name('carrito.eliminar');
+    Route::post('/carrito/guardar/{key}', [CarritoController::class, 'guardarProducto'])->name('carrito.guardar');
+    Route::post('/carrito/confirmar', [CarritoController::class, 'confirmarPedido'])->name('carrito.confirmar');
+});
 
 require __DIR__ . '/auth.php';

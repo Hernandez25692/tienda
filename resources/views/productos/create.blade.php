@@ -22,6 +22,15 @@
                         <label class="block font-medium text-sm text-gray-700">Descripción</label>
                         <textarea name="descripcion" rows="3" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm"></textarea>
                     </div>
+                    <div>
+                        <label class="block font-medium text-gray-700">Categoría</label>
+                        <select name="categoria_id" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
+                            <option value="">Seleccione una categoría</option>
+                            @foreach ($categorias as $cat)
+                                <option value="{{ $cat->id }}">{{ $cat->nombre }}</option>
+                            @endforeach
+                        </select>
+                    </div>
 
                     <div>
                         <label class="block font-medium text-gray-700">Precio de Venta (L)</label>

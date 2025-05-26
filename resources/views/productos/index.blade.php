@@ -45,6 +45,19 @@
             </div>
 
             <div>
+                <label for="categoria_id" class="text-sm text-gray-600">Categoría:</label>
+                <select name="categoria_id" id="categoria_id"
+                        class="w-full rounded border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                    <option value="">Todas</option>
+                    @foreach (\App\Models\Categoria::all() as $cat)
+                        <option value="{{ $cat->id }}" {{ request('categoria_id') == $cat->id ? 'selected' : '' }}>
+                            {{ $cat->nombre }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+
+            <div>
                 <label for="ordenar" class="text-sm text-gray-600">Ordenar por:</label>
                 <select name="ordenar" id="ordenar"
                         class="w-full rounded border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
@@ -56,7 +69,7 @@
                 </select>
             </div>
 
-            <div class="flex gap-2">
+            <div class="flex gap-2 col-span-full sm:col-span-1">
                 <button type="submit"
                         class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold px-4 py-2 rounded shadow">
                     Filtrar
@@ -84,6 +97,11 @@
 
                     <div class="flex-1">
                         <h3 class="text-lg font-bold text-gray-800 truncate">{{ $producto->nombre }}</h3>
+
+                        @if ($producto->categoria)
+                            <p class="text-sm text-gray-500 mt-1">📂 {{ $producto->categoria->nombre }}</p>
+                        @endif
+
                         <p class="text-yellow-600 font-semibold text-base mt-1">
                             L {{ number_format($producto->precio_venta, 2) }}
                         </p>
