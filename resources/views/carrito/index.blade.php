@@ -67,10 +67,7 @@
                                             @csrf
                                             <button type="submit" class="text-blue-900 hover:underline font-semibold text-sm">Eliminar</button>
                                         </form>
-                                        <form action="{{ route('carrito.guardar', $key) }}" method="POST">
-                                            @csrf
-                                            <button type="submit" class="text-blue-900 hover:underline font-semibold text-sm">Guardar para después</button>
-                                        </form>
+                                        
                                     </div>
                                 </li>
                             @endforeach

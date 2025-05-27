@@ -20,7 +20,8 @@
                     <div>
                         <p
                             class="text-lg font-semibold {{ $isCancelado ? 'text-red-700 line-through' : 'text-gray-800' }}">
-                            Pedido #{{ $pedido->id }}
+                            Pedido: <span class="font-semibold text-indigo-700">{{ $pedido->codigo }}</span>
+
                         </p>
                         @if (!$isCancelado)
                             <p class="text-sm text-gray-500">Fecha: {{ $pedido->created_at->format('d/m/Y') }}</p>

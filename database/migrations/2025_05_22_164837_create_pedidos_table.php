@@ -14,6 +14,8 @@ return new class extends Migration {
             $table->string('estado')->default('pendiente'); // pendiente, confirmado, entregado, cancelado
             $table->date('fecha_entrega_estimada')->nullable();
             $table->string('comprobante')->nullable(); // archivo opcional
+            $table->string('codigo')->nullable()->unique();
+
             $table->timestamps();
         });
     }

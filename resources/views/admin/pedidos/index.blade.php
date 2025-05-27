@@ -50,6 +50,7 @@
                 <thead class="bg-[#facc15] text-[#1e40af]">
                     <tr>
                         <th class="p-2">#</th>
+                        <th class="p-2">Código</th>
                         <th class="p-2">Cliente</th>
                         <th class="p-2">Fecha</th>
                         <th class="p-2">Estado</th>
@@ -63,6 +64,9 @@
                     @forelse ($pedidos as $pedido)
                         <tr class="border-t bg-white hover:bg-[#f9fafb] transition">
                             <td class="p-2 font-bold">{{ $pedido->id }}</td>
+                            <td class="p-2">
+                                <span class="font-semibold text-indigo-700">{{ $pedido->codigo }}</span>
+                            </td>
                             <td class="p-2">{{ $pedido->user->name }}</td>
                             <td class="p-2">{{ $pedido->created_at->format('d/m/Y') }}</td>
                             <td class="p-2">
@@ -97,7 +101,7 @@
                             </td>
                         </tr>
                         <tr id="detalle-{{ $pedido->id }}" class="hidden bg-[#f9fafb] text-sm text-gray-700">
-                            <td colspan="8" class="px-6 py-4">
+                            <td colspan="9" class="px-6 py-4">
                                 <div class="font-semibold mb-2">🛒 Detalle del Pedido:</div>
                                 <table class="w-full border">
                                     <thead class="bg-gray-100">
@@ -145,7 +149,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="8" class="p-4 text-center text-gray-500">No hay pedidos registrados.</td>
+                            <td colspan="9" class="p-4 text-center text-gray-500">No hay pedidos registrados.</td>
                         </tr>
                     @endforelse
                 </tbody>

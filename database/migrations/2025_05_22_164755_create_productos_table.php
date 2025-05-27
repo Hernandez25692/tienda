@@ -20,7 +20,7 @@ return new class extends Migration
             $table->text('link_compra')->nullable();           // Solo admin, soporta URLs largas
             $table->boolean('disponible')->default(true);        // Agotado = false
             $table->boolean('visible')->default(true);
-            
+             $table->foreignId('categoria_id')->nullable()->constrained('categorias')->onDelete('set null');
             $table->timestamps();
         });
     }

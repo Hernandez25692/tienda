@@ -100,6 +100,9 @@ class CarritoController extends Controller
             'estado' => 'pendiente',
             'fecha_entrega_estimada' => now()->addDays(7),
         ]);
+        // Generar código único tipo PED-20240527-00001
+        $pedido->codigo = 'PED-' . now()->format('Ymd') . '-' . str_pad($pedido->id, 5, '0', STR_PAD_LEFT);
+        $pedido->save();
 
         // Guardar productos en la tabla intermedia
         foreach ($carrito as $item) {
