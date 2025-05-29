@@ -31,7 +31,8 @@
             class="relative z-10 w-full max-w-lg sm:max-w-2xl md:max-w-4xl lg:max-w-6xl grid grid-cols-1 md:grid-cols-2 bg-white rounded-xl sm:rounded-2xl shadow-2xl overflow-hidden">
 
             <!-- LADO IZQUIERDO: PRESENTACIÓN -->
-            <div class="hidden md:flex bg-gradient-to-br from-yellow-500 to-yellow-600 text-white flex-col justify-center p-6 sm:p-10">
+            <div
+                class="hidden md:flex bg-gradient-to-br from-yellow-500 to-yellow-600 text-white flex-col justify-center p-6 sm:p-10">
                 <div class="flex justify-center">
                     <a href="{{ url('/') }}">
                         <img src="{{ asset('storage/logos/logo2.png') }}" alt="Logo"
@@ -54,6 +55,11 @@
             <div class="p-4 sm:p-8 md:p-10 bg-white flex items-center justify-center">
                 <div class="w-full max-w-xs sm:max-w-sm">
                     <h2 class="text-xl sm:text-2xl font-bold text-center mb-4 sm:mb-6 text-gray-700">Iniciar Sesión</h2>
+                    @if (session('status') === 'password-updated')
+                        <div class="mb-4 p-4 bg-green-100 text-green-700 rounded-md shadow-sm text-center">
+                            Contraseña actualizada correctamente. Por favor inicia sesión nuevamente.
+                        </div>
+                    @endif
 
                     @if (session('status'))
                         <div class="mb-4 text-sm text-green-600 font-medium">
@@ -66,7 +72,8 @@
 
                         <!-- Email -->
                         <div>
-                            <label for="email" class="block text-xs sm:text-sm font-medium text-gray-700">Correo electrónico</label>
+                            <label for="email" class="block text-xs sm:text-sm font-medium text-gray-700">Correo
+                                electrónico</label>
                             <input id="email" name="email" type="email" required autofocus
                                 class="mt-1 w-full px-3 py-2 sm:px-4 sm:py-2 rounded border border-gray-300 focus:ring-yellow-500 focus:border-yellow-500 shadow-sm text-sm sm:text-base">
                             <x-input-error :messages="$errors->get('email')" class="text-xs sm:text-sm text-red-600 mt-1" />
@@ -74,7 +81,8 @@
 
                         <!-- Password -->
                         <div x-data="{ show: false }" class="relative">
-                            <label for="password" class="block text-xs sm:text-sm font-medium text-gray-700">Contraseña</label>
+                            <label for="password"
+                                class="block text-xs sm:text-sm font-medium text-gray-700">Contraseña</label>
                             <input :type="show ? 'text' : 'password'" id="password" name="password" required
                                 class="mt-1 w-full px-3 py-2 sm:px-4 sm:py-2 rounded border border-gray-300 focus:ring-yellow-500 focus:border-yellow-500 shadow-sm pr-8 sm:pr-10 text-sm sm:text-base">
                             <button type="button" @click="show = !show"

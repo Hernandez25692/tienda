@@ -38,7 +38,7 @@ class ProfileController extends Controller
 
         $user->update($validated);
 
-        return back()->with('status', 'profile-updated');
+        return redirect()->route('profile.index')->with('status', 'profile-updated');
     }
 
 

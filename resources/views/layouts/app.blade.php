@@ -51,7 +51,8 @@
 
                     <hr class="my-2 border-t border-gray-200" />
 
-                    <x-nav-item route="profile.edit" icon="👤" label="Perfil" />
+                   <x-nav-item route="profile.index" icon="👤" label="Perfil" />
+
 
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
