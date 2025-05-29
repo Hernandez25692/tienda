@@ -98,17 +98,20 @@ class PedidoController extends Controller
      */
     public function misPedidos()
     {
-        $pedidos = Pedido::with('productos')
+        $pedidos = Pedido::with(['productos.imagenes', 'pagos'])
             ->where('user_id', Auth::id())
             ->orderBy('created_at', 'desc')
             ->get();
 
         return view('pedidos.mis', compact('pedidos'));
     }
+
     // Muestra los pedidos en el panel de administración.
     public function adminIndex(Request $request)
     {
-        $query = Pedido::with('user', 'productos');
+        $query = Pedido::with(['user', 'productos.imagenes', 'pagos']);
+
+
 
         if ($request->filled('cliente')) {
             $query->whereHas('user', function ($q) use ($request) {
@@ -136,7 +139,8 @@ class PedidoController extends Controller
     //Editar pedido
     public function adminEdit(Pedido $pedido)
     {
-        $pedido->load('productos', 'user');
+        $pedido->load('productos.imagenes', 'user', 'pagos');
+
         return view('admin.pedidos.edit', compact('pedido'));
     }
 

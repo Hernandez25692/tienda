@@ -30,4 +30,8 @@ class Pedido extends Model
     {
         return $this->hasMany(Comprobante::class);
     }
+    public function pagos()
+    {
+        return $this->hasMany(Pago::class);
+    }
 }

@@ -9,6 +9,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CarritoController;
 use App\Http\Controllers\Admin\ClienteController;
 use App\Http\Controllers\ImagenProductoController;
+use App\Http\Controllers\PagoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -78,7 +79,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/mis-pedidos', [PedidoController::class, 'misPedidos'])->name('pedidos.mis');
     Route::post('/mis-pedidos/{pedido}/subir-comprobante', [PedidoController::class, 'subirComprobante'])
         ->name('pedidos.subirComprobante');
-
+    Route::post('/pedidos/{pedido}/pago', [PagoController::class, 'store'])->name('pagos.store');
+    Route::patch('/pago/{pago}/confirmar', [PagoController::class, 'confirmar'])->name('pagos.confirmar');
     Route::get('/carrito', [CarritoController::class, 'verCarrito'])->name('carrito.index');
     Route::post('/carrito/agregar', [CarritoController::class, 'agregarProducto'])->name('carrito.agregar');
     Route::post('/carrito/eliminar/{key}', [CarritoController::class, 'eliminarProducto'])->name('carrito.eliminar');
