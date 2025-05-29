@@ -187,15 +187,118 @@
                     </div>
                 </div>
             @empty
-                <div class="col-span-full text-center text-gray-500 py-16 text-lg">
-                    No hay productos registrados.
-                </div>
+               
             @endforelse
         </div>
 
-        <!-- Paginación -->
-        <div class="mt-8 flex justify-center">
-            {{ $productos->links() }}
-        </div>
+        <!-- Paginación moderna -->
+        @if ($productos->hasPages())
+            <nav class="mt-10 flex justify-center">
+            <ul class="inline-flex items-center space-x-2 bg-white rounded-xl shadow-lg px-4 py-3">
+                {{-- Previous Page Link --}}
+                @if ($productos->onFirstPage())
+                <li>
+                    <span class="px-4 py-2 rounded-lg bg-gray-100 text-gray-400 font-bold shadow cursor-not-allowed select-none">
+                    <svg class="w-5 h-5 inline" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+                    </svg>
+                    </span>
+                </li>
+                @else
+                <li>
+                    <a href="{{ $productos->previousPageUrl() }}"
+                       class="px-4 py-2 rounded-lg bg-indigo-900 text-yellow-400 font-bold shadow hover:bg-yellow-400 hover:text-indigo-900 transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-yellow-400">
+                    <svg class="w-5 h-5 inline" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+                    </svg>
+                    </a>
+                </li>
+                @endif
+
+                {{-- Pagination Elements --}}
+                @foreach ($productos->links()->elements[0] as $page => $url)
+                @if (is_string($page))
+                    <li>
+                    <span class="px-4 py-2 rounded-lg bg-gray-100 text-gray-400 font-bold shadow select-none">{{ $page }}</span>
+                    </li>
+                @else
+                    <li>
+                    @if ($productos->currentPage() == $page)
+                        <span class="px-4 py-2 rounded-lg bg-yellow-400 text-indigo-900 font-bold shadow-lg border-2 border-indigo-900 select-none">{{ $page }}</span>
+                    @else
+                        <a href="{{ $url }}"
+                           class="px-4 py-2 rounded-lg bg-white text-indigo-900 font-bold shadow hover:bg-yellow-400 hover:text-indigo-900 transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-yellow-400">
+                        {{ $page }}
+                        </a>
+                    @endif
+                    </li>
+                @endif
+                @endforeach
+
+                {{-- Next Page Link --}}
+                @if ($productos->hasMorePages())
+                <li>
+                    <a href="{{ $productos->nextPageUrl() }}"
+                       class="px-4 py-2 rounded-lg bg-indigo-900 text-yellow-400 font-bold shadow hover:bg-yellow-400 hover:text-indigo-900 transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-yellow-400">
+                    <svg class="w-5 h-5 inline" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                    </svg>
+                    </a>
+                </li>
+                @else
+                <li>
+                    <span class="px-4 py-2 rounded-lg bg-gray-100 text-gray-400 font-bold shadow cursor-not-allowed select-none">
+                    <svg class="w-5 h-5 inline" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                    </svg>
+                    </span>
+                </li>
+                @endif
+            </ul>
+            </nav>
+        @endif
+
+        <!-- Mensaje amigable si no hay productos -->
+        @if ($productos->isEmpty())
+            <div class="flex flex-col items-center justify-center py-16">
+            <img src="{{ asset('storage/logos/logo1.png') }}" 
+                 alt="Sin productos"
+                 class="w-24 h-24 mb-6 opacity-80 drop-shadow-lg">
+            <h2 class="text-2xl font-bold text-indigo-900 mb-2">¡No hay productos disponibles!</h2>
+            <p class="text-gray-500 mb-4 text-center max-w-xs">
+                Actualmente no hay productos en el catálogo.<br>
+                ¡Explora otras categorías o vuelve más tarde para descubrir nuevas ofertas!
+            </p>
+            <a href="{{ route('productos.index') }}"
+               class="inline-block bg-yellow-400 hover:bg-yellow-300 text-indigo-900 font-bold px-6 py-3 rounded-lg shadow transition text-base">
+                Explorar catálogo
+            </a>
+            </div>
+        @endif
+
+        <!-- Responsive: scroll horizontal en móvil -->
+        <style>
+            @media (max-width: 640px) {
+            .productos-scroll {
+                display: flex;
+                overflow-x: auto;
+                gap: 1.5rem;
+                padding-bottom: 1rem;
+            }
+            .productos-scroll > div {
+                min-width: 85vw;
+                flex: 0 0 auto;
+            }
+            }
+        </style>
+        <script>
+            // Agrega la clase productos-scroll a la grid en móvil
+            document.addEventListener('DOMContentLoaded', function () {
+            if (window.innerWidth <= 640) {
+                let grid = document.querySelector('.grid.grid-cols-1');
+                if (grid) grid.classList.add('productos-scroll');
+            }
+            });
+        </script>
     </div>
 </x-app-layout>
