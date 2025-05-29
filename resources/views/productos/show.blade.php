@@ -87,7 +87,7 @@
                     @csrf
                     <input type="hidden" name="producto_id" value="{{ $producto->id }}">
                     <input type="hidden" name="cantidad" value="1">
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Comentario (talla, color, etc):</label>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Comentario  (Solo aplica para caso de ropa o calzado):</label>
                     <textarea name="comentario" rows="2" class="w-full border-gray-300 rounded-md shadow-sm mb-3"
                         placeholder="Ej: Talla M, color negro, modelo ajustado"></textarea>
                     @if ($producto->disponible)
