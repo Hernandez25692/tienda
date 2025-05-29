@@ -98,7 +98,7 @@ class CarritoController extends Controller
             'user_id' => auth()->id(),
             'total' => $total,
             'estado' => 'pendiente',
-            'fecha_entrega_estimada' => now()->addDays(7),
+            'fecha_entrega_estimada' => now()->addDays(25),
         ]);
         // Generar código único tipo PED-20240527-00001
         $pedido->codigo = 'PED-' . now()->format('Ymd') . '-' . str_pad($pedido->id, 5, '0', STR_PAD_LEFT);

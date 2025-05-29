@@ -69,7 +69,7 @@ class PedidoController extends Controller
                 'user_id' => Auth::id(),
                 'total' => collect($carrito)->sum(fn($item) => $item['precio'] * $item['cantidad']),
                 'estado' => 'pendiente',
-                'fecha_entrega_estimada' => now()->addDays(20),
+                'fecha_entrega_estimada' => now()->addDays(25),
             ]);
 
             // Registrar cada producto en la tabla intermedia
@@ -122,6 +122,10 @@ class PedidoController extends Controller
 
         if ($request->filled('hasta')) {
             $query->whereDate('created_at', '<=', $request->hasta);
+        }
+        // ✅ Filtro por estado
+        if ($request->filled('estado')) {
+            $query->where('estado', $request->estado);
         }
 
         $pedidos = $query->latest()->get();
