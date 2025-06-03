@@ -1,17 +1,30 @@
 <x-app-layout>
     <x-slot name="header">
-        <div class="flex items-center justify-between">
-            <h2 class="text-2xl font-bold text-blue-900">Mi Carrito de Pedido</h2>
-            <span class="text-lg font-semibold text-yellow-500">EncargaYa</span>
+        <div class="flex items-center justify-between px-2 sm:px-0 py-2">
+            <h2 class="text-2xl sm:text-4xl font-extrabold text-[#1e3a8a] tracking-tight drop-shadow-sm flex items-center gap-2">
+                <svg class="w-7 h-7 sm:w-9 sm:h-9 text-[#facc15]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13l-1.35 2.7A2 2 0 0 0 7.5 19h9a2 2 0 0 0 1.85-1.3L17 13M7 13V6h13"/>
+                </svg>
+                Mi Carrito
+            </h2>
+            <a href="{{ route('productos.index') }}"
+               class="hidden sm:inline-flex items-center gap-2 px-4 py-2 bg-[#facc15] text-[#1e3a8a] rounded-lg font-bold shadow hover:bg-yellow-300 transition-all hover:scale-105 focus:outline-none focus:ring-2 focus:ring-[#1e3a8a] text-sm sm:text-base">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2"
+                     viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                          d="M3 12h18M3 12l6-6M3 12l6 6"></path>
+                </svg>
+                Seguir comprando
+            </a>
         </div>
     </x-slot>
 
-    <div class="bg-gray-50 min-h-screen py-6 px-2 sm:px-4">
+    <div class="bg-gray-50 min-h-screen py-2 px-1 sm:px-4">
         {{-- Toast de éxito --}}
         @if (session('success'))
             <div x-data="{ show: true }" x-show="show" x-init="setTimeout(() => show = false, 2500)"
-                class="fixed top-6 right-6 z-50 flex items-center gap-2 bg-green-100 text-green-800 px-4 py-2 rounded shadow-lg transition-all">
-                <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" stroke-width="2"
+                class="fixed top-4 right-4 z-50 flex items-center gap-2 bg-green-100 text-green-800 px-3 py-1.5 rounded shadow-lg transition-all text-sm">
+                <svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" stroke-width="2"
                     viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round"
                         d="M5 13l4 4L19 7"></path>
@@ -20,14 +33,14 @@
             </div>
         @endif
 
-        <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {{-- Productos (col-span-2 en desktop) --}}
+        <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-8">
+            {{-- Productos --}}
             <div class="lg:col-span-2">
                 @if (count($carrito) > 0)
-                    <div class="flex justify-end mb-4">
+                    <div class="flex justify-end mb-2">
                         <a href="{{ route('productos.index') }}"
-                            class="inline-flex items-center gap-1 px-4 py-2 bg-yellow-100 text-blue-900 rounded-lg font-semibold shadow hover:bg-yellow-200 transition-all hover:scale-105">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2"
+                            class="inline-flex items-center gap-2 px-4 py-2 bg-[#facc15] text-[#1e3a8a] rounded-lg font-bold shadow hover:bg-yellow-300 transition-all hover:scale-105 focus:outline-none focus:ring-2 focus:ring-[#1e3a8a] text-sm sm:text-base">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2"
                                 viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round"
                                     d="M3 12h18M3 12l6-6M3 12l6 6"></path>
@@ -35,9 +48,9 @@
                             Seguir comprando
                         </a>
                     </div>
-                    <div class="bg-white rounded-lg shadow-md p-4">
-                        <h3 class="text-xl font-bold mb-4 text-blue-900">Productos en tu carrito</h3>
-                        <ul class="overflow-y-auto max-h-[70vh] pr-2 transition-all">
+                    <div class="bg-white rounded-xl shadow-lg p-2 sm:p-4">
+                        <h3 class="text-lg sm:text-2xl font-bold mb-2 text-[#1e3a8a]">Productos</h3>
+                        <ul class="overflow-y-auto max-h-[65vh] pr-1 sm:pr-2 transition-all space-y-3">
                             @php $total = 0; $totalProductos = 0; @endphp
                             @foreach ($carrito as $key => $item)
                                 @php
@@ -47,58 +60,59 @@
                                     $agotado = isset($item['disponible']) && !$item['disponible'];
                                     $stock = $item['stock'] ?? 20;
                                 @endphp
-                                <li class="mb-4 last:mb-0">
-                                    <div class="flex flex-col sm:flex-row bg-gray-100 rounded-lg shadow-md hover:shadow-lg transition-all hover:scale-[1.01] p-4 gap-4 items-center">
-                                        <div class="flex-shrink-0 w-24 h-24 sm:w-28 sm:h-28 bg-white rounded-lg flex items-center justify-center overflow-hidden border">
+                                <li>
+                                    <div class="flex gap-2 sm:gap-4 bg-gray-100 rounded-xl shadow hover:shadow-xl transition-all hover:scale-[1.01] p-2 sm:p-3 items-center">
+                                        <div class="flex-shrink-0 w-16 h-16 sm:w-24 sm:h-24 bg-white rounded-lg flex items-center justify-center overflow-hidden border border-gray-200">
                                             @if ($item['imagen'])
                                                 <img src="{{ $item['imagen'] }}" alt="{{ $item['nombre'] }}"
-                                                    class="object-cover w-full h-full transition-all duration-300">
+                                                    class="object-contain w-full h-full transition-all duration-300" loading="lazy">
                                             @else
                                                 <div class="w-full h-full bg-gray-200 rounded"></div>
                                             @endif
                                         </div>
-                                        <div class="flex-1 w-full flex flex-col gap-1">
-                                            <div class="flex items-center gap-2">
+                                        <div class="flex-1 flex flex-col gap-0.5">
+                                            <div class="flex items-center gap-1 flex-wrap">
                                                 <a href="{{ route('productos.show', $item['id'] ?? 0) }}"
-                                                    class="text-lg font-semibold text-blue-900 hover:underline transition-all">
+                                                    class="text-base sm:text-lg font-bold text-[#1e3a8a] hover:underline transition-all truncate max-w-[120px] sm:max-w-none">
                                                     {{ $item['nombre'] }}
                                                 </a>
                                                 @if($agotado)
-                                                    <span class="ml-2 px-2 py-0.5 text-xs font-bold bg-red-100 text-red-700 rounded transition-all">Agotado</span>
+                                                    <span class="ml-1 px-1 py-0.5 text-[10px] font-bold bg-red-100 text-red-700 rounded">Agotado</span>
                                                 @else
-                                                    <span class="ml-2 px-2 py-0.5 text-xs font-bold bg-green-100 text-green-700 rounded transition-all">Disponible</span>
+                                                    <span class="ml-1 px-1 py-0.5 text-[10px] font-bold bg-green-100 text-green-700 rounded">Disponible</span>
                                                 @endif
                                             </div>
-                                            <div class="flex flex-wrap items-center gap-3 mt-1">
-                                                <span class="text-gray-700 font-medium text-sm">Precio: <span class="font-semibold">L {{ number_format($item['precio'], 2) }}</span></span>
-                                                <span class="text-gray-500 text-sm">Subtotal: <span class="font-semibold">L {{ number_format($subtotal, 2) }}</span></span>
+                                            <div class="flex flex-wrap items-center gap-2 mt-0.5">
+                                                <span class="text-gray-700 font-medium text-xs">L <span class="font-bold text-[#1e3a8a]">{{ number_format($item['precio'], 2) }}</span></span>
+                                                <span class="text-gray-500 text-xs">Subt: <span class="font-bold text-[#1e3a8a]">L {{ number_format($subtotal, 2) }}</span></span>
                                             </div>
-                                            <div class="flex items-center gap-2 mt-2">
+                                            <div class="flex items-center gap-1 mt-1">
                                                 <form action="{{ route('carrito.actualizar', $key) }}" method="POST" class="flex items-center gap-1">
                                                     @csrf
-                                                    <label for="cantidad-{{ $key }}" class="text-sm text-gray-600">Cantidad:</label>
-                                                    <select name="cantidad" id="cantidad-{{ $key }}"
-                                                        class="border rounded px-2 py-1 text-sm focus:ring-blue-500 transition-all"
-                                                        onchange="this.form.submit()" @if($agotado) disabled @endif>
-                                                        @for($i = 1; $i <= min(20, $stock); $i++)
-                                                            <option value="{{ $i }}" @if($item['cantidad'] == $i) selected @endif>{{ $i }}</option>
-                                                        @endfor
-                                                    </select>
+                                                    <div class="flex items-center gap-1 bg-white border border-gray-200 rounded-lg px-2 py-1 shadow-sm">
+                                                        <label for="cantidad-{{ $key }}" class="text-xs text-gray-600 font-semibold">Cantidad:</label>
+                                                        <select name="cantidad" id="cantidad-{{ $key }}"
+                                                            class="border-none bg-transparent text-xs font-bold text-[#1e3a8a] focus:ring-2 focus:ring-[#facc15] rounded transition-all px-1 py-0.5"
+                                                            onchange="this.form.submit()" @if($agotado) disabled @endif>
+                                                            @for($i = 1; $i <= min(5, $stock); $i++)
+                                                                <option value="{{ $i }}" @if($item['cantidad'] == $i) selected @endif>{{ $i }}</option>
+                                                            @endfor
+                                                        </select>
+                                                    </div>
                                                     @if(isset($item['stock']) && $item['cantidad'] > $item['stock'])
-                                                        <span class="ml-2 text-xs text-red-600 font-semibold">Stock insuficiente</span>
+                                                        <span class="ml-1 text-[10px] text-red-600 font-semibold">Stock insuficiente</span>
                                                     @endif
                                                 </form>
                                             </div>
                                             @if (!empty($item['comentario']))
-                                                <div class="mt-1 text-xs text-gray-500">Comentario: {{ $item['comentario'] }}</div>
+                                                <div class="mt-0.5 text-[11px] text-gray-500 truncate">Comentario: {{ $item['comentario'] }}</div>
                                             @endif
                                         </div>
-                                        <div class="flex flex-col gap-2 mt-2 sm:mt-0">
-                                            <form action="{{ route('carrito.eliminar', $key) }}" method="POST"
-                                                onsubmit="return confirm('¿Seguro que deseas eliminar este producto?');">
+                                        <div class="flex flex-col gap-1">
+                                            <form action="{{ route('carrito.eliminar', $key) }}" method="POST">
                                                 @csrf
                                                 <button type="submit"
-                                                    class="inline-flex items-center gap-1 text-blue-900 hover:underline font-semibold text-sm px-2 py-1 rounded hover:bg-blue-50 transition-all">
+                                                    class="inline-flex items-center gap-1 text-[#1e3a8a] hover:underline font-semibold text-xs px-2 py-1 rounded hover:bg-blue-50 transition-all focus:outline-none focus:ring-2 focus:ring-[#1e3a8a]">
                                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2"
                                                         viewBox="0 0 24 24">
                                                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -114,17 +128,17 @@
                         </ul>
                     </div>
                 @else
-                    <div class="bg-white rounded-lg shadow-md p-8 text-center text-gray-500 flex flex-col items-center justify-center gap-4">
-                        <svg class="w-16 h-16 mx-auto text-gray-300" fill="none" stroke="currentColor" stroke-width="1.5"
+                    <div class="bg-white rounded-xl shadow-lg p-6 text-center text-gray-500 flex flex-col items-center justify-center gap-2">
+                        <svg class="w-12 h-12 mx-auto text-gray-300" fill="none" stroke="currentColor" stroke-width="1.5"
                             viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round"
                                 d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13l-1.35 2.7A2 2 0 0 0 7.5 19h9a2 2 0 0 0 1.85-1.3L17 13M7 13V6h13"></path>
                         </svg>
-                        <div class="text-lg font-semibold text-blue-900">Tu carrito está vacío</div>
-                        <div class="text-sm text-gray-400">¡Agrega productos para comenzar tu pedido!</div>
+                        <div class="text-base font-bold text-[#1e3a8a]">Tu carrito está vacío</div>
+                        <div class="text-xs text-gray-400">¡Agrega productos para comenzar tu pedido!</div>
                         <a href="{{ route('productos.index') }}"
-                            class="inline-flex items-center gap-1 px-4 py-2 bg-yellow-100 text-blue-900 rounded-lg font-semibold shadow hover:bg-yellow-200 transition-all hover:scale-105 mt-2">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2"
+                            class="inline-flex items-center gap-2 px-4 py-2 bg-[#facc15] text-[#1e3a8a] rounded-lg font-bold shadow hover:bg-yellow-300 transition-all hover:scale-105 mt-2 focus:outline-none focus:ring-2 focus:ring-[#1e3a8a] text-sm">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2"
                                 viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round"
                                     d="M3 12h18M3 12l6-6M3 12l6 6"></path>
@@ -135,31 +149,87 @@
                 @endif
             </div>
 
-            {{-- Resumen de compra --}}
-            <div class="lg:col-span-1">
+            {{-- Resumen de compra (desktop/tablet) --}}
+            <div class="lg:col-span-1 hidden lg:block">
                 <div class="sticky top-6">
-                    <div class="bg-white rounded-lg shadow-md p-6 mb-4">
-                        <h3 class="text-lg font-bold mb-2 text-blue-900">Resumen de compra</h3>
-                        <div class="flex justify-between text-gray-700 mb-1">
-                            <span>Total de productos:</span>
-                            <span class="font-semibold">{{ $totalProductos ?? 0 }}</span>
+                    <div class="bg-white rounded-xl shadow-lg p-4 mb-4">
+                        <h3 class="text-base font-bold mb-2 text-[#1e3a8a]">Resumen</h3>
+                        <div class="flex justify-between text-gray-700 mb-1 text-sm">
+                            <span>Productos:</span>
+                            <span class="font-bold">{{ $totalProductos ?? 0 }}</span>
                         </div>
-                        <div class="flex justify-between text-gray-700 mb-3">
-                            <span>Total general:</span>
-                            <span class="font-bold text-xl text-blue-900">L {{ number_format($total ?? 0, 2) }}</span>
+                        <div class="flex justify-between text-gray-700 mb-2 text-sm">
+                            <span>Total:</span>
+                            <span class="font-extrabold text-lg text-[#1e3a8a]">L {{ number_format($total ?? 0, 2) }}</span>
                         </div>
-                        <div class="text-xs text-gray-500 mb-4">El envío se calcula al confirmar.</div>
+                        <div class="text-xs text-gray-500 mb-3">El envío se calcula al confirmar.</div>
                         @if (count($carrito) > 0)
-                            <form action="{{ route('carrito.confirmar') }}" method="POST">
+                            <form x-data="{ showModal: false }" action="{{ route('carrito.confirmar') }}" method="POST" @submit.prevent="showModal = true">
                                 @csrf
                                 <button type="submit"
-                                    class="w-full bg-yellow-400 hover:bg-yellow-500 text-blue-900 font-bold py-3 rounded-lg text-lg shadow transition-all hover:scale-105">
+                                    class="w-full bg-[#facc15] hover:bg-yellow-300 text-[#1e3a8a] font-extrabold py-2 rounded-lg text-base shadow transition-all hover:scale-105 focus:outline-none focus:ring-2 focus:ring-[#1e3a8a]">
                                     Confirmar Pedido
                                 </button>
+                                <!-- Modal de confirmación -->
+                                <div
+                                    x-show="showModal"
+                                    x-transition:enter="transition ease-out duration-200"
+                                    x-transition:enter-start="opacity-0"
+                                    x-transition:enter-end="opacity-100"
+                                    x-transition:leave="transition ease-in duration-150"
+                                    x-transition:leave-start="opacity-100"
+                                    x-transition:leave-end="opacity-0"
+                                    class="fixed inset-0 z-50 flex items-center justify-center"
+                                    style="display: none;"
+                                >
+                                    <!-- Fondo oscuro -->
+                                    <div class="absolute inset-0 bg-black/50" @click="showModal = false"></div>
+                                    <!-- Modal -->
+                                    <div
+                                        class="relative bg-white rounded-xl shadow-xl max-w-sm w-full mx-2 p-6 flex flex-col gap-4"
+                                        x-transition:enter="transition transform ease-out duration-200"
+                                        x-transition:enter-start="scale-95 opacity-0"
+                                        x-transition:enter-end="scale-100 opacity-100"
+                                        x-transition:leave="transition transform ease-in duration-150"
+                                        x-transition:leave-start="scale-100 opacity-100"
+                                        x-transition:leave-end="scale-95 opacity-0"
+                                    >
+                                        <div class="flex items-center gap-2 mb-2">
+                                            <svg class="w-6 h-6 text-[#1e3a8a]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M12 20.5C6.201 20.5 1.5 15.799 1.5 10S6.201-.5 12-.5 22.5 4.201 22.5 10 17.799 20.5 12 20.5z"/>
+                                            </svg>
+                                            <h2 class="text-lg font-bold text-[#1e3a8a]">¿Confirmar y enviar pedido?</h2>
+                                        </div>
+                                        <div class="space-y-1 text-sm">
+                                            <div class="flex justify-between">
+                                                <span class="text-gray-700">Total de productos:</span>
+                                                <span class="font-bold text-[#1e3a8a]">{{ $totalProductos ?? 0 }}</span>
+                                            </div>
+                                            <div class="flex justify-between">
+                                                <span class="text-gray-700">Total a pagar:</span>
+                                                <span class="font-extrabold text-lg text-[#1e3a8a]">L {{ number_format($total ?? 0, 2) }}</span>
+                                            </div>
+                                        </div>
+                                        <div class="flex gap-2 mt-4">
+                                            <button
+                                                type="button"
+                                                @click="showModal = false"
+                                                class="flex-1 py-2 rounded-lg bg-gray-100 text-gray-600 font-bold hover:bg-gray-200 transition-all focus:outline-none focus:ring-2 focus:ring-[#1e3a8a]">
+                                                ❌ Cancelar
+                                            </button>
+                                            <button
+                                                type="button"
+                                                @click="$el.closest('form').submit()"
+                                                class="flex-1 py-2 rounded-lg bg-[#facc15] text-[#1e3a8a] font-bold hover:bg-yellow-300 transition-all focus:outline-none focus:ring-2 focus:ring-[#1e3a8a]">
+                                                Confirmar y Enviar Pedido
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
                             </form>
                         @else
                             <button disabled
-                                class="w-full bg-yellow-200 text-gray-400 font-bold py-3 rounded-lg text-lg cursor-not-allowed">
+                                class="w-full bg-yellow-100 text-gray-400 font-bold py-2 rounded-lg text-base cursor-not-allowed">
                                 Confirmar Pedido
                             </button>
                         @endif
@@ -169,34 +239,90 @@
         </div>
 
         {{-- Responsive: resumen al final en móvil --}}
-        <div class="lg:hidden mt-8">
-            <details class="bg-white rounded-lg shadow-md">
-                <summary class="px-4 py-3 font-bold text-blue-900 cursor-pointer">Resumen de compra</summary>
-                <div class="p-4">
-                    <div class="flex justify-between text-gray-700 mb-1">
-                        <span>Total de productos:</span>
-                        <span class="font-semibold">{{ $totalProductos ?? 0 }}</span>
-                    </div>
-                    <div class="flex justify-between text-gray-700 mb-3">
-                        <span>Total general:</span>
-                        <span class="font-bold text-xl text-blue-900">L {{ number_format($total ?? 0, 2) }}</span>
-                    </div>
-                    <div class="text-xs text-gray-500 mb-4">El envío se calcula al confirmar.</div>
-                    @if (count($carrito) > 0)
-                        <form action="{{ route('carrito.confirmar') }}" method="POST">
-                            @csrf
-                            <button type="submit"
-                                class="w-full bg-yellow-400 hover:bg-yellow-500 text-blue-900 font-bold py-3 rounded-lg text-lg shadow transition-all hover:scale-105">
-                                Confirmar Pedido
-                            </button>
-                        </form>
-                    @else
-                        <button disabled
-                            class="w-full bg-yellow-200 text-gray-400 font-bold py-3 rounded-lg text-lg cursor-not-allowed">
-                            Confirmar Pedido
-                        </button>
-                    @endif
+        <div class="lg:hidden mt-4">
+            <details class="bg-white rounded-xl shadow-lg">
+            <summary class="px-3 py-2 font-bold text-[#1e3a8a] cursor-pointer select-none outline-none text-base">Resumen de compra</summary>
+            <div class="p-3">
+                <div class="flex justify-between text-gray-700 mb-1 text-sm">
+                <span>Productos:</span>
+                <span class="font-bold">{{ $totalProductos ?? 0 }}</span>
                 </div>
+                <div class="flex justify-between text-gray-700 mb-2 text-sm">
+                <span>Total:</span>
+                <span class="font-extrabold text-lg text-[#1e3a8a]">L {{ number_format($total ?? 0, 2) }}</span>
+                </div>
+                <div class="text-xs text-gray-500 mb-3">El envío se calcula al confirmar.</div>
+                @if (count($carrito) > 0)
+                <form x-data="{ showModal: false }" action="{{ route('carrito.confirmar') }}" method="POST" @submit.prevent="showModal = true">
+                    @csrf
+                    <button type="submit"
+                    class="w-full bg-[#facc15] hover:bg-yellow-300 text-[#1e3a8a] font-extrabold py-2 rounded-lg text-base shadow transition-all hover:scale-105 focus:outline-none focus:ring-2 focus:ring-[#1e3a8a]">
+                    Confirmar Pedido
+                    </button>
+                    <!-- Modal de confirmación -->
+                    <div
+                    x-show="showModal"
+                    x-transition:enter="transition ease-out duration-200"
+                    x-transition:enter-start="opacity-0"
+                    x-transition:enter-end="opacity-100"
+                    x-transition:leave="transition ease-in duration-150"
+                    x-transition:leave-start="opacity-100"
+                    x-transition:leave-end="opacity-0"
+                    class="fixed inset-0 z-50 flex items-center justify-center"
+                    style="display: none;"
+                    >
+                    <!-- Fondo oscuro -->
+                    <div class="absolute inset-0 bg-black/50" @click="showModal = false"></div>
+                    <!-- Modal -->
+                    <div
+                        class="relative bg-white rounded-xl shadow-xl max-w-sm w-full mx-2 p-6 flex flex-col gap-4"
+                        x-transition:enter="transition transform ease-out duration-200"
+                        x-transition:enter-start="scale-95 opacity-0"
+                        x-transition:enter-end="scale-100 opacity-100"
+                        x-transition:leave="transition transform ease-in duration-150"
+                        x-transition:leave-start="scale-100 opacity-100"
+                        x-transition:leave-end="scale-95 opacity-0"
+                    >
+                        <div class="flex items-center gap-2 mb-2">
+                        <svg class="w-6 h-6 text-[#1e3a8a]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M12 20.5C6.201 20.5 1.5 15.799 1.5 10S6.201-.5 12-.5 22.5 4.201 22.5 10 17.799 20.5 12 20.5z"/>
+                        </svg>
+                        <h2 class="text-lg font-bold text-[#1e3a8a]">¿Confirmar y enviar pedido?</h2>
+                        </div>
+                        <div class="space-y-1 text-sm">
+                        <div class="flex justify-between">
+                            <span class="text-gray-700">Total de productos:</span>
+                            <span class="font-bold text-[#1e3a8a]">{{ $totalProductos ?? 0 }}</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-700">Total a pagar:</span>
+                            <span class="font-extrabold text-lg text-[#1e3a8a]">L {{ number_format($total ?? 0, 2) }}</span>
+                        </div>
+                        </div>
+                        <div class="flex gap-2 mt-4">
+                        <button
+                            type="button"
+                            @click="showModal = false"
+                            class="flex-1 py-2 rounded-lg bg-gray-100 text-gray-600 font-bold hover:bg-gray-200 transition-all focus:outline-none focus:ring-2 focus:ring-[#1e3a8a]">
+                            ❌ Cancelar
+                        </button>
+                        <button
+                            type="button"
+                            @click="$el.closest('form').submit()"
+                            class="flex-1 py-2 rounded-lg bg-[#facc15] text-[#1e3a8a] font-bold hover:bg-yellow-300 transition-all focus:outline-none focus:ring-2 focus:ring-[#1e3a8a]">
+                            Confirmar y Enviar Pedido
+                        </button>
+                        </div>
+                    </div>
+                    </div>
+                </form>
+                @else
+                <button disabled
+                    class="w-full bg-yellow-100 text-gray-400 font-bold py-2 rounded-lg text-base cursor-not-allowed">
+                    Confirmar Pedido
+                </button>
+                @endif
+            </div>
             </details>
         </div>
     </div>

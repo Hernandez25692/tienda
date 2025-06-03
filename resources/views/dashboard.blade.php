@@ -1,6 +1,19 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="text-xl sm:text-2xl font-bold text-gray-800">Dashboard</h2>
+        <div class="flex items-center justify-between">
+            <div>
+                <h2 class="text-xl sm:text-2xl font-extrabold text-indigo-800 tracking-tight">Dashboard</h2>
+                <p class="text-sm sm:text-base text-gray-500 mt-1">Resumen y estadísticas de tu cuenta</p>
+            </div>
+            <div class="hidden sm:block">
+                <span class="inline-flex items-center px-3 py-1 rounded-full bg-indigo-100 text-indigo-700 text-xs font-semibold">
+                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M12 20a8 8 0 100-16 8 8 0 000 16z" />
+                    </svg>
+                    {{ ucfirst(auth()->user()->role) }}
+                </span>
+            </div>
+        </div>
     </x-slot>
 
     <div class="py-4 px-2 sm:py-8 sm:px-4 max-w-full sm:max-w-7xl mx-auto">
