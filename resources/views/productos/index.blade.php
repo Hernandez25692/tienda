@@ -108,155 +108,151 @@
         </div>
         <script src="//unpkg.com/alpinejs" defer></script>
 
-        <!-- Grid de productos -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            @forelse ($productos as $producto)
-                <div class="bg-white border border-gray-200 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-200 p-3 flex flex-col group relative overflow-hidden">
-                    <a href="{{ route('productos.show', $producto->id) }}" class="block rounded-xl overflow-hidden">
-                        @if ($producto->imagenes->first())
-                            <img src="{{ asset('storage/' . $producto->imagenes->first()->ruta) }}"
-                                 alt="{{ $producto->nombre }}"
-                                 class="w-full h-48 sm:h-56 object-cover transition-transform duration-200 group-hover:scale-105 group-hover:brightness-95">
-                        @else
-                            <div class="w-full h-48 sm:h-56 bg-gray-100 flex items-center justify-center rounded-xl text-gray-400 text-2xl">
-                                <svg class="w-12 h-12" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h14a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5z" />
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M8 11l4 4 4-4" />
-                                </svg>
-                            </div>
-                        @endif
-                    </a>
-                    <div class="flex-1 flex flex-col mt-3">
-                        <h3 class="text-lg font-bold text-indigo-900 truncate mb-1">{{ $producto->nombre }}</h3>
-                        @if ($producto->categoria)
-                            <p class="text-xs text-gray-500 mb-1 flex items-center gap-1">
-                                <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-                                    <path d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm0 2h12v10H4V5z"/>
-                                </svg>
-                                {{ $producto->categoria->nombre }}
-                            </p>
-                        @endif
-                        <p class="text-yellow-500 font-bold text-base mb-2">
-                            L {{ number_format($producto->precio_venta, 2) }}
-                        </p>
-                        <div class="flex items-center gap-2 mb-2">
-                            @if ($producto->disponible)
-                                <span class="inline-flex items-center px-2 py-1 bg-green-100 text-green-700 rounded-full text-xs font-semibold gap-1">
-                                    <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
-                                        <circle cx="10" cy="10" r="10"/>
-                                    </svg>
-                                    Disponible
-                                </span>
-                            @else
-                                <span class="inline-flex items-center px-2 py-1 bg-red-100 text-red-700 rounded-full text-xs font-semibold gap-1">
-                                    <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
-                                        <circle cx="10" cy="10" r="10"/>
-                                    </svg>
-                                    Agotado
-                                </span>
-                            @endif
-                        </div>
-                        <div class="mt-auto flex flex-col gap-2">
-                            @auth
-                                @if (Auth::user()->role === 'admin')
-                                    <a href="{{ route('productos.show', $producto->id) }}"
-                                       class="w-full text-center bg-indigo-900 hover:bg-yellow-400 hover:text-indigo-900 text-yellow-400 font-bold py-2 rounded-lg shadow transition-all duration-150 text-sm flex items-center justify-center gap-2 group-hover:scale-105">
-                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                        </svg>
-                                        Ver producto
-                                    </a>
-                                @endif
-                            @endauth
-                            @auth
-                                @if (Auth::user()->role === 'admin')
-                                    <a href="{{ route('productos.edit', $producto) }}"
-                                       class="w-full text-center bg-yellow-400 hover:bg-yellow-300 text-indigo-900 font-bold py-2 rounded-lg shadow transition text-sm">
-                                        Editar
-                                    </a>
-                                    <form action="{{ route('productos.toggleVisibilidad', $producto->id) }}" method="POST" class="w-full">
-                                        @csrf
-                                        <button type="submit"
-                                            class="w-full mt-2 text-xs py-2 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold transition">
-                                            {{ $producto->visible ? 'Ocultar' : 'Mostrar' }}
-                                        </button>
-                                    </form>
-                                @endif
-                            @endauth
-                        </div>
+        <!-- Grid de productos con scroll infinito estilo Amazon -->
+        <div 
+            id="productos-lista"
+            class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 overflow-y-auto"
+            style="max-height: calc(100vh - 220px);"
+        >
+            @foreach ($productos as $producto)
+            <div class="bg-white border border-gray-200 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-200 p-3 flex flex-col group relative overflow-hidden">
+                <a href="{{ route('productos.show', $producto->id) }}" class="block rounded-xl overflow-hidden">
+                @if ($producto->imagenes->first())
+                    <img src="{{ asset('storage/' . $producto->imagenes->first()->ruta) }}"
+                     alt="{{ $producto->nombre }}"
+                     class="w-full h-48 sm:h-56 object-cover transition-transform duration-200 group-hover:scale-105 group-hover:brightness-95">
+                @else
+                    <div class="w-full h-48 sm:h-56 bg-gray-100 flex items-center justify-center rounded-xl text-gray-400 text-2xl">
+                    <svg class="w-12 h-12" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h14a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M8 11l4 4 4-4" />
+                    </svg>
                     </div>
-                </div>
-            @empty
-               
-            @endforelse
-        </div>
-
-        <!-- Paginación moderna -->
-        @if ($productos->hasPages())
-            <nav class="mt-10 flex justify-center">
-            <ul class="inline-flex items-center space-x-2 bg-white rounded-xl shadow-lg px-4 py-3">
-                {{-- Previous Page Link --}}
-                @if ($productos->onFirstPage())
-                <li>
-                    <span class="px-4 py-2 rounded-lg bg-gray-100 text-gray-400 font-bold shadow cursor-not-allowed select-none">
-                    <svg class="w-5 h-5 inline" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
-                    </svg>
-                    </span>
-                </li>
-                @else
-                <li>
-                    <a href="{{ $productos->previousPageUrl() }}"
-                       class="px-4 py-2 rounded-lg bg-indigo-900 text-yellow-400 font-bold shadow hover:bg-yellow-400 hover:text-indigo-900 transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-yellow-400">
-                    <svg class="w-5 h-5 inline" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
-                    </svg>
-                    </a>
-                </li>
                 @endif
-
-                {{-- Pagination Elements --}}
-                @foreach ($productos->links()->elements[0] as $page => $url)
-                @if (is_string($page))
-                    <li>
-                    <span class="px-4 py-2 rounded-lg bg-gray-100 text-gray-400 font-bold shadow select-none">{{ $page }}</span>
-                    </li>
-                @else
-                    <li>
-                    @if ($productos->currentPage() == $page)
-                        <span class="px-4 py-2 rounded-lg bg-yellow-400 text-indigo-900 font-bold shadow-lg border-2 border-indigo-900 select-none">{{ $page }}</span>
+                </a>
+                <div class="flex-1 flex flex-col mt-3">
+                <h3 class="text-lg font-bold text-indigo-900 truncate mb-1">{{ $producto->nombre }}</h3>
+                @if ($producto->categoria)
+                    <p class="text-xs text-gray-500 mb-1 flex items-center gap-1">
+                    <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm0 2h12v10H4V5z"/>
+                    </svg>
+                    {{ $producto->categoria->nombre }}
+                    </p>
+                @endif
+                <p class="text-yellow-500 font-bold text-base mb-2">
+                    L {{ number_format($producto->precio_venta, 2) }}
+                </p>
+                <div class="flex items-center gap-2 mb-2">
+                    @if ($producto->disponible)
+                    <span class="inline-flex items-center px-2 py-1 bg-green-100 text-green-700 rounded-full text-xs font-semibold gap-1">
+                        <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                        <circle cx="10" cy="10" r="10"/>
+                        </svg>
+                        Disponible
+                    </span>
                     @else
-                        <a href="{{ $url }}"
-                           class="px-4 py-2 rounded-lg bg-white text-indigo-900 font-bold shadow hover:bg-yellow-400 hover:text-indigo-900 transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-yellow-400">
-                        {{ $page }}
+                    <span class="inline-flex items-center px-2 py-1 bg-red-100 text-red-700 rounded-full text-xs font-semibold gap-1">
+                        <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                        <circle cx="10" cy="10" r="10"/>
+                        </svg>
+                        Agotado
+                    </span>
+                    @endif
+                </div>
+                <div class="mt-auto flex flex-col gap-2">
+                    @auth
+                    @if (Auth::user()->role === 'admin')
+                        <a href="{{ route('productos.show', $producto->id) }}"
+                           class="w-full text-center bg-indigo-900 hover:bg-yellow-400 hover:text-indigo-900 text-yellow-400 font-bold py-2 rounded-lg shadow transition-all duration-150 text-sm flex items-center justify-center gap-2 group-hover:scale-105">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        Ver producto
                         </a>
                     @endif
-                    </li>
-                @endif
-                @endforeach
+                    @endauth
+                    @auth
+                    @if (Auth::user()->role === 'admin')
+                        <a href="{{ route('productos.edit', $producto) }}"
+                           class="w-full text-center bg-yellow-400 hover:bg-yellow-300 text-indigo-900 font-bold py-2 rounded-lg shadow transition text-sm">
+                        Editar
+                        </a>
+                        <form action="{{ route('productos.toggleVisibilidad', $producto->id) }}" method="POST" class="w-full">
+                        @csrf
+                        <button type="submit"
+                            class="w-full mt-2 text-xs py-2 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold transition">
+                            {{ $producto->visible ? 'Ocultar' : 'Mostrar' }}
+                        </button>
+                        </form>
+                    @endif
+                    @endauth
+                </div>
+                </div>
+            </div>
+            @endforeach
+        </div>
+        <div id="cargando-productos" class="flex justify-center py-6 hidden">
+            <span class="text-gray-500 text-sm">Cargando más productos...</span>
+        </div>
+        <div id="fin-productos" class="flex justify-center py-6 hidden">
+            <span class="text-gray-400 text-sm">No hay más productos para mostrar.</span>
+        </div>
 
-                {{-- Next Page Link --}}
-                @if ($productos->hasMorePages())
-                <li>
-                    <a href="{{ $productos->nextPageUrl() }}"
-                       class="px-4 py-2 rounded-lg bg-indigo-900 text-yellow-400 font-bold shadow hover:bg-yellow-400 hover:text-indigo-900 transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-yellow-400">
-                    <svg class="w-5 h-5 inline" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
-                    </svg>
-                    </a>
-                </li>
-                @else
-                <li>
-                    <span class="px-4 py-2 rounded-lg bg-gray-100 text-gray-400 font-bold shadow cursor-not-allowed select-none">
-                    <svg class="w-5 h-5 inline" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
-                    </svg>
-                    </span>
-                </li>
-                @endif
-            </ul>
-            </nav>
-        @endif
+        <script>
+        let paginaActual = {{ $productos->currentPage() }};
+        let ultimaPagina = {{ $productos->lastPage() }};
+        let cargando = false;
+
+        function cargarMasProductos() {
+            if (cargando || paginaActual >= ultimaPagina) return;
+            cargando = true;
+            document.getElementById('cargando-productos').classList.remove('hidden');
+            let params = new URLSearchParams(window.location.search);
+            params.set('page', paginaActual + 1);
+
+            fetch("{{ route('productos.index') }}?" + params.toString(), {
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+            })
+            .then(res => res.text())
+            .then(html => {
+            // Extraer solo los productos del HTML
+            let temp = document.createElement('div');
+            temp.innerHTML = html;
+            let nuevos = temp.querySelectorAll('#productos-lista > div');
+            let lista = document.getElementById('productos-lista');
+            nuevos.forEach(n => lista.appendChild(n));
+            paginaActual++;
+            if (paginaActual >= ultimaPagina) {
+                document.getElementById('fin-productos').classList.remove('hidden');
+            }
+            })
+            .finally(() => {
+            cargando = false;
+            document.getElementById('cargando-productos').classList.add('hidden');
+            });
+        }
+
+        // Detectar scroll al fondo del contenedor central
+        document.addEventListener('DOMContentLoaded', function () {
+            let lista = document.getElementById('productos-lista');
+            lista.addEventListener('scroll', function () {
+            if (lista.scrollTop + lista.clientHeight >= lista.scrollHeight - 100) {
+                cargarMasProductos();
+            }
+            });
+            // Si la lista no es scrollable, cargar más hasta llenar la pantalla
+            function autoCargar() {
+            if (paginaActual < ultimaPagina && lista.scrollHeight <= lista.clientHeight + 10) {
+                cargarMasProductos();
+                setTimeout(autoCargar, 500);
+            }
+            }
+            autoCargar();
+        });
+        </script>
 
         <!-- Mensaje amigable si no hay productos -->
         @if ($productos->isEmpty())
