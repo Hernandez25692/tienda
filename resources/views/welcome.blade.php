@@ -115,7 +115,7 @@
 
     <!-- Footer -->
     <footer class="w-full text-center py-4 sm:py-6 text-xs sm:text-sm text-gray-500 bg-white mt-auto shadow-inner">
-        &copy; {{ date('Y') }} EncargaYa. Todos los derechos reservados.
+        &copy; {{ date('Y') }} EncargaYa. Todos los derechos reservados.  V1.0
     </footer>
 
 </body>

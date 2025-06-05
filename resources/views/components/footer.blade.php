@@ -6,11 +6,11 @@
             <ul class="space-y-2 text-sm">
                 <li class="flex items-start gap-2">
                     <span>📧</span>
-                    <a href="mailto:soporte@encargaya.com" class="hover:underline">soporte@encargaya.com</a>
+                    <a href="mailto:encargayahn@gmail.com" class="hover:underline">encargayahn@gmail.com</a>
                 </li>
                 <li class="flex items-start gap-2">
                     <span>📱</span>
-                    <a href="https://wa.me/50498765432" target="_blank" class="hover:underline">+504 9876-5432 (WhatsApp)</a>
+                    <a href="https://wa.me/50498765432" target="_blank" class="hover:underline">+504 9742-7172 (WhatsApp)</a>
                 </li>
                 <li class="flex items-start gap-2">
                     <span>📍</span>
