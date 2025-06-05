@@ -10,7 +10,7 @@
                 </li>
                 <li class="flex items-start gap-2">
                     <span>📱</span>
-                    <a href="https://wa.me/50498765432" target="_blank" class="hover:underline">+504 9742-7172 (WhatsApp)</a>
+                    <a href="https://wa.me/message/BXFSGVY2YFRVI1" target="_blank" class="hover:underline">+504 9810-0695 (WhatsApp)</a>
                 </li>
                 <li class="flex items-start gap-2">
                     <span>📍</span>
