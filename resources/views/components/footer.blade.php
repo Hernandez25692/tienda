@@ -35,7 +35,8 @@
             <span class="mr-2">ℹ️</span>
             <button 
                 type="button" 
-                class="md:hidden bg-yellow-400 text-black px-4 py-2 rounded-lg font-semibold shadow focus:outline-none focus:ring-2 focus:ring-yellow-300 transition hover:bg-yellow-300"
+                class="md:hidden bg-yellow-400 text-black px-2 py-1 rounded font-semibold shadow focus:outline-none focus:ring-2 focus:ring-yellow-300 transition text-xs"
+                style="font-size: 0.85rem;"
                 onclick="document.getElementById('about-info').classList.toggle('hidden')"
             >
                 Sobre nosotros
@@ -43,10 +44,10 @@
             <span class="hidden md:inline">Sobre nosotros</span>
             </h3>
             <div id="about-info" class="md:block hidden">
-            <p class="text-sm text-white/80 mb-2">
+            <p class="text-xs text-white/80 mb-2">
                 En EncargaYa nos dedicamos a facilitar tus compras en línea, ofreciendo productos de calidad y un servicio confiable en Choluteca y alrededores.
             </p>
-            <p class="text-sm text-white/80">
+            <p class="text-xs text-white/80">
                 Nuestro compromiso es tu satisfacción y confianza en cada pedido.
             </p>
             </div>
