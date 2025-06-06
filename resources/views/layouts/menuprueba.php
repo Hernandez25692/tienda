@@ -25,10 +25,9 @@
                     <div class="flex items-center space-x-3">
                         <a href="{{ route('productos.index') }}" class="group transition duration-300">
                             <div class="flex items-center space-x-2">
-                                <img src="{{ asset('storage/logos/logo.png') }}" alt="Logo"
+                                <img src="{{ asset('storage/logos/logo.png') }}" alt="Logo" 
                                     class="h-10 transition duration-500 group-hover:scale-110">
-                                <span
-                                    class="text-2xl font-extrabold bg-gradient-to-r from-yellow-500 to-orange-500 bg-clip-text text-transparent">
+                                <span class="text-2xl font-extrabold bg-gradient-to-r from-yellow-500 to-orange-500 bg-clip-text text-transparent">
                                     EncargaYa
                                 </span>
                             </div>
@@ -39,45 +38,36 @@
                     <div class="hidden md:flex items-center space-x-1">
                         <a href="{{ route('dashboard') }}"
                             class="group flex items-center gap-2 px-4 py-2 rounded-lg text-gray-700 hover:text-yellow-600 transition-all duration-300 font-medium hover:bg-yellow-50">
-                            <i
-                                class="fas fa-chart-line text-yellow-500 group-hover:text-yellow-600 transition-all duration-300"></i>
-                            <span
-                                class="relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-yellow-500 after:transition-all after:duration-300 group-hover:after:w-full">
+                            <i class="fas fa-chart-line text-yellow-500 group-hover:text-yellow-600 transition-all duration-300"></i>
+                            <span class="relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-yellow-500 after:transition-all after:duration-300 group-hover:after:w-full">
                                 Dashboard
                             </span>
                         </a>
-
+                        
                         <a href="{{ route('productos.index') }}"
                             class="group flex items-center gap-2 px-4 py-2 rounded-lg text-gray-700 hover:text-yellow-600 transition-all duration-300 font-medium hover:bg-yellow-50">
-                            <i
-                                class="fas fa-box-open text-yellow-500 group-hover:text-yellow-600 transition-all duration-300"></i>
-                            <span
-                                class="relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-yellow-500 after:transition-all after:duration-300 group-hover:after:w-full">
+                            <i class="fas fa-box-open text-yellow-500 group-hover:text-yellow-600 transition-all duration-300"></i>
+                            <span class="relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-yellow-500 after:transition-all after:duration-300 group-hover:after:w-full">
                                 Catálogo
                             </span>
                         </a>
-
+                        
                         <a href="{{ route('pedidos.mis') }}"
                             class="group flex items-center gap-2 px-4 py-2 rounded-lg text-gray-700 hover:text-yellow-600 transition-all duration-300 font-medium hover:bg-yellow-50">
-                            <i
-                                class="fas fa-clipboard-list text-yellow-500 group-hover:text-yellow-600 transition-all duration-300"></i>
-                            <span
-                                class="relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-yellow-500 after:transition-all after:duration-300 group-hover:after:w-full">
+                            <i class="fas fa-clipboard-list text-yellow-500 group-hover:text-yellow-600 transition-all duration-300"></i>
+                            <span class="relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-yellow-500 after:transition-all after:duration-300 group-hover:after:w-full">
                                 Mis pedidos
                             </span>
                         </a>
-
+                        
                         <a href="{{ route('carrito.index') }}"
                             class="group flex items-center gap-2 px-4 py-2 rounded-lg text-gray-700 hover:text-yellow-600 transition-all duration-300 font-medium hover:bg-yellow-50 relative">
-                            <i
-                                class="fas fa-shopping-cart text-yellow-500 group-hover:text-yellow-600 transition-all duration-300"></i>
-                            <span
-                                class="relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-yellow-500 after:transition-all after:duration-300 group-hover:after:w-full">
+                            <i class="fas fa-shopping-cart text-yellow-500 group-hover:text-yellow-600 transition-all duration-300"></i>
+                            <span class="relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-yellow-500 after:transition-all after:duration-300 group-hover:after:w-full">
                                 Carrito
                             </span>
-                            @if (auth()->check() && optional(auth()->user()->cartItems)->count() > 0)
-                                <span
-                                    class="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
+                            @if(auth()->check() && optional(auth()->user()->cartItems)->count() > 0)
+                                <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
                                     {{ auth()->user()->cartItems->count() }}
                                 </span>
                             @endif
@@ -87,22 +77,16 @@
                             <div x-data="{ adminMenuOpen: false }" class="relative">
                                 <button @click="adminMenuOpen = !adminMenuOpen"
                                     class="group flex items-center gap-2 px-4 py-2 rounded-lg text-gray-700 hover:text-yellow-600 transition-all duration-300 font-medium hover:bg-yellow-50">
-                                    <i
-                                        class="fas fa-cog text-yellow-500 group-hover:text-yellow-600 transition-all duration-300"></i>
-                                    <span
-                                        class="relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-yellow-500 after:transition-all after:duration-300 group-hover:after:w-full">
+                                    <i class="fas fa-cog text-yellow-500 group-hover:text-yellow-600 transition-all duration-300"></i>
+                                    <span class="relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-yellow-500 after:transition-all after:duration-300 group-hover:after:w-full">
                                         Administración
                                     </span>
-                                    <i class="fas fa-chevron-down text-xs transition-transform duration-200"
-                                        :class="{ 'transform rotate-180': adminMenuOpen }"></i>
+                                    <i class="fas fa-chevron-down text-xs transition-transform duration-200" :class="{ 'transform rotate-180': adminMenuOpen }"></i>
                                 </button>
-
-                                <div x-show="adminMenuOpen" @click.outside="adminMenuOpen = false"
-                                    x-transition:enter="transition ease-out duration-100"
-                                    x-transition:enter-start="opacity-0 scale-95"
-                                    x-transition:enter-end="opacity-100 scale-100"
-                                    x-transition:leave="transition ease-in duration-75"
-                                    x-transition:leave-start="opacity-100 scale-100"
+                                
+                                <div x-show="adminMenuOpen" @click.outside="adminMenuOpen = false" x-transition:enter="transition ease-out duration-100" 
+                                    x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100" 
+                                    x-transition:leave="transition ease-in duration-75" x-transition:leave-start="opacity-100 scale-100" 
                                     x-transition:leave-end="opacity-0 scale-95"
                                     class="absolute right-0 mt-2 w-56 origin-top-right bg-white rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 z-50">
                                     <div class="py-1">
@@ -130,16 +114,15 @@
                             <button @click="profileMenuOpen = !profileMenuOpen"
                                 class="flex items-center gap-2 px-4 py-2 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors duration-200">
                                 <span class="font-medium text-gray-700">{{ Auth::user()->name }}</span>
-                                <img class="h-8 w-8 rounded-full object-cover"
-                                    src="{{ Auth::user()->profile_photo_url ?? 'https://ui-avatars.com/api/?name=' . urlencode(Auth::user()->name) . '&color=FFFFFF&background=F59E0B' }}"
+                                <img class="h-8 w-8 rounded-full object-cover" 
+                                    src="{{ Auth::user()->profile_photo_url ?? 'https://ui-avatars.com/api/?name='.urlencode(Auth::user()->name).'&color=FFFFFF&background=F59E0B' }}" 
                                     alt="{{ Auth::user()->name }}">
                             </button>
-
-                            <div x-show="profileMenuOpen" @click.outside="profileMenuOpen = false"
-                                x-transition:enter="transition ease-out duration-100"
-                                x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100"
-                                x-transition:leave="transition ease-in duration-75"
-                                x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95"
+                            
+                            <div x-show="profileMenuOpen" @click.outside="profileMenuOpen = false" x-transition:enter="transition ease-out duration-100" 
+                                x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100" 
+                                x-transition:leave="transition ease-in duration-75" x-transition:leave-start="opacity-100 scale-100" 
+                                x-transition:leave-end="opacity-0 scale-95"
                                 class="absolute right-0 mt-2 w-48 origin-top-right bg-white rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 z-50">
                                 <div class="py-1">
                                     <a href="{{ route('profile.index') }}"
@@ -164,25 +147,19 @@
                     <div class="md:hidden flex items-center space-x-4">
                         <a href="{{ route('carrito.index') }}" class="relative text-gray-700 hover:text-yellow-600">
                             <i class="fas fa-shopping-cart text-xl"></i>
-                            @if (auth()->check() && optional(auth()->user()->cartItems)->count() > 0)
-                                <span
-                                    class="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
+                            @if(auth()->check() && optional(auth()->user()->cartItems)->count() > 0)
+                                <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
                                     {{ auth()->user()->cartItems->count() }}
                                 </span>
                             @endif
                         </a>
-
-                        <button @click="open = !open"
-                            class="inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:bg-gray-100 focus:outline-none transition">
-                            <svg x-show="!open" class="w-7 h-7" fill="none" stroke="currentColor"
-                                viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M4 6h16M4 12h16M4 18h16" />
+                        
+                        <button @click="open = !open" class="inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:bg-gray-100 focus:outline-none transition">
+                            <svg x-show="!open" class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                             </svg>
-                            <svg x-show="open" x-cloak class="w-7 h-7" fill="none" stroke="currentColor"
-                                viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M6 18L18 6M6 6l12 12" />
+                            <svg x-show="open" x-cloak class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                             </svg>
                         </button>
                     </div>
@@ -195,11 +172,11 @@
                 x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100 scale-100"
                 x-transition:leave-end="opacity-0 scale-95"
                 class="md:hidden bg-white border-t border-gray-200 px-4 pb-6 pt-3 space-y-2 shadow-lg">
-
+                
                 <div class="flex items-center justify-between mb-3">
                     <div class="flex items-center space-x-2">
-                        <img class="h-8 w-8 rounded-full object-cover"
-                            src="{{ Auth::user()->profile_photo_url ?? 'https://ui-avatars.com/api/?name=' . urlencode(Auth::user()->name) . '&color=FFFFFF&background=F59E0B' }}"
+                        <img class="h-8 w-8 rounded-full object-cover" 
+                            src="{{ Auth::user()->profile_photo_url ?? 'https://ui-avatars.com/api/?name='.urlencode(Auth::user()->name).'&color=FFFFFF&background=F59E0B' }}" 
                             alt="{{ Auth::user()->name }}">
                         <span class="font-medium">{{ Auth::user()->name }}</span>
                     </div>
@@ -210,39 +187,38 @@
                         </button>
                     </form>
                 </div>
-
+                
                 <a href="{{ route('dashboard') }}"
                     class="group flex items-center gap-3 px-3 py-3 rounded-lg text-gray-700 hover:bg-yellow-50 transition-colors duration-200 font-medium border-b border-gray-100">
                     <i class="fas fa-chart-line text-yellow-500 w-6 text-center"></i>
                     <span>Dashboard</span>
                 </a>
-
+                
                 <a href="{{ route('productos.index') }}"
                     class="group flex items-center gap-3 px-3 py-3 rounded-lg text-gray-700 hover:bg-yellow-50 transition-colors duration-200 font-medium border-b border-gray-100">
                     <i class="fas fa-box-open text-yellow-500 w-6 text-center"></i>
                     <span>Catálogo</span>
                 </a>
-
+                
                 <a href="{{ route('pedidos.mis') }}"
                     class="group flex items-center gap-3 px-3 py-3 rounded-lg text-gray-700 hover:bg-yellow-50 transition-colors duration-200 font-medium border-b border-gray-100">
                     <i class="fas fa-clipboard-list text-yellow-500 w-6 text-center"></i>
                     <span>Mis pedidos</span>
                 </a>
-
+                
                 <a href="{{ route('carrito.index') }}"
                     class="group flex items-center gap-3 px-3 py-3 rounded-lg text-gray-700 hover:bg-yellow-50 transition-colors duration-200 font-medium border-b border-gray-100">
                     <div class="relative">
                         <i class="fas fa-shopping-cart text-yellow-500 w-6 text-center"></i>
-                        @if (auth()->check() && optional(auth()->user()->cartItems)->count() > 0)
-                            <span
-                                class="absolute -top-1 -right-3 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
+                        @if(auth()->check() && optional(auth()->user()->cartItems)->count() > 0)
+                            <span class="absolute -top-1 -right-3 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
                                 {{ auth()->user()->cartItems->count() }}
                             </span>
                         @endif
                     </div>
                     <span>Carrito</span>
                 </a>
-
+                
                 @if (Auth::user()->role === 'admin')
                     <div x-data="{ adminMobileMenuOpen: false }" class="border-b border-gray-100">
                         <button @click="adminMobileMenuOpen = !adminMobileMenuOpen"
@@ -251,10 +227,9 @@
                                 <i class="fas fa-cog text-yellow-500 w-6 text-center"></i>
                                 <span>Administración</span>
                             </div>
-                            <i class="fas fa-chevron-down text-xs transition-transform duration-200"
-                                :class="{ 'transform rotate-180': adminMobileMenuOpen }"></i>
+                            <i class="fas fa-chevron-down text-xs transition-transform duration-200" :class="{ 'transform rotate-180': adminMobileMenuOpen }"></i>
                         </button>
-
+                        
                         <div x-show="adminMobileMenuOpen" class="pl-12 space-y-2 py-2 bg-gray-50 rounded-lg">
                             <a href="{{ route('admin.pedidos.index') }}"
                                 class="block px-3 py-2 text-gray-700 hover:bg-yellow-100 hover:text-yellow-600 transition-colors duration-200 rounded">
@@ -271,7 +246,7 @@
                         </div>
                     </div>
                 @endif
-
+                
                 <a href="{{ route('profile.index') }}"
                     class="group flex items-center gap-3 px-3 py-3 rounded-lg text-gray-700 hover:bg-yellow-50 transition-colors duration-200 font-medium">
                     <i class="fas fa-user-circle text-yellow-500 w-6 text-center"></i>
@@ -309,5 +284,4 @@
     @include('components.footer')
 
 </body>
-
 </html>

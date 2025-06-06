@@ -33,7 +33,7 @@ class ProfileController extends Controller
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'max:255', Rule::unique('users')->ignore($user->id)],
-            'celular' => ['nullable', 'regex:/^\d{4}-\d{4}$/'], // 👈 validación del celular
+            'celular' => ['nullable', 'regex:/^\d{4}-\d{4}$/'], // 
         ]);
 
         $user->update($validated);

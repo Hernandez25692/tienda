@@ -29,13 +29,26 @@
             </ul>
         </div>
 
-        <!-- Redes sociales -->
+        <!-- Información sobre nosotros -->
         <div>
-            <h3 class="font-semibold text-lg mb-4 text-yellow-400">🌐 Síguenos</h3>
-            <div class="flex space-x-4 text-white/80">
-                <a href="https://facebook.com/encargaya" target="_blank" class="hover:text-yellow-400 transition">📘 Facebook</a>
-                <a href="https://instagram.com/encargaya" target="_blank" class="hover:text-yellow-400 transition">📸 Instagram</a>
-                <a href="https://tiktok.com/@encargaya" target="_blank" class="hover:text-yellow-400 transition">🎵 TikTok</a>
+            <h3 class="font-semibold text-lg mb-4 text-yellow-400 flex items-center">
+            <span class="mr-2">ℹ️</span>
+            <button 
+                type="button" 
+                class="md:hidden bg-yellow-400 text-blue-900 px-3 py-1 rounded font-semibold focus:outline-none focus:ring-2 focus:ring-yellow-300 transition"
+                onclick="document.getElementById('about-info').classList.toggle('hidden')"
+            >
+                Sobre nosotros
+            </button>
+            <span class="hidden md:inline">Sobre nosotros</span>
+            </h3>
+            <div id="about-info" class="md:block hidden">
+            <p class="text-sm text-white/80 mb-2">
+                En EncargaYa nos dedicamos a facilitar tus compras en línea, ofreciendo productos de calidad y un servicio confiable en Choluteca y alrededores.
+            </p>
+            <p class="text-sm text-white/80">
+                Nuestro compromiso es tu satisfacción y confianza en cada pedido.
+            </p>
             </div>
         </div>
     </div>
