@@ -192,10 +192,13 @@
                 @endif
             </form>
 
-            @if (auth()->user()?->is_admin && $producto->link_compra)
+            @if (auth()->user()?->role === 'admin' && $producto->link_compra)
                 <a href="{{ $producto->link_compra }}" target="_blank"
-                    class="mt-1 inline-block text-xs md:text-sm text-blue-700 hover:underline">
+                    class="mt-1 inline-block bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg shadow text-xs md:text-sm transition">
                     Ver en proveedor
+                    <svg class="inline w-4 h-4 ml-1 -mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M14 3h7m0 0v7m0-7L10 14m-4 0v7h7"/>
+                    </svg>
                 </a>
             @endif
         </div>
