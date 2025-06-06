@@ -25,11 +25,14 @@
                     <div class="flex items-center space-x-3">
                         <a href="{{ route('productos.index') }}" class="group transition duration-300">
                             <div class="flex items-center space-x-2">
-                                <img src="{{ asset('storage/logos/logo.png') }}" alt="Logo"
-                                    class="h-10 transition duration-500 group-hover:scale-110">
+                                
+                                    
                                 <span
-                                    class="text-2xl font-extrabold bg-gradient-to-r from-yellow-500 to-orange-500 bg-clip-text text-transparent">
-                                    EncargaYa
+                                    class="text-3xl font-black bg-gradient-to-r from-yellow-400 via-orange-400 to-yellow-600 bg-clip-text text-transparent drop-shadow-lg tracking-tight transition-transform duration-300 group-hover:scale-105">
+                                    <span class="inline-block align-middle -mt-1">
+                                        <i class="fas fa-bolt text-yellow-400 drop-shadow-md animate-pulse"></i>
+                                    </span>
+                                    Encarga<span class="text-orange-500">Ya</span>
                                 </span>
                             </div>
                         </a>

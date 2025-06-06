@@ -35,7 +35,7 @@
             <span class="mr-2">ℹ️</span>
             <button 
                 type="button" 
-                class="md:hidden bg-yellow-400 text-blue-900 px-3 py-1 rounded font-semibold focus:outline-none focus:ring-2 focus:ring-yellow-300 transition"
+                class="md:hidden bg-yellow-400 text-black px-4 py-2 rounded-lg font-semibold shadow focus:outline-none focus:ring-2 focus:ring-yellow-300 transition hover:bg-yellow-300"
                 onclick="document.getElementById('about-info').classList.toggle('hidden')"
             >
                 Sobre nosotros
