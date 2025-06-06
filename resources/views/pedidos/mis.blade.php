@@ -126,7 +126,46 @@
                             <span class="flex items-center gap-1">🔴 Pendiente: <span class="text-red-600">L {{ number_format($saldoRestante, 2) }}</span></span>
                         </div>
                     </div>
+                    <!-- Modal trigger button -->
+                    <div class="flex justify-end mb-2">
+                        <button 
+                            type="button"
+                            class="bg-indigo-100 hover:bg-indigo-200 text-indigo-800 font-semibold px-3 py-1 rounded shadow text-xs sm:text-sm flex items-center gap-2 transition"
+                            onclick="document.getElementById('modal-cuentas-{{ $pedido->id }}').classList.remove('hidden')"
+                        >
+                            🏦 Ver cuentas para depósito
+                        </button>
+                    </div>
 
+                    <!-- Modal -->
+                    <div id="modal-cuentas-{{ $pedido->id }}" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40 hidden">
+                        <div class="bg-white rounded-lg shadow-lg max-w-md w-full mx-2 p-6 relative">
+                            <button 
+                                type="button"
+                                class="absolute top-2 right-2 text-gray-400 hover:text-gray-700 text-xl font-bold"
+                                onclick="document.getElementById('modal-cuentas-{{ $pedido->id }}').classList.add('hidden')"
+                                aria-label="Cerrar"
+                            >&times;</button>
+                            <h3 class="text-lg font-bold text-indigo-800 mb-4 flex items-center gap-2">🏦 Detalles de cuentas para depósito</h3>
+                            <ul class="space-y-2 text-sm text-gray-800">
+                                <li><span class="font-semibold">Ficohsa:</span> <span class="font-mono">200013764987</span></li>
+                                <li><span class="font-semibold">BAC:</span> <span class="font-mono">750215221</span></li>
+                                <li><span class="font-semibold">Atlántida:</span> <span class="font-mono">70420171129</span></li>
+                                <li><span class="font-semibold">Cuscatlan:</span> <span class="font-mono">216010183021</span></li>
+                                <li><span class="font-semibold">Lafise:</span> <span class="font-mono">119504008808</span></li>
+                            </ul>
+                            <div class="mt-4 text-xs text-gray-600">
+                                <span class="font-semibold">Titular:</span> JOSE DEL CARMEN HERNANDEZ MARTINEZ
+                            </div>
+                            <div class="mt-6 flex justify-end">
+                                <button 
+                                    type="button"
+                                    class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded font-semibold text-xs sm:text-sm transition"
+                                    onclick="document.getElementById('modal-cuentas-{{ $pedido->id }}').classList.add('hidden')"
+                                >Cerrar</button>
+                            </div>
+                        </div>
+                    </div>
                     {{-- Formulario de abono --}}
                     @if ($pedido->estado === 'pendiente' && $saldoRestante > 0)
                         @if (session('abono_error_' . $pedido->id))
