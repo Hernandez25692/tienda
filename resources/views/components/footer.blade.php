@@ -35,7 +35,7 @@
             <span class="mr-2">ℹ️</span>
             <button 
                 type="button" 
-                class="md:hidden bg-yellow-400 text-black px-2 py-1 rounded font-semibold shadow focus:outline-none focus:ring-2 focus:ring-yellow-300 transition text-xs"
+                class="md:hidden bg-yellow-400 text-white px-2 py-1 rounded font-semibold shadow focus:outline-none focus:ring-2 focus:ring-yellow-300 transition text-xs"
                 style="font-size: 0.85rem;"
                 onclick="document.getElementById('about-info').classList.toggle('hidden')"
             >
