@@ -63,55 +63,83 @@
 
         <div class="flex flex-col sm:flex-row flex-wrap justify-center gap-3 sm:gap-4 w-full">
             <a href="{{ route('catalogo.publico') }}"
-                class="px-5 py-3 bg-yellow-500 text-white rounded-md font-semibold hover:bg-yellow-600 transition text-center w-full sm:w-auto">
-                Explorar Catálogo
+            class="px-5 py-3 bg-yellow-500 text-white rounded-md font-semibold hover:bg-yellow-600 transition text-center w-full sm:w-auto">
+            Explorar Catálogo
             </a>
+            <!-- Botón solo visible en móvil -->
+            <button id="como-funciona-toggle" type="button"
+            class="px-5 py-3 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-100 transition text-center w-full sm:hidden">
+            ¿Cómo funciona?
+            </button>
+            <!-- En desktop, el enlace normal -->
             <a href="#como-funciona"
-                class="px-5 py-3 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-100 transition text-center w-full sm:w-auto">
-                ¿Cómo funciona?
+            class="px-5 py-3 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-100 transition text-center w-full sm:w-auto hidden sm:inline-block">
+            ¿Cómo funciona?
             </a>
         </div>
-    </main>
+        </main>
 
-    <!-- Sección: ¿Cómo funciona? -->
-    <section id="como-funciona" class="w-full max-w-6xl mt-10 sm:mt-20 bg-white py-10 sm:py-16 px-3 sm:px-6 rounded-xl shadow-md">
+        <!-- Sección: ¿Cómo funciona? -->
+        <section id="como-funciona" class="w-full max-w-6xl mt-10 sm:mt-20 bg-white py-10 sm:py-16 px-3 sm:px-6 rounded-xl shadow-md
+        transition-all duration-300
+        sm:block
+        hidden">
         <h2 class="text-2xl sm:text-3xl font-bold text-center text-yellow-600 mb-6 sm:mb-10">¿Cómo funciona EncargaYa?</h2>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 text-center">
             <!-- Paso 1 -->
             <div class="flex flex-col items-center">
-                <div class="bg-yellow-100 text-yellow-600 w-14 h-14 sm:w-16 sm:h-16 flex items-center justify-center rounded-full shadow mb-3 sm:mb-4">
-                    <i class="fas fa-search text-xl sm:text-2xl"></i>
-                </div>
-                <h3 class="font-semibold text-base sm:text-lg mb-1 sm:mb-2">Explora productos</h3>
-                <p class="text-xs sm:text-sm text-gray-600">Revisa nuestro catálogo o dinos qué deseas comprar.</p>
+            <div class="bg-yellow-100 text-yellow-600 w-14 h-14 sm:w-16 sm:h-16 flex items-center justify-center rounded-full shadow mb-3 sm:mb-4">
+                <i class="fas fa-search text-xl sm:text-2xl"></i>
+            </div>
+            <h3 class="font-semibold text-base sm:text-lg mb-1 sm:mb-2">Explora productos</h3>
+            <p class="text-xs sm:text-sm text-gray-600">Revisa nuestro catálogo o dinos qué deseas comprar.</p>
             </div>
             <!-- Paso 2 -->
             <div class="flex flex-col items-center">
-                <div class="bg-yellow-100 text-yellow-600 w-14 h-14 sm:w-16 sm:h-16 flex items-center justify-center rounded-full shadow mb-3 sm:mb-4">
-                    <i class="fas fa-cart-plus text-xl sm:text-2xl"></i>
-                </div>
-                <h3 class="font-semibold text-base sm:text-lg mb-1 sm:mb-2">Solicita tu pedido</h3>
-                <p class="text-xs sm:text-sm text-gray-600">Regístrate, selecciona el producto y solicita tu compra fácilmente.</p>
+            <div class="bg-yellow-100 text-yellow-600 w-14 h-14 sm:w-16 sm:h-16 flex items-center justify-center rounded-full shadow mb-3 sm:mb-4">
+                <i class="fas fa-cart-plus text-xl sm:text-2xl"></i>
+            </div>
+            <h3 class="font-semibold text-base sm:text-lg mb-1 sm:mb-2">Solicita tu pedido</h3>
+            <p class="text-xs sm:text-sm text-gray-600">Regístrate, selecciona el producto y solicita tu compra fácilmente.</p>
             </div>
             <!-- Paso 3 -->
             <div class="flex flex-col items-center">
-                <div class="bg-yellow-100 text-yellow-600 w-14 h-14 sm:w-16 sm:h-16 flex items-center justify-center rounded-full shadow mb-3 sm:mb-4">
-                    <i class="fas fa-money-bill-wave text-xl sm:text-2xl"></i>
-                </div>
-                <h3 class="font-semibold text-base sm:text-lg mb-1 sm:mb-2">Realiza el pago</h3>
-                <p class="text-xs sm:text-sm text-gray-600">Te confirmamos el precio y el método de pago más conveniente para ti.</p>
+            <div class="bg-yellow-100 text-yellow-600 w-14 h-14 sm:w-16 sm:h-16 flex items-center justify-center rounded-full shadow mb-3 sm:mb-4">
+                <i class="fas fa-money-bill-wave text-xl sm:text-2xl"></i>
+            </div>
+            <h3 class="font-semibold text-base sm:text-lg mb-1 sm:mb-2">Realiza el pago</h3>
+            <p class="text-xs sm:text-sm text-gray-600">Te confirmamos el precio y el método de pago más conveniente para ti.</p>
             </div>
             <!-- Paso 4 -->
             <div class="flex flex-col items-center">
-                <div class="bg-yellow-100 text-yellow-600 w-14 h-14 sm:w-16 sm:h-16 flex items-center justify-center rounded-full shadow mb-3 sm:mb-4">
-                    <i class="fas fa-box-open text-xl sm:text-2xl"></i>
-                </div>
-                <h3 class="font-semibold text-base sm:text-lg mb-1 sm:mb-2">Recibe tu producto</h3>
-                <p class="text-xs sm:text-sm text-gray-600">Te avisamos cuando llegue. Puedes recogerlo o solicitar envío.</p>
+            <div class="bg-yellow-100 text-yellow-600 w-14 h-14 sm:w-16 sm:h-16 flex items-center justify-center rounded-full shadow mb-3 sm:mb-4">
+                <i class="fas fa-box-open text-xl sm:text-2xl"></i>
+            </div>
+            <h3 class="font-semibold text-base sm:text-lg mb-1 sm:mb-2">Recibe tu producto</h3>
+            <p class="text-xs sm:text-sm text-gray-600">Te avisamos cuando llegue. Puedes recogerlo o solicitar envío.</p>
             </div>
         </div>
-    </section>
+        </section>
+
+        <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const toggleBtn = document.getElementById('como-funciona-toggle');
+            const section = document.getElementById('como-funciona');
+            if (toggleBtn && section) {
+            toggleBtn.addEventListener('click', function () {
+                if (section.classList.contains('hidden')) {
+                section.classList.remove('hidden');
+                section.classList.add('block');
+                section.scrollIntoView({ behavior: 'smooth' });
+                } else {
+                section.classList.add('hidden');
+                section.classList.remove('block');
+                }
+            });
+            }
+        });
+        </script>
 
     <!-- Footer -->
     <footer class="w-full text-center py-4 sm:py-6 text-xs sm:text-sm text-gray-500 bg-white mt-auto shadow-inner">

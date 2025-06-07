@@ -16,23 +16,28 @@ class DashboardController extends Controller
         $user = Auth::user();
 
         if ($user->role === 'admin') {
-            $totalPedidos = Pedido::count();
+            $totalPedidos = Pedido::where('estado', '!=', 'cancelado')->count();
             $pendientes = Pedido::where('estado', 'pendiente')->count();
             $entregados = Pedido::where('estado', 'entregado')->count();
-            $totalIngresos = Pedido::sum('total');
+            $totalIngresos = Pedido::where('estado', '!=', 'cancelado')->sum('total');
 
             $clientesHoy = User::count();
-            $pedidosHoy = Pedido::whereDate('created_at', today())->count();
+            $pedidosHoy = Pedido::where('estado', '!=', 'cancelado')
+                                ->whereDate('created_at', today())->count();
 
-            // Calcular días entre primer y último pedido
-            $dias = Pedido::selectRaw('DATEDIFF(MAX(created_at), MIN(created_at)) as dias')->value('dias') ?? 1;
+            // Calcular días entre primer y último pedido válido
+            $dias = Pedido::where('estado', '!=', 'cancelado')
+                          ->selectRaw('DATEDIFF(MAX(created_at), MIN(created_at)) as dias')
+                          ->value('dias') ?? 1;
+
             $promedioPedidosDiarios = round($totalPedidos / max($dias, 1));
 
-            // Ingresos últimos 6 meses
-            $ingresosMensuales = Pedido::select(
-                DB::raw('DATE_FORMAT(created_at, "%Y-%m") as mes'),
-                DB::raw('SUM(total) as total')
-            )
+            // Ingresos últimos 6 meses (sin cancelados)
+            $ingresosMensuales = Pedido::where('estado', '!=', 'cancelado')
+                ->select(
+                    DB::raw('DATE_FORMAT(created_at, "%Y-%m") as mes'),
+                    DB::raw('SUM(total) as total')
+                )
                 ->groupBy('mes')
                 ->orderBy('mes', 'desc')
                 ->limit(6)
