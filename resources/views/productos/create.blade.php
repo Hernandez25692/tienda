@@ -193,7 +193,7 @@
                         </svg>
                     </span>
                 </div>
-                <small class="text-gray-500">Puedes seleccionar varias imágenes. Máx 5MB cada una.</small>
+                <small class="text-gray-500">Puedes seleccionar varias imágenes. Máx 5MB cada una. Arrastra para ordenar.</small>
                 <div id="preview" class="mt-4 flex flex-wrap gap-3"></div>
 
                 <!-- Modal para mostrar la imagen en grande -->
@@ -213,20 +213,74 @@
                     const modalImg = document.getElementById('modal-img');
                     const closeModal = document.getElementById('close-modal');
 
+                    // Array para mantener el orden de los archivos
+                    let filesArray = [];
+
                     input.addEventListener('change', function () {
+                        filesArray = Array.from(input.files);
+                        renderPreview();
+                    });
+
+                    function renderPreview() {
                         preview.innerHTML = '';
-                        Array.from(input.files).forEach(file => {
+                        filesArray.forEach((file, idx) => {
                             if (file.type.startsWith('image/')) {
                                 const reader = new FileReader();
                                 reader.onload = function (e) {
+                                    const imgWrapper = document.createElement('div');
+                                    imgWrapper.className = 'relative group';
+                                    imgWrapper.draggable = true;
+                                    imgWrapper.dataset.idx = idx;
+
                                     const img = document.createElement('img');
                                     img.src = e.target.result;
                                     img.className = 'h-20 w-20 object-cover rounded border-2 border-[#facc15] shadow cursor-pointer hover:scale-105 transition';
+
                                     img.addEventListener('click', function () {
                                         modalImg.src = img.src;
                                         modal.classList.remove('hidden');
                                     });
-                                    preview.appendChild(img);
+
+                                    // Drag handle
+                                    const dragHandle = document.createElement('span');
+                                    dragHandle.className = 'absolute top-1 left-1 bg-white/80 rounded p-1 text-[#2563eb] cursor-move opacity-80 group-hover:opacity-100 transition';
+                                    dragHandle.title = 'Arrastra para ordenar';
+                                    dragHandle.innerHTML = `<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M8 12h.01M12 12h.01M16 12h.01"/></svg>`;
+
+                                    imgWrapper.appendChild(img);
+                                    imgWrapper.appendChild(dragHandle);
+
+                                    // Drag events
+                                    imgWrapper.addEventListener('dragstart', (e) => {
+                                        e.dataTransfer.effectAllowed = 'move';
+                                        e.dataTransfer.setData('text/plain', idx);
+                                        imgWrapper.classList.add('opacity-50');
+                                    });
+                                    imgWrapper.addEventListener('dragend', (e) => {
+                                        imgWrapper.classList.remove('opacity-50');
+                                    });
+                                    imgWrapper.addEventListener('dragover', (e) => {
+                                        e.preventDefault();
+                                        imgWrapper.classList.add('ring-2', 'ring-[#2563eb]');
+                                    });
+                                    imgWrapper.addEventListener('dragleave', (e) => {
+                                        imgWrapper.classList.remove('ring-2', 'ring-[#2563eb]');
+                                    });
+                                    imgWrapper.addEventListener('drop', (e) => {
+                                        e.preventDefault();
+                                        imgWrapper.classList.remove('ring-2', 'ring-[#2563eb]');
+                                        const fromIdx = parseInt(e.dataTransfer.getData('text/plain'));
+                                        const toIdx = idx;
+                                        if (fromIdx !== toIdx) {
+                                            // Reordenar el array
+                                            const moved = filesArray.splice(fromIdx, 1)[0];
+                                            filesArray.splice(toIdx, 0, moved);
+                                            renderPreview();
+                                            updateInputFiles();
+                                        }
+                                    });
+
+                                    preview.appendChild(imgWrapper);
                                 };
                                 reader.readAsDataURL(file);
                             } else {
@@ -236,7 +290,16 @@
                                 preview.appendChild(div);
                             }
                         });
-                    });
+                        updateInputFiles();
+                    }
+
+                    // Actualiza el input file con el nuevo orden
+                    function updateInputFiles() {
+                        // Crea un nuevo DataTransfer para asignar el orden correcto
+                        const dt = new DataTransfer();
+                        filesArray.forEach(file => dt.items.add(file));
+                        input.files = dt.files;
+                    }
 
                     closeModal.addEventListener('click', function () {
                         modal.classList.add('hidden');
