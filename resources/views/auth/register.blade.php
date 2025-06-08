@@ -310,6 +310,15 @@
                         </button>
                     </div>
 
+                    <!-- Botón Política de Privacidad -->
+                    <div class="flex justify-center mt-2">
+                        <button type="button"
+                            class="text-xs sm:text-sm text-indigo-600 underline hover:text-indigo-800 transition"
+                            onclick="showPrivacyModal()">
+                            Política de Privacidad
+                        </button>
+                    </div>
+
                     <!-- Modal de resumen/confirmación -->
                     <div id="summaryModal"
                         class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 hidden">
@@ -324,6 +333,25 @@
                                     class="px-3 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 text-xs sm:text-base">Confirmar</button>
                             </div>
                             <button onclick="closeSummaryModal()"
+                                class="absolute top-2 right-2 text-gray-400 hover:text-gray-600">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Modal Política de Privacidad -->
+                    <div id="privacyModal"
+                        class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 hidden">
+                        <div class="bg-white rounded-lg shadow-lg max-w-xs sm:max-w-sm w-full p-4 sm:p-6 relative">
+                            <h3 class="text-base sm:text-lg font-bold mb-2 sm:mb-4 text-gray-700">Política de Privacidad</h3>
+                            <div class="mb-2 sm:mb-4 text-gray-600 text-xs sm:text-sm">
+                                Tus datos personales serán utilizados únicamente para fines relacionados con la gestión de tus pedidos en EncargaYa. Toda la información proporcionada es encriptada y almacenada de manera segura. No compartimos tus datos con terceros y puedes solicitar su eliminación en cualquier momento.
+                            </div>
+                            <div class="flex justify-end">
+                                <button onclick="closePrivacyModal()"
+                                    class="px-3 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 text-xs sm:text-base">Cerrar</button>
+                            </div>
+                            <button onclick="closePrivacyModal()"
                                 class="absolute top-2 right-2 text-gray-400 hover:text-gray-600">
                                 <i class="fas fa-times"></i>
                             </button>
@@ -379,6 +407,14 @@
 
                         function submitRegisterForm() {
                             document.getElementById('registerForm').submit();
+                        }
+
+                        function showPrivacyModal() {
+                            document.getElementById('privacyModal').classList.remove('hidden');
+                        }
+
+                        function closePrivacyModal() {
+                            document.getElementById('privacyModal').classList.add('hidden');
                         }
                     </script>
                 </form>
