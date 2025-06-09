@@ -193,11 +193,11 @@
                         </svg>
                     </span>
                 </div>
-                <small class="text-gray-500">Puedes seleccionar varias imágenes. Máx 5MB cada una. Arrastra para ordenar.</small>
+                <small class="text-gray-500">Puedes seleccionar varias imágenes. Máx 5MB cada una.</small>
                 <div id="preview" class="mt-4 flex flex-wrap gap-3"></div>
 
                 <!-- Modal para mostrar la imagen en grande -->
-                <div id="modal" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 hidden">
+                <div id="modal" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50" style="display: none;">
                     <span id="close-modal" class="absolute top-4 right-8 text-white text-3xl cursor-pointer">&times;</span>
                     <img id="modal-img" src="" class="max-h-[80vh] max-w-[90vw] rounded shadow-lg border-4 border-white" />
                 </div>
@@ -213,12 +213,21 @@
                     const modalImg = document.getElementById('modal-img');
                     const closeModal = document.getElementById('close-modal');
 
-                    // Array para mantener el orden de los archivos
+                    // Array para mantener los archivos
                     let filesArray = [];
 
                     input.addEventListener('change', function () {
-                        filesArray = Array.from(input.files);
+                        // Agregar nuevas imágenes sin borrar las anteriores
+                        const newFiles = Array.from(input.files);
+                        // Evitar duplicados (por nombre y tamaño)
+                        newFiles.forEach(file => {
+                            if (!filesArray.some(f => f.name === file.name && f.size === file.size)) {
+                                filesArray.push(file);
+                            }
+                        });
                         renderPreview();
+                        // Limpiar el input para permitir volver a seleccionar las mismas imágenes si se desea
+                        input.value = '';
                     });
 
                     function renderPreview() {
@@ -229,8 +238,6 @@
                                 reader.onload = function (e) {
                                     const imgWrapper = document.createElement('div');
                                     imgWrapper.className = 'relative group';
-                                    imgWrapper.draggable = true;
-                                    imgWrapper.dataset.idx = idx;
 
                                     const img = document.createElement('img');
                                     img.src = e.target.result;
@@ -238,47 +245,23 @@
 
                                     img.addEventListener('click', function () {
                                         modalImg.src = img.src;
-                                        modal.classList.remove('hidden');
+                                        modal.style.display = 'flex';
                                     });
 
-                                    // Drag handle
-                                    const dragHandle = document.createElement('span');
-                                    dragHandle.className = 'absolute top-1 left-1 bg-white/80 rounded p-1 text-[#2563eb] cursor-move opacity-80 group-hover:opacity-100 transition';
-                                    dragHandle.title = 'Arrastra para ordenar';
-                                    dragHandle.innerHTML = `<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M8 12h.01M12 12h.01M16 12h.01"/></svg>`;
+                                    // Botón para eliminar imagen
+                                    const removeBtn = document.createElement('span');
+                                    removeBtn.className = 'absolute top-1 right-1 bg-white/80 rounded-full p-1 text-red-600 cursor-pointer opacity-80 group-hover:opacity-100 transition';
+                                    removeBtn.title = 'Eliminar imagen';
+                                    removeBtn.innerHTML = `<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>`;
+                                    removeBtn.addEventListener('click', function (ev) {
+                                        ev.stopPropagation();
+                                        filesArray.splice(idx, 1);
+                                        renderPreview();
+                                        updateInputFiles();
+                                    });
 
                                     imgWrapper.appendChild(img);
-                                    imgWrapper.appendChild(dragHandle);
-
-                                    // Drag events
-                                    imgWrapper.addEventListener('dragstart', (e) => {
-                                        e.dataTransfer.effectAllowed = 'move';
-                                        e.dataTransfer.setData('text/plain', idx);
-                                        imgWrapper.classList.add('opacity-50');
-                                    });
-                                    imgWrapper.addEventListener('dragend', (e) => {
-                                        imgWrapper.classList.remove('opacity-50');
-                                    });
-                                    imgWrapper.addEventListener('dragover', (e) => {
-                                        e.preventDefault();
-                                        imgWrapper.classList.add('ring-2', 'ring-[#2563eb]');
-                                    });
-                                    imgWrapper.addEventListener('dragleave', (e) => {
-                                        imgWrapper.classList.remove('ring-2', 'ring-[#2563eb]');
-                                    });
-                                    imgWrapper.addEventListener('drop', (e) => {
-                                        e.preventDefault();
-                                        imgWrapper.classList.remove('ring-2', 'ring-[#2563eb]');
-                                        const fromIdx = parseInt(e.dataTransfer.getData('text/plain'));
-                                        const toIdx = idx;
-                                        if (fromIdx !== toIdx) {
-                                            // Reordenar el array
-                                            const moved = filesArray.splice(fromIdx, 1)[0];
-                                            filesArray.splice(toIdx, 0, moved);
-                                            renderPreview();
-                                            updateInputFiles();
-                                        }
-                                    });
+                                    imgWrapper.appendChild(removeBtn);
 
                                     preview.appendChild(imgWrapper);
                                 };
@@ -293,24 +276,31 @@
                         updateInputFiles();
                     }
 
-                    // Actualiza el input file con el nuevo orden
+                    // Actualiza el input file con el nuevo array
                     function updateInputFiles() {
-                        // Crea un nuevo DataTransfer para asignar el orden correcto
                         const dt = new DataTransfer();
                         filesArray.forEach(file => dt.items.add(file));
                         input.files = dt.files;
                     }
 
                     closeModal.addEventListener('click', function () {
-                        modal.classList.add('hidden');
+                        modal.style.display = 'none';
                         modalImg.src = '';
                     });
 
                     modal.addEventListener('click', function (e) {
                         if (e.target === modal) {
-                            modal.classList.add('hidden');
+                            modal.style.display = 'none';
                             modalImg.src = '';
                         }
+                    });
+
+                    // Asegura que los archivos estén en el input antes de enviar el formulario
+                    const form = input.closest('form');
+                    form.addEventListener('submit', function () {
+                        const dt = new DataTransfer();
+                        filesArray.forEach(file => dt.items.add(file));
+                        input.files = dt.files;
                     });
                 });
             </script>
