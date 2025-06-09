@@ -6,6 +6,7 @@ use App\Models\Producto;
 use App\Models\ImagenProducto;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class ProductoController extends Controller
 {
@@ -18,9 +19,14 @@ class ProductoController extends Controller
             $query->where('visible', true)->where('disponible', true);
         }
 
-        // Filtro: nombre
+
         if ($request->filled('nombre')) {
-            $query->where('nombre', 'like', '%' . $request->nombre . '%');
+            $nombre = strtolower($request->nombre);
+            $query->where(function ($q) use ($nombre) {
+                $q->where('nombre', 'like', "%$nombre%")
+                    ->orWhere('nombre', 'like', "%" . Str::plural($nombre) . "%")
+                    ->orWhere('nombre', 'like', "%" . Str::singular($nombre) . "%");
+            });
         }
 
         // Filtro: estado
