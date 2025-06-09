@@ -118,6 +118,6 @@ class CarritoController extends Controller
         // Limpiar carrito
         session()->forget('carrito');
 
-        return redirect()->route('carrito.index')->with('success', 'Pedido confirmado correctamente.');
+        return redirect()->route('pedidos.mis')->with('success', 'Pedido confirmado correctamente.');
     }
 }
