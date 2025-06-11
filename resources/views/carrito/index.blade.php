@@ -162,7 +162,7 @@
                             <span>Total:</span>
                             <span class="font-extrabold text-lg text-[#1e3a8a]">L {{ number_format($total ?? 0, 2) }}</span>
                         </div>
-                        <div class="text-xs text-gray-500 mb-3">El envío se calcula al confirmar.</div>
+                        
                         @if (count($carrito) > 0)
                             <form x-data="{ showModal: false }" action="{{ route('carrito.confirmar') }}" method="POST" @submit.prevent="showModal = true">
                                 @csrf
@@ -238,29 +238,28 @@
             </div>
         </div>
 
-        {{-- Responsive: resumen al final en móvil --}}
+        {{-- Resumen de compra (móvil) --}}
         <div class="lg:hidden mt-4">
-            <details class="bg-white rounded-xl shadow-lg">
-            <summary class="px-3 py-2 font-bold text-[#1e3a8a] cursor-pointer select-none outline-none text-base">Resumen de compra</summary>
-            <div class="p-3">
-                <div class="flex justify-between text-gray-700 mb-1 text-sm">
+            <div class="bg-white rounded-xl shadow-lg p-3">
+            <h3 class="font-bold text-[#1e3a8a] text-base mb-2">Resumen de compra</h3>
+            <div class="flex justify-between text-gray-700 mb-1 text-sm">
                 <span>Productos:</span>
                 <span class="font-bold">{{ $totalProductos ?? 0 }}</span>
-                </div>
-                <div class="flex justify-between text-gray-700 mb-2 text-sm">
+            </div>
+            <div class="flex justify-between text-gray-700 mb-2 text-sm">
                 <span>Total:</span>
                 <span class="font-extrabold text-lg text-[#1e3a8a]">L {{ number_format($total ?? 0, 2) }}</span>
-                </div>
-                <div class="text-xs text-gray-500 mb-3">El envío se calcula al confirmar.</div>
-                @if (count($carrito) > 0)
+            </div>
+            
+            @if (count($carrito) > 0)
                 <form x-data="{ showModal: false }" action="{{ route('carrito.confirmar') }}" method="POST" @submit.prevent="showModal = true">
-                    @csrf
-                    <button type="submit"
+                @csrf
+                <button type="submit"
                     class="w-full bg-[#facc15] hover:bg-yellow-300 text-[#1e3a8a] font-extrabold py-2 rounded-lg text-base shadow transition-all hover:scale-105 focus:outline-none focus:ring-2 focus:ring-[#1e3a8a]">
                     Confirmar Pedido
-                    </button>
-                    <!-- Modal de confirmación -->
-                    <div
+                </button>
+                <!-- Modal de confirmación -->
+                <div
                     x-show="showModal"
                     x-transition:enter="transition ease-out duration-200"
                     x-transition:enter-start="opacity-0"
@@ -270,60 +269,59 @@
                     x-transition:leave-end="opacity-0"
                     class="fixed inset-0 z-50 flex items-center justify-center"
                     style="display: none;"
-                    >
+                >
                     <!-- Fondo oscuro -->
                     <div class="absolute inset-0 bg-black/50" @click="showModal = false"></div>
                     <!-- Modal -->
                     <div
-                        class="relative bg-white rounded-xl shadow-xl max-w-sm w-full mx-2 p-6 flex flex-col gap-4"
-                        x-transition:enter="transition transform ease-out duration-200"
-                        x-transition:enter-start="scale-95 opacity-0"
-                        x-transition:enter-end="scale-100 opacity-100"
-                        x-transition:leave="transition transform ease-in duration-150"
-                        x-transition:leave-start="scale-100 opacity-100"
-                        x-transition:leave-end="scale-95 opacity-0"
+                    class="relative bg-white rounded-xl shadow-xl max-w-sm w-full mx-2 p-6 flex flex-col gap-4"
+                    x-transition:enter="transition transform ease-out duration-200"
+                    x-transition:enter-start="scale-95 opacity-0"
+                    x-transition:enter-end="scale-100 opacity-100"
+                    x-transition:leave="transition transform ease-in duration-150"
+                    x-transition:leave-start="scale-100 opacity-100"
+                    x-transition:leave-end="scale-95 opacity-0"
                     >
-                        <div class="flex items-center gap-2 mb-2">
+                    <div class="flex items-center gap-2 mb-2">
                         <svg class="w-6 h-6 text-[#1e3a8a]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M12 20.5C6.201 20.5 1.5 15.799 1.5 10S6.201-.5 12-.5 22.5 4.201 22.5 10 17.799 20.5 12 20.5z"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M12 20.5C6.201 20.5 1.5 15.799 1.5 10S6.201-.5 12-.5 22.5 4.201 22.5 10 17.799 20.5 12 20.5z"/>
                         </svg>
                         <h2 class="text-lg font-bold text-[#1e3a8a]">¿Confirmar y enviar pedido?</h2>
-                        </div>
-                        <div class="space-y-1 text-sm">
+                    </div>
+                    <div class="space-y-1 text-sm">
                         <div class="flex justify-between">
-                            <span class="text-gray-700">Total de productos:</span>
-                            <span class="font-bold text-[#1e3a8a]">{{ $totalProductos ?? 0 }}</span>
+                        <span class="text-gray-700">Total de productos:</span>
+                        <span class="font-bold text-[#1e3a8a]">{{ $totalProductos ?? 0 }}</span>
                         </div>
                         <div class="flex justify-between">
-                            <span class="text-gray-700">Total a pagar:</span>
-                            <span class="font-extrabold text-lg text-[#1e3a8a]">L {{ number_format($total ?? 0, 2) }}</span>
-                        </div>
-                        </div>
-                        <div class="flex gap-2 mt-4">
-                        <button
-                            type="button"
-                            @click="showModal = false"
-                            class="flex-1 py-2 rounded-lg bg-gray-100 text-gray-600 font-bold hover:bg-gray-200 transition-all focus:outline-none focus:ring-2 focus:ring-[#1e3a8a]">
-                            ❌ Cancelar
-                        </button>
-                        <button
-                            type="button"
-                            @click="$el.closest('form').submit()"
-                            class="flex-1 py-2 rounded-lg bg-[#facc15] text-[#1e3a8a] font-bold hover:bg-yellow-300 transition-all focus:outline-none focus:ring-2 focus:ring-[#1e3a8a]">
-                            Confirmar y Enviar Pedido
-                        </button>
+                        <span class="text-gray-700">Total a pagar:</span>
+                        <span class="font-extrabold text-lg text-[#1e3a8a]">L {{ number_format($total ?? 0, 2) }}</span>
                         </div>
                     </div>
+                    <div class="flex gap-2 mt-4">
+                        <button
+                        type="button"
+                        @click="showModal = false"
+                        class="flex-1 py-2 rounded-lg bg-gray-100 text-gray-600 font-bold hover:bg-gray-200 transition-all focus:outline-none focus:ring-2 focus:ring-[#1e3a8a]">
+                        ❌ Cancelar
+                        </button>
+                        <button
+                        type="button"
+                        @click="$el.closest('form').submit()"
+                        class="flex-1 py-2 rounded-lg bg-[#facc15] text-[#1e3a8a] font-bold hover:bg-yellow-300 transition-all focus:outline-none focus:ring-2 focus:ring-[#1e3a8a]">
+                        Confirmar y Enviar Pedido
+                        </button>
                     </div>
+                    </div>
+                </div>
                 </form>
-                @else
+            @else
                 <button disabled
-                    class="w-full bg-yellow-100 text-gray-400 font-bold py-2 rounded-lg text-base cursor-not-allowed">
-                    Confirmar Pedido
+                class="w-full bg-yellow-100 text-gray-400 font-bold py-2 rounded-lg text-base cursor-not-allowed">
+                Confirmar Pedido
                 </button>
-                @endif
+            @endif
             </div>
-            </details>
         </div>
     </div>
 </x-app-layout>

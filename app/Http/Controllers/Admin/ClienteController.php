@@ -6,9 +6,17 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 class ClienteController extends Controller
-{
+{   
+    
+    public function __construct()
+    {
+        if (!Auth::check() || Auth::user()->role !== 'admin') {
+            abort(403, 'Acceso no autorizado');
+        }
+    }
     public function index()
     {
         $clientes = User::where('role', 'cliente')->get();

@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Storage;
 
 class PedidoController extends Controller
 {
+    
     public function agregarProducto(Request $request)
     {
         $producto = Producto::findOrFail($request->producto_id);
@@ -109,9 +110,11 @@ class PedidoController extends Controller
     // Muestra los pedidos en el panel de administración.
     public function adminIndex(Request $request)
     {
+        if (!Auth::check() || Auth::user()->role !== 'admin') {
+            abort(403, 'Acceso no autorizado');
+        }
+
         $query = Pedido::with(['user', 'productos.imagenes', 'pagos']);
-
-
 
         if ($request->filled('cliente')) {
             $query->whereHas('user', function ($q) use ($request) {
@@ -139,6 +142,10 @@ class PedidoController extends Controller
     //Editar pedido
     public function adminEdit(Pedido $pedido)
     {
+        if (!Auth::check() || Auth::user()->role !== 'admin') {
+            abort(403, 'Acceso no autorizado');
+        }
+
         $pedido->load('productos.imagenes', 'user', 'pagos');
 
         return view('admin.pedidos.edit', compact('pedido'));
@@ -147,6 +154,10 @@ class PedidoController extends Controller
     //Actualizar estado o fecha de entrega
     public function adminUpdate(Request $request, Pedido $pedido)
     {
+        if (!Auth::check() || Auth::user()->role !== 'admin') {
+            abort(403, 'Acceso no autorizado');
+        }
+
         $request->validate([
             'estado' => 'required|string',
             'fecha_entrega_estimada' => 'nullable|date',
@@ -187,4 +198,6 @@ class PedidoController extends Controller
         $carrito = session()->get('carrito', []);
         return view('carrito.index', compact('carrito'));
     }
+
+    
 }

@@ -79,19 +79,23 @@ class ProductoController extends Controller
 
     public function create()
     {
+        if (!auth()->check() || !auth()->user()->esAdmin()) {
+            abort(403, 'Acceso no autorizado');
+        }
         $categorias = \App\Models\Categoria::all();
         return view('productos.create', compact('categorias'));
     }
 
-
     public function store(Request $request)
     {
+        if (!auth()->check() || !auth()->user()->esAdmin()) {
+            abort(403, 'Acceso no autorizado');
+        }
         $request->validate([
             'nombre' => 'required|string|max:255',
             'precio_venta' => 'required|numeric',
             'imagenes.*' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
-
 
         $producto = Producto::create([
             'nombre' => $request->nombre,
@@ -118,14 +122,19 @@ class ProductoController extends Controller
 
     public function edit(Producto $producto)
     {
+        if (!auth()->check() || !auth()->user()->esAdmin()) {
+            abort(403, 'Acceso no autorizado');
+        }
         $producto->load('imagenes');
         $categorias = \App\Models\Categoria::all();
         return view('productos.edit', compact('producto', 'categorias'));
     }
 
-
     public function update(Request $request, Producto $producto)
     {
+        if (!auth()->check() || !auth()->user()->esAdmin()) {
+            abort(403, 'Acceso no autorizado');
+        }
         $request->validate([
             'nombre' => 'required|string|max:255',
             'precio_venta' => 'required|numeric',

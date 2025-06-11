@@ -4,9 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Models\Categoria;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CategoriaController extends Controller
 {
+    public function __construct()
+    {
+        if (!Auth::check() || Auth::user()->role !== 'admin') {
+            abort(403, 'Acceso no autorizado');
+        }
+    }
     public function index()
     {
         $categorias = Categoria::orderBy('nombre')->paginate(10);
