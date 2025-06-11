@@ -102,5 +102,6 @@ Route::middleware(['auth'])->group(function () {
     });
 });
 
+
 // Rutas de autenticación generadas por Breeze o Fortify
 require __DIR__ . '/auth.php';
