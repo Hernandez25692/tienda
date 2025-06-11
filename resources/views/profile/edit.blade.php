@@ -73,8 +73,8 @@
                     <div>
                         <label class="block text-base font-semibold text-gray-700 mb-1">Correo electrónico</label>
                         <input type="email" name="email" value="{{ old('email', auth()->user()->email) }}"
-                            class="mt-1 block w-full border-2 border-gray-200 rounded-lg shadow-sm focus:ring-2 focus:ring-[#facc15] focus:border-[#facc15] transition text-gray-800"
-                            required>
+                            class="mt-1 block w-full border-2 border-gray-200 rounded-lg shadow-sm bg-gray-100 text-gray-500 cursor-not-allowed"
+                            required readonly tabindex="-1">
                         <x-input-error :messages="$errors->get('email')" class="mt-2 text-sm text-red-600" />
                     </div>
 
