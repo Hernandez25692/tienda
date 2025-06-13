@@ -80,7 +80,18 @@
                                 class="relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-yellow-500 after:transition-all after:duration-300 group-hover:after:w-full">
                                 Mis pedidos
                             </span>
+
                         </a>
+                        <a href="{{ route('ayuda') }}"
+                            class="group flex items-center gap-2 px-4 py-2 rounded-lg text-gray-700 hover:text-yellow-600 transition-all duration-300 font-medium hover:bg-yellow-50">
+                            <i
+                                class="fas fa-question-circle text-yellow-500 group-hover:text-yellow-600 transition-all duration-300"></i>
+                            <span
+                                class="relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-yellow-500 after:transition-all after:duration-300 group-hover:after:w-full">
+                                Ayuda
+                            </span>
+                        </a>
+
                         <a href="{{ route('carrito.index') }}"
                             class="group flex items-center gap-2 px-4 py-2 rounded-lg text-gray-700 hover:text-yellow-600 transition-all duration-300 font-medium hover:bg-yellow-50 relative">
                             <i
@@ -235,6 +246,12 @@
                     <i class="fas fa-clipboard-list text-yellow-500 w-6 text-center"></i>
                     <span>Mis pedidos</span>
                 </a>
+                <a href="{{ route('ayuda') }}"
+                    class="group flex items-center gap-3 px-3 py-3 rounded-lg text-gray-700 hover:bg-yellow-50 transition-colors duration-200 font-medium border-b border-gray-100">
+                    <i class="fas fa-question-circle text-yellow-500 w-6 text-center"></i>
+                    <span>Ayuda</span>
+                </a>
+
                 <a href="{{ route('carrito.index') }}"
                     class="group flex items-center gap-3 px-3 py-3 rounded-lg text-gray-700 hover:bg-yellow-50 transition-colors duration-200 font-medium border-b border-gray-100">
                     <div class="relative">

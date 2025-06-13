@@ -17,6 +17,10 @@ use App\Http\Controllers\PagoController;
 |--------------------------------------------------------------------------
 */
 
+Route::get('/ayuda', function () {
+    return view('ayuda');
+})->name('ayuda');
+
 // Página de inicio
 Route::get('/', function () {
     return view('welcome');
