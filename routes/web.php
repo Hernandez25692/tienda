@@ -10,12 +10,24 @@ use App\Http\Controllers\CarritoController;
 use App\Http\Controllers\Admin\ClienteController;
 use App\Http\Controllers\ImagenProductoController;
 use App\Http\Controllers\PagoController;
-
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
 |--------------------------------------------------------------------------
 */
+
+Route::get('/login', function (Request $request) {
+    // 🔒 Forzar logout si hay sesión activa
+    Auth::logout();
+    $request->session()->invalidate();
+    $request->session()->regenerateToken();
+
+    // Mostrar la vista de login
+    return app(AuthenticatedSessionController::class)->create();
+})->name('login');
 
 Route::get('/ayuda', function () {
     return view('ayuda');
