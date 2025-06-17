@@ -7,7 +7,7 @@
             </h2>
             <div class="flex gap-2 mt-2 sm:mt-0">
                 <a href="{{ route('productos.index') }}"
-                   class="inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-4 py-2 rounded-lg shadow transition text-sm sm:text-base">
+                   class="inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 focus:bg-indigo-800 text-white font-semibold px-4 py-2 rounded-lg shadow transition text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-indigo-400">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12h18m-6-6l6 6-6 6"></path></svg>
                     Seguir comprando
                 </a>
@@ -25,9 +25,9 @@
                     $isEntregado = $pedido->estado === 'entregado';
                     $estadoColors = [
                         'pendiente' => 'bg-yellow-500 text-white',
-                        'confirmado' => 'bg-blue-500 text-white',
-                        'entregado' => 'bg-green-500 text-white',
-                        'cancelado' => 'bg-red-500 text-white',
+                        'confirmado' => 'bg-blue-600 text-white',
+                        'entregado' => 'bg-green-600 text-white',
+                        'cancelado' => 'bg-red-600 text-white line-through',
                     ];
                     $estadoIconos = [
                         'pendiente' => 'fa-regular fa-clock',
@@ -39,11 +39,11 @@
                     $saldoRestante = $pedido->total - $totalConfirmado;
                     $pagoSugerido = $totalConfirmado == 0 ? $pedido->total / 2 : $saldoRestante;
                 @endphp
-                <div class="bg-white rounded-xl shadow-lg mb-5 p-4 border border-gray-100 flex flex-col gap-2">
+                <div class="bg-white rounded-xl shadow-lg mb-5 p-4 border border-gray-100 flex flex-col gap-2 {{ $isCancelado ? 'opacity-70' : '' }}">
                     <div class="flex items-center justify-between">
                         <div>
                             <span class="text-xs text-gray-500 font-medium">Pedido</span>
-                            <span class="block text-indigo-700 font-bold text-lg">#{{ $pedido->codigo }}</span>
+                            <span class="block font-bold text-lg {{ $isCancelado ? 'text-red-700 line-through' : 'text-indigo-700' }}">#{{ $pedido->codigo }}</span>
                         </div>
                         <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full {{ $estadoColors[$pedido->estado] ?? 'bg-gray-200 text-gray-700' }} text-xs font-semibold shadow">
                             <i class="{{ $estadoIconos[$pedido->estado] ?? 'fa-solid fa-question' }}"></i>
@@ -66,7 +66,7 @@
                         <span class="text-gray-700 font-semibold text-base">L {{ number_format($pedido->total, 2) }}</span>
                         <button
                             type="button"
-                            class="w-full max-w-[120px] bg-indigo-600 hover:bg-indigo-700 active:scale-95 transition text-white font-semibold py-2 rounded-lg flex items-center justify-center gap-2 shadow text-sm"
+                            class="w-full max-w-[120px] bg-indigo-600 hover:bg-indigo-700 focus:bg-indigo-800 active:scale-95 transition text-white font-semibold py-2 rounded-lg flex items-center justify-center gap-2 shadow text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400"
                             onclick="document.getElementById('detalles-mob-{{ $pedido->id }}').classList.toggle('hidden')"
                             aria-expanded="false"
                             aria-controls="detalles-mob-{{ $pedido->id }}"
@@ -91,7 +91,7 @@
                                         @endif
                                     </div>
                                     <div class="flex-1">
-                                        <div class="font-semibold text-gray-800 text-sm">{{ $producto->nombre }}</div>
+                                        <div class="font-semibold text-gray-800 text-sm {{ $isCancelado ? 'line-through text-red-700' : '' }}">{{ $producto->nombre }}</div>
                                         <div class="text-xs text-gray-500">x{{ $producto->pivot->cantidad }} &bull; L {{ number_format($producto->pivot->precio_unitario, 2) }}</div>
                                         <div class="text-xs text-gray-400">{{ $producto->pivot->comentario ?? '-' }}</div>
                                     </div>
@@ -110,7 +110,7 @@
                         {{-- Botón cuentas --}}
                         <button
                             type="button"
-                            class="w-full bg-indigo-100 hover:bg-indigo-200 active:scale-95 text-indigo-800 font-semibold px-3 py-2 rounded shadow text-sm flex items-center justify-center gap-2 mt-3 transition"
+                            class="w-full bg-indigo-100 hover:bg-indigo-200 focus:bg-indigo-300 active:scale-95 text-indigo-800 font-semibold px-3 py-2 rounded shadow text-sm flex items-center justify-center gap-2 mt-3 transition focus:outline-none focus:ring-2 focus:ring-indigo-400"
                             onclick="document.getElementById('modal-cuentas-mob-{{ $pedido->id }}').classList.remove('hidden')"
                         >
                             <i class="fa-solid fa-building-columns"></i>
@@ -121,7 +121,7 @@
                             <div class="bg-white rounded-lg shadow-lg max-w-md w-full mx-2 p-6 relative">
                                 <button
                                     type="button"
-                                    class="absolute top-2 right-2 text-gray-400 hover:text-gray-700 text-xl font-bold"
+                                    class="absolute top-2 right-2 text-gray-400 hover:text-gray-700 text-xl font-bold focus:outline-none"
                                     onclick="document.getElementById('modal-cuentas-mob-{{ $pedido->id }}').classList.add('hidden')"
                                     aria-label="Cerrar"
                                 >&times;</button>
@@ -139,7 +139,7 @@
                                 <div class="mt-6 flex justify-end">
                                     <button
                                         type="button"
-                                        class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded font-semibold text-xs sm:text-sm transition"
+                                        class="bg-indigo-600 hover:bg-indigo-700 focus:bg-indigo-800 text-white px-4 py-2 rounded font-semibold text-xs sm:text-sm transition focus:outline-none"
                                         onclick="document.getElementById('modal-cuentas-mob-{{ $pedido->id }}').classList.add('hidden')"
                                     >Cerrar</button>
                                 </div>
@@ -165,7 +165,7 @@
                                             min="1"
                                             max="{{ $saldoRestante }}"
                                             required
-                                            class="w-full rounded border-gray-300 focus:ring-blue-500 focus:border-blue-500 p-2 text-xs"
+                                            class="w-full rounded border-gray-300 focus:ring-blue-500 focus:border-blue-500 p-2 text-xs focus:outline-none"
                                         >
                                         <small class="text-gray-500">Máximo: L {{ number_format($saldoRestante, 2) }}</small>
                                     </div>
@@ -181,7 +181,7 @@
                                                     id="comprobante-galeria-mob-{{ $pedido->id }}"
                                                     required
                                                 >
-                                                <span class="block w-full text-center bg-green-100 hover:bg-green-200 text-green-700 rounded px-2 py-2 cursor-pointer text-xs font-semibold border border-green-200 transition">Archivo</span>
+                                                <span class="block w-full text-center bg-green-100 hover:bg-green-200 focus:bg-green-300 text-green-700 rounded px-2 py-2 cursor-pointer text-xs font-semibold border border-green-200 transition focus:outline-none">Archivo</span>
                                             </label>
                                         </div>
                                         <div id="preview-mob-{{ $pedido->id }}" class="mt-2"></div>
@@ -223,7 +223,7 @@
                                         })();
                                     </script>
                                     <button type="submit"
-                                        class="w-full bg-blue-600 hover:bg-blue-700 active:scale-95 text-white text-xs px-3 py-2 rounded shadow font-semibold transition flex items-center justify-center gap-2">
+                                        class="w-full bg-blue-600 hover:bg-blue-700 focus:bg-blue-800 active:scale-95 text-white text-xs px-3 py-2 rounded shadow font-semibold transition flex items-center justify-center gap-2 focus:outline-none focus:ring-2 focus:ring-blue-400">
                                         <i class="fa-solid fa-paper-plane"></i>
                                         Enviar abono
                                     </button>
@@ -272,7 +272,7 @@
                         'pendiente' => 'bg-yellow-100 text-yellow-700 border-yellow-300',
                         'confirmado' => 'bg-blue-100 text-blue-700 border-blue-300',
                         'entregado' => 'bg-green-100 text-green-700 border-green-300',
-                        'cancelado' => 'bg-red-100 text-red-700 border-red-300',
+                        'cancelado' => 'bg-red-100 text-red-700 border-red-300 line-through',
                     ];
                     $estadoIconos = [
                         'pendiente' => '⏳',
@@ -284,12 +284,12 @@
                     $saldoRestante = $pedido->total - $totalConfirmado;
                     $pagoSugerido = $totalConfirmado == 0 ? $pedido->total / 2 : $saldoRestante;
                 @endphp
-                <div class="bg-white rounded-xl shadow-md mb-6 p-2 sm:p-6 border border-gray-100">
+                <div class="bg-white rounded-xl shadow-md mb-6 p-2 sm:p-6 border border-gray-100 {{ $isCancelado ? 'opacity-70' : '' }}">
                     <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-1 sm:gap-2 mb-2 sm:mb-4 border-b pb-2 sm:pb-3">
                         <div>
                             <p class="text-base sm:text-lg font-semibold flex items-center gap-2 {{ $isCancelado ? 'text-red-700 line-through' : 'text-gray-800' }}">
                                 <span class="ml-2 text-xs sm:text-base font-normal text-gray-500">Pedido</span>
-                                <span class="text-indigo-700 break-words">#{{ $pedido->codigo }}</span>
+                                <span class="break-words {{ $isCancelado ? 'text-red-700 line-through' : 'text-indigo-700' }}">#{{ $pedido->codigo }}</span>
                             </p>
                             <div class="flex flex-wrap gap-2 sm:gap-3 mt-1 sm:mt-2 text-xs sm:text-sm text-gray-600">
                                 <span class="flex items-center gap-1">
@@ -310,7 +310,7 @@
                     <div class="flex justify-end mb-2">
                         <button
                             type="button"
-                            class="text-blue-700 hover:underline text-xs sm:text-sm font-semibold flex items-center gap-1 focus:outline-none"
+                            class="text-blue-700 hover:underline focus:underline text-xs sm:text-sm font-semibold flex items-center gap-1 focus:outline-none"
                             onclick="document.getElementById('detalles-{{ $pedido->id }}').classList.toggle('hidden')"
                             aria-expanded="false"
                             aria-controls="detalles-{{ $pedido->id }}"
@@ -372,7 +372,7 @@
                         <div class="flex justify-end mb-2">
                             <button
                                 type="button"
-                                class="bg-indigo-100 hover:bg-indigo-200 text-indigo-800 font-semibold px-3 py-1 rounded shadow text-xs sm:text-sm flex items-center gap-2 transition"
+                                class="bg-indigo-100 hover:bg-indigo-200 focus:bg-indigo-300 text-indigo-800 font-semibold px-3 py-1 rounded shadow text-xs sm:text-sm flex items-center gap-2 transition focus:outline-none focus:ring-2 focus:ring-indigo-400"
                                 onclick="document.getElementById('modal-cuentas-{{ $pedido->id }}').classList.remove('hidden')"
                             >
                                 🏦 Ver cuentas para depósito
@@ -382,7 +382,7 @@
                             <div class="bg-white rounded-lg shadow-lg max-w-md w-full mx-2 p-6 relative">
                                 <button
                                     type="button"
-                                    class="absolute top-2 right-2 text-gray-400 hover:text-gray-700 text-xl font-bold"
+                                    class="absolute top-2 right-2 text-gray-400 hover:text-gray-700 text-xl font-bold focus:outline-none"
                                     onclick="document.getElementById('modal-cuentas-{{ $pedido->id }}').classList.add('hidden')"
                                     aria-label="Cerrar"
                                 >&times;</button>
@@ -400,7 +400,7 @@
                                 <div class="mt-6 flex justify-end">
                                     <button
                                         type="button"
-                                        class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded font-semibold text-xs sm:text-sm transition"
+                                        class="bg-indigo-600 hover:bg-indigo-700 focus:bg-indigo-800 text-white px-4 py-2 rounded font-semibold text-xs sm:text-sm transition focus:outline-none"
                                         onclick="document.getElementById('modal-cuentas-{{ $pedido->id }}').classList.add('hidden')"
                                     >Cerrar</button>
                                 </div>
@@ -425,7 +425,7 @@
                                             min="1"
                                             max="{{ $saldoRestante }}"
                                             required
-                                            class="w-full rounded border-gray-300 focus:ring-blue-500 focus:border-blue-500 p-2 text-xs sm:text-base"
+                                            class="w-full rounded border-gray-300 focus:ring-blue-500 focus:border-blue-500 p-2 text-xs sm:text-base focus:outline-none"
                                         >
                                         <small class="text-gray-500">Máximo: L {{ number_format($saldoRestante, 2) }}</small>
                                     </div>
@@ -441,7 +441,7 @@
                                                     id="comprobante-galeria-{{ $pedido->id }}"
                                                     required
                                                 >
-                                                <span class="block w-full text-center bg-green-100 hover:bg-green-200 text-green-700 rounded px-2 py-2 cursor-pointer text-xs sm:text-sm font-semibold border border-green-200 transition">Archivo</span>
+                                                <span class="block w-full text-center bg-green-100 hover:bg-green-200 focus:bg-green-300 text-green-700 rounded px-2 py-2 cursor-pointer text-xs sm:text-sm font-semibold border border-green-200 transition focus:outline-none">Archivo</span>
                                             </label>
                                         </div>
                                         <div id="preview-{{ $pedido->id }}" class="mt-2"></div>
@@ -483,7 +483,7 @@
                                         })();
                                     </script>
                                     <button type="submit"
-                                        class="bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-base px-3 sm:px-4 py-2 rounded shadow font-semibold transition flex items-center gap-2">
+                                        class="bg-blue-600 hover:bg-blue-700 focus:bg-blue-800 text-white text-xs sm:text-base px-3 sm:px-4 py-2 rounded shadow font-semibold transition flex items-center gap-2 focus:outline-none focus:ring-2 focus:ring-blue-400">
                                         <i class="fa-solid fa-paper-plane"></i>
                                         Enviar abono
                                     </button>
@@ -537,4 +537,25 @@
     </script>
     {{-- FontAwesome CDN (solo si no está en tu layout) --}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        /* Fallbacks for line-through and color for cancelado */
+        .line-through { text-decoration: line-through !important; }
+        .text-red-700, .text-red-600 { color: #b91c1c !important; }
+        .bg-red-600 { background-color: #dc2626 !important; }
+        .bg-red-100 { background-color: #fee2e2 !important; }
+        .text-green-700, .text-green-600 { color: #15803d !important; }
+        .bg-green-600 { background-color: #16a34a !important; }
+        .bg-green-100 { background-color: #dcfce7 !important; }
+        .text-blue-700, .text-blue-600 { color: #1d4ed8 !important; }
+        .bg-blue-600 { background-color: #2563eb !important; }
+        .bg-blue-100 { background-color: #dbeafe !important; }
+        .bg-yellow-500 { background-color: #eab308 !important; }
+        .bg-yellow-100 { background-color: #fef9c3 !important; }
+        .text-yellow-700, .text-yellow-600, .text-yellow-800 { color: #a16207 !important; }
+        /* Button focus for accessibility */
+        button:focus, a:focus, input:focus, span:focus {
+            outline: 2px solid #6366f1;
+            outline-offset: 2px;
+        }
+    </style>
 </x-app-layout>
