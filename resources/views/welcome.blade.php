@@ -92,11 +92,13 @@
             </p>
             <div class="flex flex-col gap-3 w-full mt-2">
                 <a href="{{ route('catalogo.publico') }}"
-                    class="w-full py-3 rounded-2xl bg-gradient-to-r from-yellow-400 to-yellow-500 text-white font-bold text-lg shadow-lg hover:from-yellow-500 hover:to-yellow-600 transition">
+                    class="w-full py-3 rounded-2xl bg-gradient-to-r from-yellow-400 via-orange-400 to-yellow-500 text-white font-bold text-lg shadow-lg hover:bg-gradient-to-r hover:from-orange-500 hover:via-yellow-500 hover:to-orange-600 transition"
+                    style="background: linear-gradient(90deg, #facc15 0%, #fb923c 50%, #f59e42 100%); color: #fff;">
                     Explorar Catálogo
                 </a>
                 <button id="como-funciona-toggle" type="button"
-                    class="w-full py-3 rounded-2xl border border-gray-300 text-gray-700 font-semibold text-lg shadow hover:bg-gray-100 transition">
+                    class="w-full py-3 rounded-2xl border border-gray-400 text-gray-800 font-semibold text-lg shadow hover:bg-blue-100 hover:text-blue-800 transition"
+                    style="border-color: #a3a3a3; color: #222;">
                     ¿Cómo funciona?
                 </button>
             </div>
