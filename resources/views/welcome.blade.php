@@ -28,7 +28,6 @@
                     class="h-12 w-auto sm:h-16 transition duration-200 group-hover:brightness-110 group-hover:drop-shadow-lg cursor-pointer"
                     style="max-width: 180px;">
             </a>
-
         </div>
 
         @if (Route::has('login'))
@@ -132,6 +131,25 @@
                 <p class="text-xs sm:text-sm text-gray-600">Te avisamos cuando llegue. Puedes recogerlo o solicitar
                     envío.</p>
             </div>
+        </div>
+    </section>
+
+    <!-- Video Tutorial -->
+    <section class="w-full max-w-6xl mb-12 mt-8 bg-white rounded-2xl shadow-lg p-4 sm:p-6 md:p-10 flex flex-col gap-6">
+        <h2 class="text-xl sm:text-2xl font-semibold text-gray-900 flex items-center gap-2">
+            <span class="inline-block bg-orange-400 text-white rounded-full p-2">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path d="M15 10l4.553-2.276A1 1 0 0 1 21 8.618v6.764a1 1 0 0 1-1.447.894L15 14M4 6v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </span>
+            ¿Cómo realizar un pedido en EncargaYa?
+        </h2>
+        <div class="w-full aspect-w-16 aspect-h-9 rounded-xl overflow-hidden shadow-md bg-gray-100">
+            <iframe src="https://www.youtube.com/embed/Tm6btPjWOUY?rel=0&modestbranding=1&showinfo=0&controls=1"
+                title="Cómo realizar un pedido"
+                frameborder="0"
+                allowfullscreen
+                class="w-full h-full"></iframe>
         </div>
     </section>
 
