@@ -16,6 +16,13 @@ class AuthenticatedSessionController extends Controller
      */
     public function create(): View
     {
+        // 🔒 Cierra sesión si alguien ya estaba autenticado
+        if (Auth::check()) {
+            Auth::logout();
+            session()->invalidate();
+            session()->regenerateToken();
+        }
+
         return view('auth.login');
     }
 
@@ -29,7 +36,6 @@ class AuthenticatedSessionController extends Controller
         $request->session()->regenerate();
 
         return redirect()->intended(route('productos.index'));
-
     }
 
     /**
