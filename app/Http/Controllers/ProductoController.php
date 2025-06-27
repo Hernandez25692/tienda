@@ -182,7 +182,7 @@ class ProductoController extends Controller
         $productos = Producto::where('visible', true)
             ->where('disponible', true)
             ->latest()
-            ->take(10)
+            ->take(50)
             ->get();
 
         return view('productos.catalogo_publico', compact('productos'));
