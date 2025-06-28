@@ -109,7 +109,7 @@ Route::middleware(['auth'])->group(function () {
     | ADMIN - CLIENTES Y PEDIDOS
     |--------------------------------------------------------------------------
     */
-    Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () {
+    Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(function () {
         Route::resource('clientes', ClienteController::class)->except(['show']);
 
         Route::get('/pedidos', [PedidoController::class, 'adminIndex'])->name('pedidos.index');
