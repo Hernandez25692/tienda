@@ -239,38 +239,38 @@
                         @endphp
 
                         @if ($ofertaVigente)
-                            <div class="mb-1">
-                                <div class="relative flex flex-col items-start gap-1 sm:gap-2">
-                                    <div class="flex items-center gap-1">
-                                        <span class="bg-orange-500 text-white px-2 py-0.5 rounded font-bold text-base sm:text-lg shadow-sm border border-orange-600">
+                            <div class="mb-1 w-full">
+                                <div class="relative flex flex-col items-start gap-0.5 sm:gap-1 w-full">
+                                    <div class="flex flex-wrap items-center gap-1 w-full">
+                                        <span class="bg-orange-500 text-white px-1.5 sm:px-2 py-0.5 rounded font-bold text-sm sm:text-lg shadow-sm border border-orange-600 whitespace-nowrap">
                                             L {{ number_format($producto->precio_oferta, 2) }}
                                         </span>
-                                        <span class="text-xs sm:text-sm text-gray-500 line-through ml-1">
+                                        <span class="text-xs sm:text-sm text-gray-500 line-through ml-1 whitespace-nowrap">
                                             L {{ number_format($producto->precio_venta, 2) }}
                                         </span>
                                         @php
                                             $descuento = round(100 - ($producto->precio_oferta / $producto->precio_venta * 100));
                                         @endphp
-                                        <span class="ml-2 bg-yellow-300 text-orange-900 font-bold text-[11px] sm:text-xs px-1.5 py-0.5 rounded shadow border border-yellow-400">
+                                        <span class="ml-2 bg-yellow-300 text-orange-900 font-bold text-[10px] sm:text-xs px-1.5 py-0.5 rounded shadow border border-yellow-400 whitespace-nowrap">
                                             -{{ $descuento }}%
                                         </span>
                                     </div>
                                     @if ($producto->oferta_expires_at)
-                                        <span class="text-[11px] sm:text-xs text-orange-600 font-semibold countdown-timer"
+                                        <span class="text-[10px] sm:text-xs text-orange-600 font-semibold countdown-timer block"
                                             data-expira="{{ \Carbon\Carbon::parse($producto->oferta_expires_at)->format('Y-m-d H:i:s') }}">
                                             ⏳ Oferta termina pronto
                                         </span>
                                     @endif
-                                    <span class="inline-block bg-orange-100 text-orange-700 text-[10px] sm:text-xs px-2 py-0.5 rounded font-semibold mt-1">
+                                    <span class="inline-block bg-orange-100 text-orange-700 text-[9px] sm:text-xs px-1.5 py-0.5 rounded font-semibold mt-0.5">
                                         Oferta por tiempo limitado
                                     </span>
                                 </div>
                             </div>
-                            @else
-                                <span class="text-yellow-500 font-bold text-sm sm:text-base">
-                                    L {{ number_format($producto->precio_venta, 2) }}
-                                </span>
-                            @endif
+                        @else
+                            <span class="text-yellow-500 font-bold text-sm sm:text-base">
+                                L {{ number_format($producto->precio_venta, 2) }}
+                            </span>
+                        @endif
 
                     </div>
                     <!-- Acciones admin solo en desktop/hover -->
