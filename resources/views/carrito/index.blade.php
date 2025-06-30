@@ -96,7 +96,7 @@
                                             <div class="flex items-center gap-1 flex-wrap">
                                                 <a href="{{ route('productos.show', $item['id'] ?? 0) }}"
                                                     class="text-base sm:text-lg font-bold text-[#1e3a8a] hover:underline transition-all truncate max-w-[120px] sm:max-w-none">
-                                                    {{ $item['nombre'] }}
+                                                    {{ \Illuminate\Support\Str::limit($item['nombre'], 40) }}
                                                 </a>
                                                 @if ($agotado)
                                                     <span

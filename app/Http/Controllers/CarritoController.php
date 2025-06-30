@@ -41,6 +41,8 @@ class CarritoController extends Controller
 
         $producto = Producto::findOrFail($request->producto_id);
 
+        $carrito = session()->get('carrito', []);
+
         $precioFinal = $producto->precio_venta;
         $ofertaActiva = false;
 
@@ -49,20 +51,33 @@ class CarritoController extends Controller
             $ofertaActiva = true;
         }
 
-        $carrito[] = [
-            'id' => $producto->id,
-            'nombre' => $producto->nombre,
-            'precio' => $precioFinal,
-            'precio_venta' => $producto->precio_venta,
-            'precio_oferta' => $ofertaActiva ? $producto->precio_oferta : null,
-            'oferta_expires_at' => $ofertaActiva ? $producto->oferta_expires_at : null,
-            'imagen' => $producto->imagenes->first() ? asset('storage/' . $producto->imagenes->first()->ruta) : null,
-            'cantidad' => $request->cantidad,
-            'comentario' => $request->comentario ?? '',
-            'stock' => $producto->stock,
-            'disponible' => $producto->disponible,
-        ];
+        // Verificar si el producto ya está en el carrito (por id)
+        $yaExiste = false;
+        foreach ($carrito as &$item) {
+            if ($item['id'] == $producto->id) {
+                $item['cantidad'] += $request->cantidad;
+                $item['comentario'] = $request->comentario ?? '';
+                $yaExiste = true;
+                break;
+            }
+        }
 
+        // Si no está en el carrito, agregarlo como nuevo
+        if (! $yaExiste) {
+            $carrito[] = [
+                'id' => $producto->id,
+                'nombre' => $producto->nombre,
+                'precio' => $precioFinal,
+                'precio_venta' => $producto->precio_venta,
+                'precio_oferta' => $ofertaActiva ? $producto->precio_oferta : null,
+                'oferta_expires_at' => $ofertaActiva ? $producto->oferta_expires_at : null,
+                'imagen' => $producto->imagenes->first() ? asset('storage/' . $producto->imagenes->first()->ruta) : null,
+                'cantidad' => $request->cantidad,
+                'comentario' => $request->comentario ?? '',
+                'stock' => $producto->stock,
+                'disponible' => $producto->disponible,
+            ];
+        }
 
         session()->put('carrito', $carrito);
 
