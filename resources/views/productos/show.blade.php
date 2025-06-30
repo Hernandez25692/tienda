@@ -187,8 +187,34 @@
                         </div>
                     @endif
                 </div>
+                @php
+                    // Detectar si la descripción tiene saltos de línea o viñetas
+                    $desc = trim($producto->descripcion);
+                    $esLista = Str::contains($desc, ['- ', '* ', '• ']) || Str::contains($desc, "\n");
+                    // Separar por líneas
+                    $lineas = preg_split('/\r\n|\r|\n/', $desc);
+                @endphp
+
                 <div class="text-gray-700 text-sm md:text-base mb-1 leading-relaxed">
-                    {{ $producto->descripcion }}
+                    @if ($esLista && count($lineas) > 1)
+                        <ul class="list-disc list-inside space-y-1 pl-2">
+                            @foreach ($lineas as $linea)
+                                @php
+                                    $linea = trim($linea, "-*• \t");
+                                @endphp
+                                @if ($linea)
+                                    <li>
+                                        <span class="before:content-['✨'] before:mr-1 text-indigo-700 font-medium"></span>
+                                        {{ $linea }}
+                                    </li>
+                                @endif
+                            @endforeach
+                        </ul>
+                    @else
+                        <span class="inline-block px-2 py-1 bg-yellow-50 rounded font-medium text-indigo-900 shadow-sm">
+                            {{ $desc }}
+                        </span>
+                    @endif
                 </div>
             </div>
 
