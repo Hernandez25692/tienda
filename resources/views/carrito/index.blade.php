@@ -36,6 +36,14 @@
         <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-8">
             {{-- Productos --}}
             <div class="lg:col-span-2">
+                @if (isset($hay_ofertas_vencidas) && $hay_ofertas_vencidas)
+                    <div
+                        class="mb-4 bg-red-100 border border-red-300 text-red-800 px-4 py-2 rounded shadow text-sm font-semibold">
+                        ⚠️ Algunos productos han cambiado de precio porque su oferta ya venció. Por favor, revisa antes
+                        de confirmar tu pedido.
+                    </div>
+                @endif
+
                 @if (count($carrito) > 0)
                     <div class="flex justify-end mb-2">
                         <a href="{{ route('productos.index') }}"

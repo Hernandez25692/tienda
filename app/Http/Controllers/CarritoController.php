@@ -11,38 +11,25 @@ class CarritoController extends Controller
     {
         $carrito = session()->get('carrito', []);
         $ahora = now();
+        $hay_ofertas_vencidas = false;
 
         foreach ($carrito as $key => &$item) {
-            $producto = Producto::find($item['id']);
-
-            if (!$producto) {
-                unset($carrito[$key]);
-                continue;
-            }
-
-            $oferta_vigente = $producto->precio_oferta &&
-                $producto->precio_oferta < $producto->precio_venta &&
-                (!$producto->oferta_expires_at || $ahora->lte($producto->oferta_expires_at));
-
-            if ($oferta_vigente) {
-                // Si hay oferta vigente y aún no está aplicada
-                if ($item['precio'] != $producto->precio_oferta) {
-                    $item['precio'] = $producto->precio_oferta;
-                    $item['precio_oferta'] = $producto->precio_oferta;
-                    $item['oferta_expires_at'] = $producto->oferta_expires_at;
-                }
-            } else {
-                // Si la oferta ya venció
-                $item['precio'] = $producto->precio_venta;
+            if (!empty($item['oferta_expires_at']) && $ahora->greaterThan($item['oferta_expires_at'])) {
+                $item['precio'] = $item['precio_venta'];
                 $item['precio_oferta'] = null;
                 $item['oferta_expires_at'] = null;
+                $item['oferta_vencida'] = true;
+                $hay_ofertas_vencidas = true;
+            } else {
+                $item['oferta_vencida'] = false;
             }
         }
 
         session()->put('carrito', $carrito);
 
-        return view('carrito.index', compact('carrito'));
+        return view('carrito.index', compact('carrito', 'hay_ofertas_vencidas'));
     }
+
 
 
     public function agregarProducto(Request $request)
