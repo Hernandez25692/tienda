@@ -85,7 +85,7 @@
                             <select name="categoria_id" id="categoria_id"
                                 class="w-full rounded-lg border-gray-300 shadow-sm focus:border-yellow-400 focus:ring-yellow-400 text-xs px-2 py-1.5">
                                 <option value="">Todas</option>
-                                @foreach (\App\Models\Categoria::all() as $cat)
+                                @foreach (\App\Models\Categoria::whereHas('productos')->get() as $cat)
                                     <option value="{{ $cat->id }}"
                                         {{ request('categoria_id') == $cat->id ? 'selected' : '' }}>
                                         {{ $cat->nombre }}
