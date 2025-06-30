@@ -3,8 +3,10 @@
         imagenSeleccionada: '{{ $producto->imagenes->first() ? asset('storage/' . $producto->imagenes->first()->ruta) : '' }}',
         lightbox: false,
         imagenLightbox: '',
-        abrirLightbox(src) { this.imagenLightbox = src;
-            this.lightbox = true; },
+        abrirLightbox(src) {
+            this.imagenLightbox = src;
+            this.lightbox = true;
+        },
         cerrarLightbox() { this.lightbox = false; }
     }" class="bg-[#f9fafb] min-h-screen py-2 px-0 sm:px-2">
         <div
@@ -105,17 +107,34 @@
             <div class="flex flex-col gap-2 md:gap-3">
                 <h1 class="text-lg md:text-2xl font-bold text-indigo-900 mb-1 truncate">{{ $producto->nombre }}</h1>
                 <div class="flex items-center gap-2 mb-1 flex-wrap">
-                    @if ($producto->precio_oferta)
+                    @php
+                        $ofertaVigente =
+                            $producto->precio_oferta &&
+                            $producto->precio_oferta < $producto->precio_venta &&
+                            (!$producto->oferta_expires_at || now()->lte($producto->oferta_expires_at));
+                    @endphp
+
+                    @if ($ofertaVigente)
+
                         <span class="text-red-500 font-bold text-lg md:text-xl">
                             L {{ number_format($producto->precio_oferta, 2) }}
                         </span>
                         <span class="text-gray-400 line-through text-sm md:text-base">
                             L {{ number_format($producto->precio_venta, 2) }}
                         </span>
-                        <span
-                            class="bg-red-100 text-red-700 text-xs font-bold px-2 py-0.5 rounded-full uppercase tracking-wide">
-                            ¡Oferta!
-                        </span>
+                        <div class="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2">
+                            <span
+                                class="bg-red-100 text-red-700 text-xs font-bold px-2 py-0.5 rounded-full uppercase tracking-wide">
+                                🔥 ¡Oferta disponible!
+                            </span>
+
+                            @if ($producto->oferta_expires_at)
+                                <span class="text-orange-600 text-xs font-semibold countdown-timer"
+                                    data-expira="{{ \Carbon\Carbon::parse($producto->oferta_expires_at)->format('Y-m-d H:i:s') }}">
+                                    ⏳ Cargando cuenta regresiva...
+                                </span>
+                            @endif
+                        </div>
                     @else
                         <span class="text-[#facc15] font-semibold text-lg md:text-xl">
                             L {{ number_format($producto->precio_venta, 2) }}
@@ -230,4 +249,36 @@
             </div>
         @endif
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const timers = document.querySelectorAll('.countdown-timer');
+
+            timers.forEach(el => {
+                const fechaLimite = new Date(el.dataset.expira.replace(/-/g, '/'));
+
+                function actualizar() {
+                    const ahora = new Date();
+                    const diff = fechaLimite - ahora;
+
+                    if (diff <= 0) {
+                        el.innerText = "⚠️ Oferta finalizada";
+                        el.classList.remove("text-orange-600");
+                        el.classList.add("text-gray-400", "line-through");
+                        return;
+                    }
+
+                    const dias = Math.floor(diff / (1000 * 60 * 60 * 24));
+                    const horas = Math.floor((diff / (1000 * 60 * 60)) % 24);
+                    const minutos = Math.floor((diff / (1000 * 60)) % 60);
+                    const segundos = Math.floor((diff / 1000) % 60);
+
+                    el.innerText = `⏳ Finaliza en ${dias}d ${horas}h ${minutos}m ${segundos}s`;
+                }
+
+                actualizar();
+                setInterval(actualizar, 1000);
+            });
+        });
+    </script>
+
 </x-app-layout>

@@ -115,8 +115,9 @@
                                 class="w-full flex items-center justify-between text-xs font-semibold text-indigo-900 bg-gray-100 rounded-lg px-2 py-1.5 mb-1 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                                 aria-expanded="false" aria-controls="filtros-avanzados">
                                 Más filtros
-                                <svg :class="{ 'rotate-180': open }" class="w-4 h-4 transition-transform" fill="none"
-                                    stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+                                <svg :class="{ 'rotate-180': open }" class="w-4 h-4 transition-transform"
+                                    fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"
+                                    aria-hidden="true">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
                                 </svg>
                             </button>
@@ -225,22 +226,38 @@
                         @endif
                     </a>
                     <div class="flex-1 flex flex-col mt-1 sm:mt-3 min-h-0">
-                        <h3 class="text-xs sm:text-sm font-bold text-indigo-900 truncate mb-0.5 leading-tight"
+                        <h3 class="text-xs sm:text-sm font-bold text-indigo-900 truncate mb-1 leading-tight"
                             title="{{ $producto->nombre }}">
                             {{ $producto->nombre }}
                         </h3>
-                        @if ($producto->precio_oferta)
-                            <div class="mb-0.5">
-                                <span class="text-red-500 font-bold text-sm sm:text-base">L
-                                    {{ number_format($producto->precio_oferta, 2) }}</span>
-                                <span class="text-gray-400 line-through text-xs sm:text-sm ml-1">L
-                                    {{ number_format($producto->precio_venta, 2) }}</span>
+
+                        @php
+                            $ofertaVigente =
+                                $producto->precio_oferta &&
+                                $producto->precio_oferta < $producto->precio_venta &&
+                                (!$producto->oferta_expires_at || now()->lte($producto->oferta_expires_at));
+                        @endphp
+
+                        @if ($ofertaVigente)
+                            <div class="mb-1">
+                                <div class="flex items-center gap-1">
+                                    <span class="text-lg sm:text-xl font-extrabold text-red-600">L
+                                        {{ number_format($producto->precio_oferta, 2) }}</span>
+                                    <span class="text-sm sm:text-base text-gray-400 line-through">L
+                                        {{ number_format($producto->precio_venta, 2) }}</span>
+                                </div>
+                                <div class="mt-1 flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2">
+                                    @if ($producto->oferta_expires_at)
+                                        <span
+                                            class="text-[11px] sm:text-xs text-orange-600 font-semibold countdown-timer"
+                                            data-expira="{{ \Carbon\Carbon::parse($producto->oferta_expires_at)->format('Y-m-d H:i:s') }}">
+                                            ⏳ Cargando cuenta regresiva...
+                                        </span>
+                                    @endif
+                                </div>
                             </div>
-                            <span
-                                class="text-white bg-red-500 text-[10px] sm:text-xs px-2 py-0.5 rounded-full w-fit font-semibold">¡En
-                                oferta!</span>
                         @else
-                            <span class="text-yellow-500 font-bold text-xs sm:text-sm truncate mb-0.5">
+                            <span class="text-yellow-500 font-bold text-sm sm:text-base">
                                 L {{ number_format($producto->precio_venta, 2) }}
                             </span>
                         @endif
@@ -334,6 +351,35 @@
                 }
                 autoCargar();
             });
+        </script>
+        <script>
+            function iniciarCuentaRegresiva() {
+                const elementos = document.querySelectorAll('.countdown-timer');
+                elementos.forEach(el => {
+                    const fechaExpira = new Date(el.dataset.expira.replace(/-/g, '/'));
+
+                    function actualizar() {
+                        const ahora = new Date();
+                        const tiempoRestante = fechaExpira - ahora;
+                        if (tiempoRestante <= 0) {
+                            el.innerText = '⚠️ Oferta finalizada';
+                            el.classList.remove('text-orange-600');
+                            el.classList.add('text-gray-500', 'line-through');
+                            return;
+                        }
+                        const dias = Math.floor(tiempoRestante / (1000 * 60 * 60 * 24));
+                        const horas = Math.floor((tiempoRestante / (1000 * 60 * 60)) % 24);
+                        const minutos = Math.floor((tiempoRestante / (1000 * 60)) % 60);
+                        const segundos = Math.floor((tiempoRestante / 1000) % 60);
+
+                        el.innerText = `⏳ Finaliza en ${dias}d ${horas}h ${minutos}m ${segundos}s`;
+                    }
+                    actualizar();
+                    setInterval(actualizar, 1000);
+                });
+            }
+
+            document.addEventListener('DOMContentLoaded', iniciarCuentaRegresiva);
         </script>
 
         @if ($productos->isEmpty())

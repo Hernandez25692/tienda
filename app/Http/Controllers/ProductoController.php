@@ -140,24 +140,19 @@ class ProductoController extends Controller
             'precio_venta' => 'required|numeric',
             'imagenes.*' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
-        if ($request->filled('precio_compra') && $request->precio_compra > $request->precio_venta) {
-            return back()->withErrors(['precio_compra' => 'El precio de compra no puede ser mayor que el precio de venta.'])->withInput();
-        }
-
-        if ($request->filled('precio_oferta') && $request->precio_oferta >= $request->precio_venta) {
-            return back()->withErrors(['precio_oferta' => 'El precio de oferta debe ser menor que el precio de venta.'])->withInput();
-        }
-
+        
         $producto->update([
             'nombre' => $request->nombre,
             'descripcion' => $request->descripcion,
             'precio_venta' => $request->precio_venta,
-            'precio_compra' => $request->precio_compra,
             'precio_oferta' => $request->precio_oferta,
+            'precio_compra' => $request->precio_compra,
             'link_compra' => $request->link_compra,
             'disponible' => $request->disponible,
             'categoria_id' => $request->categoria_id,
+            'oferta_expires_at' => $request->oferta_expires_at,
         ]);
+
 
         if ($request->hasFile('imagenes')) {
             foreach ($request->file('imagenes') as $imagen) {

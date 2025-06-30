@@ -327,6 +327,7 @@
     @endguest
 
     @include('components.footer')
+    @stack('scripts')
 
 </body>
 

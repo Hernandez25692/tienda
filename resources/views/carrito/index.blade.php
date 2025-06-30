@@ -99,7 +99,26 @@
                                                 @endif
                                             </div>
                                             <div class="flex flex-wrap items-center gap-2 mt-0.5">
-                                                @if (isset($item['precio_oferta']) && $item['precio_oferta'] < $item['precio_venta'])
+                                                @php
+                                                    $oferta_activa =
+                                                        isset($item['precio_oferta'], $item['precio_venta']) &&
+                                                        $item['precio_oferta'] < $item['precio_venta'] &&
+                                                        (!isset($item['oferta_expires_at']) ||
+                                                            \Carbon\Carbon::parse(
+                                                                $item['oferta_expires_at'],
+                                                            )->isFuture());
+
+                                                    $oferta_vencida =
+                                                        isset(
+                                                            $item['precio_oferta'],
+                                                            $item['precio_venta'],
+                                                            $item['oferta_expires_at'],
+                                                        ) &&
+                                                        $item['precio_oferta'] < $item['precio_venta'] &&
+                                                        \Carbon\Carbon::parse($item['oferta_expires_at'])->isPast();
+                                                @endphp
+
+                                                @if ($oferta_activa)
                                                     <div class="flex items-center gap-2 text-xs font-semibold">
                                                         <span class="text-red-600 font-bold">
                                                             L {{ number_format($item['precio_oferta'], 2) }}
@@ -109,6 +128,27 @@
                                                         </span>
                                                         <span
                                                             class="bg-red-100 text-red-700 px-1.5 py-0.5 rounded-full text-[10px] uppercase tracking-wide">Oferta</span>
+                                                        @if (!empty($item['oferta_expires_at']))
+                                                            <span
+                                                                class="cuenta-regresiva text-[10px] text-orange-500 font-semibold block"
+                                                                data-expira="{{ \Carbon\Carbon::parse($item['oferta_expires_at'])->format('Y-m-d H:i:s') }}">
+                                                                ⏳ Cargando...
+                                                            </span>
+                                                        @endif
+                                                    </div>
+                                                @elseif ($oferta_vencida)
+                                                    <div class="flex items-center gap-2 text-xs font-semibold">
+                                                        <span class="text-gray-700 font-medium text-xs">
+                                                            L <span
+                                                                class="font-bold text-[#1e3a8a]">{{ number_format($item['precio'], 2) }}</span>
+                                                        </span>
+                                                        <span
+                                                            class="bg-gray-100 text-red-600 px-1.5 py-0.5 rounded-full text-[10px] uppercase tracking-wide">
+                                                            ⛔ Oferta finalizada
+                                                        </span>
+                                                        <span class="text-gray-400 line-through text-[11px]">
+                                                            L {{ number_format($item['precio_venta'], 2) }}
+                                                        </span>
                                                     </div>
                                                 @else
                                                     <span class="text-gray-700 font-medium text-xs">
@@ -116,6 +156,7 @@
                                                             class="font-bold text-[#1e3a8a]">{{ number_format($item['precio'], 2) }}</span>
                                                     </span>
                                                 @endif
+
 
                                                 <span class="text-gray-500 text-xs">Subt: <span
                                                         class="font-bold text-[#1e3a8a]">L
@@ -371,4 +412,42 @@
             </div>
         </div>
     </div>
+
+    @push('scripts')
+        <script>
+            function iniciarCountdowns() {
+                const elementos = document.querySelectorAll('.cuenta-regresiva');
+
+                elementos.forEach(el => {
+                    const fechaLimite = new Date(el.dataset.expira.replace(/-/g, '/')).getTime();
+                    const span = el;
+
+                    function actualizar() {
+                        const ahora = new Date().getTime();
+                        const diferencia = fechaLimite - ahora;
+
+                        if (diferencia < 0) {
+                            span.innerText = '⛔ Oferta finalizada';
+                            span.classList.add('text-red-500', 'font-semibold');
+                            return;
+                        }
+
+                        const dias = Math.floor(diferencia / (1000 * 60 * 60 * 24));
+                        const horas = Math.floor((diferencia % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                        const minutos = Math.floor((diferencia % (1000 * 60 * 60)) / (1000 * 60));
+                        const segundos = Math.floor((diferencia % (1000 * 60)) / 1000);
+
+                        span.innerText = `⏳ ${dias}d ${horas}h ${minutos}m ${segundos}s`;
+                    }
+
+                    setInterval(actualizar, 1000);
+                    actualizar();
+                });
+            }
+
+            document.addEventListener('DOMContentLoaded', iniciarCountdowns);
+        </script>
+    @endpush
+
+
 </x-app-layout>

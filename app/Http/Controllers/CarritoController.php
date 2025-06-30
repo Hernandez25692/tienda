@@ -10,8 +10,40 @@ class CarritoController extends Controller
     public function verCarrito()
     {
         $carrito = session()->get('carrito', []);
+        $ahora = now();
+
+        foreach ($carrito as $key => &$item) {
+            $producto = Producto::find($item['id']);
+
+            if (!$producto) {
+                unset($carrito[$key]);
+                continue;
+            }
+
+            $oferta_vigente = $producto->precio_oferta &&
+                $producto->precio_oferta < $producto->precio_venta &&
+                (!$producto->oferta_expires_at || $ahora->lte($producto->oferta_expires_at));
+
+            if ($oferta_vigente) {
+                // Si hay oferta vigente y aún no está aplicada
+                if ($item['precio'] != $producto->precio_oferta) {
+                    $item['precio'] = $producto->precio_oferta;
+                    $item['precio_oferta'] = $producto->precio_oferta;
+                    $item['oferta_expires_at'] = $producto->oferta_expires_at;
+                }
+            } else {
+                // Si la oferta ya venció
+                $item['precio'] = $producto->precio_venta;
+                $item['precio_oferta'] = null;
+                $item['oferta_expires_at'] = null;
+            }
+        }
+
+        session()->put('carrito', $carrito);
+
         return view('carrito.index', compact('carrito'));
     }
+
 
     public function agregarProducto(Request $request)
     {
@@ -20,34 +52,36 @@ class CarritoController extends Controller
             'cantidad' => 'required|integer|min:1|max:10',
         ]);
 
-        $producto = Producto::with('imagenes')->findOrFail($request->producto_id);
+        $producto = Producto::findOrFail($request->producto_id);
 
-        $carrito = session()->get('carrito', []);
+        $precioFinal = $producto->precio_venta;
+        $ofertaActiva = false;
 
-        $key = 'producto_' . $producto->id;
-
-        if (isset($carrito[$key])) {
-            $carrito[$key]['cantidad'] += $request->cantidad;
-        } else {
-            $carrito[$key] = [
-                'id' => $producto->id,
-                'nombre' => $producto->nombre,
-                'precio' => ($producto->precio_oferta && $producto->precio_oferta < $producto->precio_venta)
-                    ? $producto->precio_oferta
-                    : $producto->precio_venta,
-                'precio_venta' => $producto->precio_venta,
-                'precio_oferta' => $producto->precio_oferta,
-                'cantidad' => $request->cantidad,
-                'disponible' => $producto->disponible,
-                'imagen' => $producto->imagenes->first() ? asset('storage/' . $producto->imagenes->first()->ruta) : null,
-                'comentario' => $request->comentario ?? null,
-            ];
+        if ($producto->precio_oferta && now()->lte($producto->oferta_expires_at)) {
+            $precioFinal = $producto->precio_oferta;
+            $ofertaActiva = true;
         }
+
+        $carrito[] = [
+            'id' => $producto->id,
+            'nombre' => $producto->nombre,
+            'precio' => $precioFinal,
+            'precio_venta' => $producto->precio_venta,
+            'precio_oferta' => $ofertaActiva ? $producto->precio_oferta : null,
+            'oferta_expires_at' => $ofertaActiva ? $producto->oferta_expires_at : null,
+            'imagen' => $producto->imagenes->first()?->url(),
+            'cantidad' => $request->cantidad,
+            'comentario' => $request->comentario ?? '',
+            'stock' => $producto->stock,
+            'disponible' => $producto->disponible,
+        ];
+
 
         session()->put('carrito', $carrito);
 
         return redirect()->route('carrito.index')->with('success', 'Producto agregado al carrito.');
     }
+
 
     public function actualizarProducto(Request $request, $key)
     {
@@ -86,15 +120,52 @@ class CarritoController extends Controller
     public function confirmarPedido()
     {
         $carrito = session()->get('carrito', []);
+        $ahora = now();
 
         if (empty($carrito)) {
             return redirect()->route('carrito.index')->with('error', 'El carrito está vacío.');
         }
 
         $total = 0;
+        $productos_ajustados = [];
 
-        foreach ($carrito as $item) {
+        foreach ($carrito as $key => &$item) {
+            $producto = Producto::find($item['id']);
+
+            if (!$producto) {
+                unset($carrito[$key]);
+                continue;
+            }
+
+            $oferta_vigente = $producto->precio_oferta &&
+                $producto->precio_oferta < $producto->precio_venta &&
+                (!$producto->oferta_expires_at || $ahora->lte($producto->oferta_expires_at));
+
+            if ($oferta_vigente) {
+                // Aplicar oferta si no estaba aplicada
+                if ($item['precio'] != $producto->precio_oferta) {
+                    $item['precio'] = $producto->precio_oferta;
+                    $item['precio_oferta'] = $producto->precio_oferta;
+                    $item['oferta_expires_at'] = $producto->oferta_expires_at;
+                    $productos_ajustados[] = $producto->nombre . ' (oferta aplicada)';
+                }
+            } else {
+                // Eliminar oferta si ya venció
+                if ($item['precio'] != $producto->precio_venta) {
+                    $item['precio'] = $producto->precio_venta;
+                    $item['precio_oferta'] = null;
+                    $item['oferta_expires_at'] = null;
+                    $productos_ajustados[] = $producto->nombre . ' (oferta vencida)';
+                }
+            }
+
             $total += $item['precio'] * $item['cantidad'];
+        }
+
+        session()->put('carrito', $carrito);
+
+        if (count($productos_ajustados) > 0) {
+            return redirect()->route('carrito.index')->with('error', 'Algunos precios se actualizaron: ' . implode(', ', $productos_ajustados));
         }
 
         // Crear el pedido
@@ -104,11 +175,10 @@ class CarritoController extends Controller
             'estado' => 'pendiente',
             'fecha_entrega_estimada' => now()->addDays(25),
         ]);
-        // Generar código único tipo PED-20240527-00001
+
         $pedido->codigo = 'PED-' . now()->format('Ymd') . '-' . str_pad($pedido->id, 5, '0', STR_PAD_LEFT);
         $pedido->save();
 
-        // Guardar productos en la tabla intermedia
         foreach ($carrito as $item) {
             $pedido->productos()->attach($item['id'], [
                 'cantidad' => $item['cantidad'],
@@ -119,7 +189,6 @@ class CarritoController extends Controller
             ]);
         }
 
-        // Limpiar carrito
         session()->forget('carrito');
 
         return redirect()->route('pedidos.mis')->with('success', 'Pedido confirmado correctamente.');

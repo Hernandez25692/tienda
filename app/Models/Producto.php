@@ -16,6 +16,7 @@ class Producto extends Model
         'visible',
         'categoria_id',
         'precio_oferta',
+        'oferta_expires_at',
     ];
 
     public function pedidos()
