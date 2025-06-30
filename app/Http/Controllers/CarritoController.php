@@ -32,7 +32,11 @@ class CarritoController extends Controller
             $carrito[$key] = [
                 'id' => $producto->id,
                 'nombre' => $producto->nombre,
-                'precio' => $producto->precio_venta,
+                'precio' => ($producto->precio_oferta && $producto->precio_oferta < $producto->precio_venta)
+                    ? $producto->precio_oferta
+                    : $producto->precio_venta,
+                'precio_venta' => $producto->precio_venta,
+                'precio_oferta' => $producto->precio_oferta,
                 'cantidad' => $request->cantidad,
                 'disponible' => $producto->disponible,
                 'imagen' => $producto->imagenes->first() ? asset('storage/' . $producto->imagenes->first()->ruta) : null,

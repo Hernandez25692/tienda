@@ -47,6 +47,15 @@
                             class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition mt-1 px-4 py-2">
                     </div>
                     <div>
+                        <label class="block font-semibold text-gray-700 mb-1">Precio de Oferta (L)</label>
+                        <input type="number" name="precio_oferta" step="0.01" value="{{ $producto->precio_oferta }}"
+                            class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 transition mt-1 px-4 py-2"
+                            placeholder="Ej. 399.99">
+                        <p class="text-sm text-gray-500 mt-1">Si este campo se llena, se mostrará como precio
+                            promocional.</p>
+                    </div>
+
+                    <div>
                         <label class="block font-semibold text-gray-700 mb-1">Precio de Compra</label>
                         <input type="number" name="precio_compra" step="0.01" value="{{ $producto->precio_compra }}"
                             class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition mt-1 px-4 py-2">
@@ -102,6 +111,25 @@
                                             d="M6 18L18 6M6 6l12 12" />
                                     </svg>
                                 </button>
+                                <script>
+                                    document.querySelector('form').addEventListener('submit', function(e) {
+                                        const venta = parseFloat(document.querySelector('input[name="precio_venta"]').value) || 0;
+                                        const compra = parseFloat(document.querySelector('input[name="precio_compra"]').value) || 0;
+                                        const oferta = parseFloat(document.querySelector('input[name="precio_oferta"]').value) || null;
+
+                                        if (compra > venta) {
+                                            alert('❌ El precio de compra no puede ser mayor que el precio de venta.');
+                                            e.preventDefault();
+                                            return;
+                                        }
+
+                                        if (oferta !== null && oferta >= venta) {
+                                            alert('❌ El precio de oferta debe ser menor que el precio de venta.');
+                                            e.preventDefault();
+                                        }
+                                    });
+                                </script>
+
                             </form>
                         </div>
                     @endforeach

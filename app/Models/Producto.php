@@ -15,6 +15,7 @@ class Producto extends Model
         'disponible',
         'visible',
         'categoria_id',
+        'precio_oferta',
     ];
 
     public function pedidos()
