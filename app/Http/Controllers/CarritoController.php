@@ -56,7 +56,7 @@ class CarritoController extends Controller
             'precio_venta' => $producto->precio_venta,
             'precio_oferta' => $ofertaActiva ? $producto->precio_oferta : null,
             'oferta_expires_at' => $ofertaActiva ? $producto->oferta_expires_at : null,
-            'imagen' => $producto->imagenes->first()?->url(),
+            'imagen' => $producto->imagenes->first() ? asset('storage/' . $producto->imagenes->first()->ruta) : null,
             'cantidad' => $request->cantidad,
             'comentario' => $request->comentario ?? '',
             'stock' => $producto->stock,
