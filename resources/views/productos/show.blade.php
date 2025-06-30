@@ -216,15 +216,36 @@
                 @endif
             </form>
 
-            @if (auth()->user()?->role === 'admin' && $producto->link_compra)
-                <a href="{{ $producto->link_compra }}" target="_blank"
-                    class="mt-1 inline-block bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg shadow text-xs md:text-sm transition">
-                    Ver en proveedor
-                    <svg class="inline w-4 h-4 ml-1 -mt-0.5" fill="none" stroke="currentColor" stroke-width="2"
-                        viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M14 3h7m0 0v7m0-7L10 14m-4 0v7h7" />
-                    </svg>
-                </a>
+            @if (auth()->user()?->role === 'admin')
+                <div class="border-2 border-blue-500 bg-blue-50 rounded-lg p-3 flex flex-col md:flex-row items-start md:items-center gap-2 md:gap-4 mt-2 shadow-sm">
+                    <div class="flex items-center gap-2">
+                        <svg class="w-6 h-6 text-blue-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 11c0-1.657 1.343-3 3-3s3 1.343 3 3-1.343 3-3 3-3-1.343-3-3z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M19.428 15.341A8 8 0 1 1 12 4v0" />
+                        </svg>
+                        <span class="text-blue-700 font-bold text-sm md:text-base">Panel de administrador</span>
+                    </div>
+                    <div class="flex flex-col md:flex-row gap-2 md:gap-3">
+                        @if ($producto->link_compra)
+                            <a href="{{ $producto->link_compra }}" target="_blank"
+                                class="inline-flex items-center bg-blue-600 hover:bg-blue-700 text-white font-semibold py-1.5 px-3 rounded-lg shadow text-xs md:text-sm transition focus:outline-none focus:ring-2 focus:ring-blue-400">
+                                Ver en proveedor
+                                <svg class="inline w-4 h-4 ml-1 -mt-0.5" fill="none" stroke="currentColor" stroke-width="2"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M14 3h7m0 0v7m0-7L10 14m-4 0v7h7" />
+                                </svg>
+                            </a>
+                        @endif
+                        <a href="{{ route('productos.edit', $producto) }}"
+                            class="inline-flex items-center bg-yellow-400 hover:bg-yellow-300 text-indigo-900 font-bold px-3 py-1.5 rounded-lg shadow text-xs md:text-sm transition focus:outline-none focus:ring-2 focus:ring-yellow-400"
+                            aria-label="Editar producto">
+                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536M9 13l6-6m2 2l-6 6m-2 2H7v-2l6-6z" />
+                            </svg>
+                            Editar
+                        </a>
+                    </div>
+                </div>
             @endif
             
         </div>
