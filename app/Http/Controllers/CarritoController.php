@@ -131,8 +131,8 @@ class CarritoController extends Controller
         $total = 0;
         $productos_ajustados = [];
 
-        foreach ($carrito as $key => &$item) {
-            $producto = Producto::find($item['id']);
+        foreach ($carrito as $key => $valor) {
+            $producto = Producto::find($valor['id']);
 
             if (!$producto) {
                 unset($carrito[$key]);
@@ -144,24 +144,23 @@ class CarritoController extends Controller
                 (!$producto->oferta_expires_at || $ahora->lte($producto->oferta_expires_at));
 
             if ($oferta_vigente) {
-                // Aplicar oferta si no estaba aplicada
-                if ($item['precio'] != $producto->precio_oferta) {
-                    $item['precio'] = $producto->precio_oferta;
-                    $item['precio_oferta'] = $producto->precio_oferta;
-                    $item['oferta_expires_at'] = $producto->oferta_expires_at;
+                if ($valor['precio'] != $producto->precio_oferta) {
+                    $valor['precio'] = $producto->precio_oferta;
+                    $valor['precio_oferta'] = $producto->precio_oferta;
+                    $valor['oferta_expires_at'] = $producto->oferta_expires_at;
                     $productos_ajustados[] = $producto->nombre . ' (oferta aplicada)';
                 }
             } else {
-                // Eliminar oferta si ya venció
-                if ($item['precio'] != $producto->precio_venta) {
-                    $item['precio'] = $producto->precio_venta;
-                    $item['precio_oferta'] = null;
-                    $item['oferta_expires_at'] = null;
+                if ($valor['precio'] != $producto->precio_venta) {
+                    $valor['precio'] = $producto->precio_venta;
+                    $valor['precio_oferta'] = null;
+                    $valor['oferta_expires_at'] = null;
                     $productos_ajustados[] = $producto->nombre . ' (oferta vencida)';
                 }
             }
 
-            $total += $item['precio'] * $item['cantidad'];
+            $carrito[$key] = $valor;
+            $total += $valor['precio'] * $valor['cantidad'];
         }
 
         session()->put('carrito', $carrito);

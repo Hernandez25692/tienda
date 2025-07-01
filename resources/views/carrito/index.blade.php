@@ -58,7 +58,16 @@
                     </div>
                     <div class="bg-white rounded-xl shadow-lg p-2 sm:p-4">
                         <h3 class="text-lg sm:text-2xl font-bold mb-2 text-[#1e3a8a]">Productos</h3>
-                        <ul class="overflow-y-auto max-h-[65vh] pr-1 sm:pr-2 transition-all space-y-3">
+                        <ul class="overflow-y-auto max-h-[65vh] pr-4 sm:pr-6 transition-all space-y-3
+                            scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100
+                            hover:scrollbar-thumb-gray-400
+                            lg:scrollbar-thumb-[#facc15] lg:scrollbar-track-[#fef9c3]
+                            scrollbar-thumb-rounded-full scrollbar-track-rounded-full"
+                            style="
+                                scrollbar-width: thin;
+                                scrollbar-color: #facc15 #fef9c3;
+                                padding-bottom: 0.5rem;
+                            ">
                             @php
                                 $total = 0;
                                 $totalProductos = 0;
@@ -134,15 +143,17 @@
                                                         <span class="line-through text-gray-400">
                                                             L {{ number_format($item['precio_venta'], 2) }}
                                                         </span>
-                                                        <span
-                                                            class="bg-red-100 text-red-700 px-1.5 py-0.5 rounded-full text-[10px] uppercase tracking-wide">Oferta</span>
-                                                        @if (!empty($item['oferta_expires_at']))
-                                                            <span
-                                                                class="cuenta-regresiva text-[10px] text-orange-500 font-semibold block"
-                                                                data-expira="{{ \Carbon\Carbon::parse($item['oferta_expires_at'])->format('Y-m-d H:i:s') }}">
-                                                                ⏳ Cargando...
-                                                            </span>
-                                                        @endif
+                                                        
+                                                        <span class="flex items-center gap-1 flex-wrap">
+                                                            <span class="bg-red-100 text-red-700 px-1.5 py-0.5 rounded-full text-[10px] uppercase tracking-wide">Oferta</span>
+                                                            @if (!empty($item['oferta_expires_at']))
+                                                                <span
+                                                                    class="cuenta-regresiva text-[10px] text-orange-500 font-semibold block sm:inline-block sm:ml-1 mt-0.5 sm:mt-0 max-w-[120px] truncate"
+                                                                    data-expira="{{ \Carbon\Carbon::parse($item['oferta_expires_at'])->format('Y-m-d H:i:s') }}">
+                                                                    ⏳ Cargando...
+                                                                </span>
+                                                            @endif
+                                                        </span>
                                                     </div>
                                                 @elseif ($oferta_vencida)
                                                     <div class="flex items-center gap-2 text-xs font-semibold">
@@ -270,63 +281,82 @@
                                 @submit.prevent="showModal = true">
                                 @csrf
                                 <button type="submit"
-                                    class="w-full bg-[#facc15] hover:bg-yellow-300 text-[#1e3a8a] font-extrabold py-2 rounded-lg text-base shadow transition-all hover:scale-105 focus:outline-none focus:ring-2 focus:ring-[#1e3a8a]">
+                                    class="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-yellow-400 via-yellow-300 to-yellow-500 hover:from-yellow-500 hover:to-yellow-400 text-[#1e3a8a] font-extrabold py-3 rounded-xl text-lg shadow-lg transition-all hover:scale-105 focus:outline-none focus:ring-2 focus:ring-[#1e3a8a]">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
+                                    </svg>
                                     Confirmar Pedido
                                 </button>
-                                <!-- Modal de confirmación -->
+                                <!-- Modal de confirmación estilo Amazon -->
                                 <div x-show="showModal" x-transition:enter="transition ease-out duration-200"
                                     x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
                                     x-transition:leave="transition ease-in duration-150"
                                     x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
-                                    class="fixed inset-0 z-50 flex items-center justify-center"
+                                    class="fixed inset-0 z-50 flex items-center justify-center px-2 sm:px-0"
                                     style="display: none;">
                                     <!-- Fondo oscuro -->
-                                    <div class="absolute inset-0 bg-black/50" @click="showModal = false"></div>
+                                    <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" @click="showModal = false"></div>
                                     <!-- Modal -->
-                                    <div class="relative bg-white rounded-xl shadow-xl max-w-sm w-full mx-2 p-6 flex flex-col gap-4"
-                                        x-transition:enter="transition transform ease-out duration-200"
-                                        x-transition:enter-start="scale-95 opacity-0"
-                                        x-transition:enter-end="scale-100 opacity-100"
-                                        x-transition:leave="transition transform ease-in duration-150"
-                                        x-transition:leave-start="scale-100 opacity-100"
-                                        x-transition:leave-end="scale-95 opacity-0">
-                                        <div class="flex items-center gap-2 mb-2">
-                                            <svg class="w-6 h-6 text-[#1e3a8a]" fill="none" stroke="currentColor"
-                                                stroke-width="2" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                    d="M13 16h-1v-4h-1m1-4h.01M12 20.5C6.201 20.5 1.5 15.799 1.5 10S6.201-.5 12-.5 22.5 4.201 22.5 10 17.799 20.5 12 20.5z" />
+                                    <div class="relative w-full max-w-lg mx-auto bg-white rounded-2xl shadow-2xl overflow-hidden flex flex-col sm:flex-row p-0 sm:p-0">
+                                        <!-- Imagen de producto o icono -->
+                                        <div class="hidden sm:flex flex-col items-center justify-center bg-gradient-to-b from-yellow-100 to-yellow-50 w-1/3 p-6">
+                                            <svg class="w-16 h-16 text-yellow-400 mb-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13l-1.35 2.7A2 2 0 0 0 7.5 19h9a2 2 0 0 0 1.85-1.3L17 13M7 13V6h13"></path>
                                             </svg>
-                                            <h2 class="text-lg font-bold text-[#1e3a8a]">¿Confirmar y enviar pedido?
-                                            </h2>
+                                            <span class="text-yellow-700 font-bold text-sm text-center">¡Listo para tu pedido!</span>
                                         </div>
-                                        <div class="space-y-1 text-sm">
-                                            <div class="flex justify-between">
-                                                <span class="text-gray-700">Total de productos:</span>
-                                                <span
-                                                    class="font-bold text-[#1e3a8a]">{{ $totalProductos ?? 0 }}</span>
+                                        <!-- Contenido -->
+                                        <div class="flex-1 p-6 flex flex-col gap-4">
+                                            <div class="flex items-center gap-2 mb-2">
+                                                <svg class="w-7 h-7 text-[#1e3a8a]" fill="none" stroke="currentColor"
+                                                    stroke-width="2" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        d="M13 16h-1v-4h-1m1-4h.01M12 20.5C6.201 20.5 1.5 15.799 1.5 10S6.201-.5 12-.5 22.5 4.201 22.5 10 17.799 20.5 12 20.5z" />
+                                                </svg>
+                                                <h2 class="text-xl font-extrabold text-[#1e3a8a]">¿Listo para confirmar tu pedido?</h2>
                                             </div>
-                                            <div class="flex justify-between">
-                                                <span class="text-gray-700">Total a pagar:</span>
-                                                <span class="font-extrabold text-lg text-[#1e3a8a]">L
-                                                    {{ number_format($total ?? 0, 2) }}</span>
+                                            <div class="bg-gray-50 rounded-lg p-4 flex flex-col gap-2 border border-gray-100">
+                                                <div class="flex justify-between items-center text-base">
+                                                    <span class="text-gray-700">Productos:</span>
+                                                    <span class="font-bold text-[#1e3a8a]">{{ $totalProductos ?? 0 }}</span>
+                                                </div>
+                                                @if (($totalRebajas ?? 0) > 0)
+                                                    <div class="flex justify-between items-center text-base">
+                                                        <span class="text-red-700">Total Rebaja:</span>
+                                                        <span class="font-bold text-red-700">- L {{ number_format($totalRebajas ?? 0, 2) }}</span>
+                                                    </div>
+                                                @endif
+                                                <div class="flex justify-between items-center text-lg">
+                                                    <span class="text-gray-700 font-semibold">Total a pagar:</span>
+                                                    <span class="font-extrabold text-2xl text-[#1e3a8a]">L {{ number_format($total ?? 0, 2) }}</span>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="flex gap-2 mt-4">
-                                            <button type="button" @click="showModal = false"
-                                                class="flex-1 py-2 rounded-lg bg-gray-100 text-gray-600 font-bold hover:bg-gray-200 transition-all focus:outline-none focus:ring-2 focus:ring-[#1e3a8a]">
-                                                ❌ Cancelar
-                                            </button>
-                                            <button type="button" @click="$el.closest('form').submit()"
-                                                class="flex-1 py-2 rounded-lg bg-[#facc15] text-[#1e3a8a] font-bold hover:bg-yellow-300 transition-all focus:outline-none focus:ring-2 focus:ring-[#1e3a8a]">
-                                                Confirmar y Enviar Pedido
-                                            </button>
+                                            <div class="flex flex-col gap-2 mt-2">
+                                                <button type="button" @click="showModal = false"
+                                                    class="w-full py-3 rounded-lg bg-gray-100 text-gray-600 font-bold hover:bg-gray-200 transition-all focus:outline-none focus:ring-2 focus:ring-[#1e3a8a]">
+                                                    ❌ Cancelar
+                                                </button>
+                                                <button type="button" @click="$el.closest('form').submit()"
+                                                    class="w-full py-3 rounded-lg bg-gradient-to-r from-yellow-400 via-yellow-300 to-yellow-500 text-[#1e3a8a] font-extrabold hover:from-yellow-500 hover:to-yellow-400 transition-all focus:outline-none focus:ring-2 focus:ring-[#1e3a8a] flex items-center justify-center gap-2">
+                                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
+                                                    </svg>
+                                                    Confirmar y Enviar Pedido
+                                                </button>
+                                            </div>
+                                            <div class="text-xs text-gray-400 text-center mt-2">
+                                                Al confirmar, recibirás un resumen de tu pedido y nos pondremos en contacto para definir fecha de entrega.
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </form>
                         @else
                             <button disabled
-                                class="w-full bg-yellow-100 text-gray-400 font-bold py-2 rounded-lg text-base cursor-not-allowed">
+                                class="w-full bg-yellow-100 text-gray-400 font-bold py-3 rounded-xl text-lg cursor-not-allowed flex items-center justify-center gap-2">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
+                                </svg>
                                 Confirmar Pedido
                             </button>
                         @endif
