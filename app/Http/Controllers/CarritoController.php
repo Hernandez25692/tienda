@@ -134,11 +134,21 @@ class CarritoController extends Controller
         foreach ($carrito as $key => $valor) {
             $producto = Producto::find($valor['id']);
 
+            // Producto eliminado
             if (!$producto) {
                 unset($carrito[$key]);
+                $productos_ajustados[] = 'Un producto fue eliminado del sistema.';
                 continue;
             }
 
+            // Verificar si está disponible
+            if (!$producto->disponible) {
+                unset($carrito[$key]);
+                $productos_ajustados[] = "{$producto->nombre} está agotado y fue eliminado del carrito.";
+                continue;
+            }
+
+            // Validar precios y ofertas
             $oferta_vigente = $producto->precio_oferta &&
                 $producto->precio_oferta < $producto->precio_venta &&
                 (!$producto->oferta_expires_at || $ahora->lte($producto->oferta_expires_at));
@@ -148,17 +158,18 @@ class CarritoController extends Controller
                     $valor['precio'] = $producto->precio_oferta;
                     $valor['precio_oferta'] = $producto->precio_oferta;
                     $valor['oferta_expires_at'] = $producto->oferta_expires_at;
-                    $productos_ajustados[] = $producto->nombre . ' (oferta aplicada)';
+                    $productos_ajustados[] = "{$producto->nombre} tiene una nueva oferta activa.";
                 }
             } else {
                 if ($valor['precio'] != $producto->precio_venta) {
                     $valor['precio'] = $producto->precio_venta;
                     $valor['precio_oferta'] = null;
                     $valor['oferta_expires_at'] = null;
-                    $productos_ajustados[] = $producto->nombre . ' (oferta vencida)';
+                    $productos_ajustados[] = "{$producto->nombre} ya no tiene oferta activa.";
                 }
             }
 
+            $valor['disponible'] = $producto->disponible;
             $carrito[$key] = $valor;
             $total += $valor['precio'] * $valor['cantidad'];
         }
@@ -166,7 +177,9 @@ class CarritoController extends Controller
         session()->put('carrito', $carrito);
 
         if (count($productos_ajustados) > 0) {
-            return redirect()->route('carrito.index')->with('error', 'Algunos precios se actualizaron: ' . implode(', ', $productos_ajustados));
+            return redirect()->route('carrito.index')->with([
+                'ajustes_carrito' => $productos_ajustados,
+            ]);
         }
 
         // Crear el pedido
@@ -192,6 +205,6 @@ class CarritoController extends Controller
 
         session()->forget('carrito');
 
-        return redirect()->route('pedidos.mis')->with('success', 'Pedido confirmado correctamente.');
+        return redirect()->route('pedidos.mis')->with('success', '✅ Pedido confirmado correctamente.');
     }
 }

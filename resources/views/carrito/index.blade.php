@@ -143,9 +143,10 @@
                                                         <span class="line-through text-gray-400">
                                                             L {{ number_format($item['precio_venta'], 2) }}
                                                         </span>
-                                                        
+
                                                         <span class="flex items-center gap-1 flex-wrap">
-                                                            <span class="bg-red-100 text-red-700 px-1.5 py-0.5 rounded-full text-[10px] uppercase tracking-wide">Oferta</span>
+                                                            <span
+                                                                class="bg-red-100 text-red-700 px-1.5 py-0.5 rounded-full text-[10px] uppercase tracking-wide">Oferta</span>
                                                             @if (!empty($item['oferta_expires_at']))
                                                                 <span
                                                                     class="cuenta-regresiva text-[10px] text-orange-500 font-semibold block sm:inline-block sm:ml-1 mt-0.5 sm:mt-0 max-w-[120px] truncate"
@@ -217,8 +218,8 @@
                                                 <button type="submit"
                                                     class="inline-flex items-center justify-center text-[#1e3a8a] hover:bg-red-100 hover:text-red-700 rounded-full p-2 transition-all focus:outline-none focus:ring-2 focus:ring-[#1e3a8a]"
                                                     title="Eliminar">
-                                                    <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor"
-                                                        stroke-width="2" viewBox="0 0 24 24">
+                                                    <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none"
+                                                        stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                                         <path stroke-linecap="round" stroke-linejoin="round"
                                                             d="M6 18L18 6M6 6l12 12"></path>
                                                     </svg>
@@ -283,8 +284,10 @@
                                 @csrf
                                 <button type="submit"
                                     class="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-yellow-400 via-yellow-300 to-yellow-500 hover:from-yellow-500 hover:to-yellow-400 text-[#1e3a8a] font-extrabold py-3 rounded-xl text-lg shadow-lg transition-all hover:scale-105 focus:outline-none focus:ring-2 focus:ring-[#1e3a8a]">
-                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7">
+                                        </path>
                                     </svg>
                                     Confirmar Pedido
                                 </button>
@@ -296,40 +299,52 @@
                                     class="fixed inset-0 z-50 flex items-center justify-center px-2 sm:px-0"
                                     style="display: none;">
                                     <!-- Fondo oscuro -->
-                                    <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" @click="showModal = false"></div>
+                                    <div class="absolute inset-0 bg-black/60 backdrop-blur-sm"
+                                        @click="showModal = false"></div>
                                     <!-- Modal -->
-                                    <div class="relative w-full max-w-lg mx-auto bg-white rounded-2xl shadow-2xl overflow-hidden flex flex-col sm:flex-row p-0 sm:p-0">
+                                    <div
+                                        class="relative w-full max-w-lg mx-auto bg-white rounded-2xl shadow-2xl overflow-hidden flex flex-col sm:flex-row p-0 sm:p-0">
                                         <!-- Imagen de producto o icono -->
-                                        <div class="hidden sm:flex flex-col items-center justify-center bg-gradient-to-b from-yellow-100 to-yellow-50 w-1/3 p-6">
-                                            <svg class="w-16 h-16 text-yellow-400 mb-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13l-1.35 2.7A2 2 0 0 0 7.5 19h9a2 2 0 0 0 1.85-1.3L17 13M7 13V6h13"></path>
+                                        <div
+                                            class="hidden sm:flex flex-col items-center justify-center bg-gradient-to-b from-yellow-100 to-yellow-50 w-1/3 p-6">
+                                            <svg class="w-16 h-16 text-yellow-400 mb-2" fill="none"
+                                                stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                    d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13l-1.35 2.7A2 2 0 0 0 7.5 19h9a2 2 0 0 0 1.85-1.3L17 13M7 13V6h13">
+                                                </path>
                                             </svg>
-                                            <span class="text-yellow-700 font-bold text-sm text-center">¡Listo para tu pedido!</span>
+                                            <span class="text-yellow-700 font-bold text-sm text-center">¡Listo para tu
+                                                pedido!</span>
                                         </div>
                                         <!-- Contenido -->
                                         <div class="flex-1 p-6 flex flex-col gap-4">
                                             <div class="flex items-center gap-2 mb-2">
-                                                <svg class="w-7 h-7 text-[#1e3a8a]" fill="none" stroke="currentColor"
-                                                    stroke-width="2" viewBox="0 0 24 24">
+                                                <svg class="w-7 h-7 text-[#1e3a8a]" fill="none"
+                                                    stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                                     <path stroke-linecap="round" stroke-linejoin="round"
                                                         d="M13 16h-1v-4h-1m1-4h.01M12 20.5C6.201 20.5 1.5 15.799 1.5 10S6.201-.5 12-.5 22.5 4.201 22.5 10 17.799 20.5 12 20.5z" />
                                                 </svg>
-                                                <h2 class="text-xl font-extrabold text-[#1e3a8a]">¿Listo para confirmar tu pedido?</h2>
+                                                <h2 class="text-xl font-extrabold text-[#1e3a8a]">¿Listo para confirmar
+                                                    tu pedido?</h2>
                                             </div>
-                                            <div class="bg-gray-50 rounded-lg p-4 flex flex-col gap-2 border border-gray-100">
+                                            <div
+                                                class="bg-gray-50 rounded-lg p-4 flex flex-col gap-2 border border-gray-100">
                                                 <div class="flex justify-between items-center text-base">
                                                     <span class="text-gray-700">Productos:</span>
-                                                    <span class="font-bold text-[#1e3a8a]">{{ $totalProductos ?? 0 }}</span>
+                                                    <span
+                                                        class="font-bold text-[#1e3a8a]">{{ $totalProductos ?? 0 }}</span>
                                                 </div>
                                                 @if (($totalRebajas ?? 0) > 0)
                                                     <div class="flex justify-between items-center text-base">
                                                         <span class="text-red-700">Total Rebaja:</span>
-                                                        <span class="font-bold text-red-700">- L {{ number_format($totalRebajas ?? 0, 2) }}</span>
+                                                        <span class="font-bold text-red-700">- L
+                                                            {{ number_format($totalRebajas ?? 0, 2) }}</span>
                                                     </div>
                                                 @endif
                                                 <div class="flex justify-between items-center text-lg">
                                                     <span class="text-gray-700 font-semibold">Total a pagar:</span>
-                                                    <span class="font-extrabold text-2xl text-[#1e3a8a]">L {{ number_format($total ?? 0, 2) }}</span>
+                                                    <span class="font-extrabold text-2xl text-[#1e3a8a]">L
+                                                        {{ number_format($total ?? 0, 2) }}</span>
                                                 </div>
                                             </div>
                                             <div class="flex flex-col gap-2 mt-2">
@@ -339,14 +354,17 @@
                                                 </button>
                                                 <button type="button" @click="$el.closest('form').submit()"
                                                     class="w-full py-3 rounded-lg bg-gradient-to-r from-yellow-400 via-yellow-300 to-yellow-500 text-[#1e3a8a] font-extrabold hover:from-yellow-500 hover:to-yellow-400 transition-all focus:outline-none focus:ring-2 focus:ring-[#1e3a8a] flex items-center justify-center gap-2">
-                                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
+                                                    <svg class="w-5 h-5" fill="none" stroke="currentColor"
+                                                        stroke-width="2" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            d="M5 13l4 4L19 7"></path>
                                                     </svg>
                                                     Confirmar y Enviar Pedido
                                                 </button>
                                             </div>
                                             <div class="text-xs text-gray-400 text-center mt-2">
-                                                Al confirmar, recibirás un resumen de tu pedido y nos pondremos en contacto para definir fecha de entrega.
+                                                Al confirmar, recibirás un resumen de tu pedido y nos pondremos en
+                                                contacto para definir fecha de entrega.
                                             </div>
                                         </div>
                                     </div>
@@ -355,7 +373,8 @@
                         @else
                             <button disabled
                                 class="w-full bg-yellow-100 text-gray-400 font-bold py-3 rounded-xl text-lg cursor-not-allowed flex items-center justify-center gap-2">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2"
+                                    viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
                                 </svg>
                                 Confirmar Pedido
@@ -366,91 +385,141 @@
             </div>
         </div>
 
-        {{-- Resumen de compra (móvil) --}}
+        {{-- Resumen de compra (móvil) estilo Amazon --}}
         <div class="lg:hidden mt-4">
-            <div class="bg-white rounded-xl shadow-lg p-3">
-                <h3 class="font-bold text-[#1e3a8a] text-base mb-2">Resumen de compra</h3>
-                <div class="flex justify-between text-gray-700 mb-1 text-sm">
-                    <span>Productos:</span>
-                    <span class="font-bold">{{ $totalProductos ?? 0 }}</span>
+            <div class="bg-white rounded-2xl shadow-2xl p-4 border border-yellow-100">
+            <div class="flex items-center gap-2 mb-3">
+                <svg class="w-7 h-7 text-yellow-400" fill="none" stroke="currentColor" stroke-width="2"
+                viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13l-1.35 2.7A2 2 0 0 0 7.5 19h9a2 2 0 0 0 1.85-1.3L17 13M7 13V6h13">
+                </path>
+                </svg>
+                <h3 class="font-extrabold text-[#1e3a8a] text-lg tracking-tight">Resumen de compra</h3>
+            </div>
+            <div class="bg-yellow-50 rounded-lg p-3 mb-2 border border-yellow-100">
+                <div class="flex justify-between text-gray-700 mb-1 text-base">
+                <span>Productos:</span>
+                <span class="font-bold">{{ $totalProductos ?? 0 }}</span>
                 </div>
                 @if (($totalRebajas ?? 0) > 0)
-                    <div class="flex justify-between text-red-700 mb-1 text-sm font-semibold">
-                        <span>Total Rebaja:</span>
-                        <span>- L {{ number_format($totalRebajas ?? 0, 2) }}</span>
-                    </div>
-                @endif
-
-                <div class="flex justify-between text-gray-700 mb-2 text-sm">
-                    <span>Total:</span>
-                    <span class="font-extrabold text-lg text-[#1e3a8a]">L {{ number_format($total ?? 0, 2) }}</span>
+                <div class="flex justify-between text-red-700 mb-1 text-sm font-semibold">
+                    <span>Total Rebaja:</span>
+                    <span>- L {{ number_format($totalRebajas ?? 0, 2) }}</span>
                 </div>
-
-                @if (count($carrito) > 0)
-                    <form x-data="{ showModal: false }" action="{{ route('carrito.confirmar') }}" method="POST"
-                        @submit.prevent="showModal = true">
-                        @csrf
-                        <button type="submit"
-                            class="w-full bg-[#facc15] hover:bg-yellow-300 text-[#1e3a8a] font-extrabold py-2 rounded-lg text-base shadow transition-all hover:scale-105 focus:outline-none focus:ring-2 focus:ring-[#1e3a8a]">
-                            Confirmar Pedido
-                        </button>
-                        <!-- Modal de confirmación -->
-                        <div x-show="showModal" x-transition:enter="transition ease-out duration-200"
-                            x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
-                            x-transition:leave="transition ease-in duration-150"
-                            x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
-                            class="fixed inset-0 z-50 flex items-center justify-center" style="display: none;">
-                            <!-- Fondo oscuro -->
-                            <div class="absolute inset-0 bg-black/50" @click="showModal = false"></div>
-                            <!-- Modal -->
-                            <div class="relative bg-white rounded-xl shadow-xl max-w-sm w-full mx-2 p-6 flex flex-col gap-4"
-                                x-transition:enter="transition transform ease-out duration-200"
-                                x-transition:enter-start="scale-95 opacity-0"
-                                x-transition:enter-end="scale-100 opacity-100"
-                                x-transition:leave="transition transform ease-in duration-150"
-                                x-transition:leave-start="scale-100 opacity-100"
-                                x-transition:leave-end="scale-95 opacity-0">
-                                <div class="flex items-center gap-2 mb-2">
-                                    <svg class="w-6 h-6 text-[#1e3a8a]" fill="none" stroke="currentColor"
-                                        stroke-width="2" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                            d="M13 16h-1v-4h-1m1-4h.01M12 20.5C6.201 20.5 1.5 15.799 1.5 10S6.201-.5 12-.5 22.5 4.201 22.5 10 17.799 20.5 12 20.5z" />
-                                    </svg>
-                                    <h2 class="text-lg font-bold text-[#1e3a8a]">¿Confirmar y enviar pedido?</h2>
-                                </div>
-                                <div class="space-y-1 text-sm">
-                                    <div class="flex justify-between">
-                                        <span class="text-gray-700">Total de productos:</span>
-                                        <span class="font-bold text-[#1e3a8a]">{{ $totalProductos ?? 0 }}</span>
-                                    </div>
-                                    <div class="flex justify-between">
-                                        <span class="text-gray-700">Total a pagar:</span>
-                                        <span class="font-extrabold text-lg text-[#1e3a8a]">L
-                                            {{ number_format($total ?? 0, 2) }}</span>
-                                    </div>
-                                </div>
-                                <div class="flex gap-2 mt-4">
-                                    <button type="button" @click="showModal = false"
-                                        class="flex-1 py-2 rounded-lg bg-gray-100 text-gray-600 font-bold hover:bg-gray-200 transition-all focus:outline-none focus:ring-2 focus:ring-[#1e3a8a]">
-                                        ❌ Cancelar
-                                    </button>
-                                    <button type="button" @click="$el.closest('form').submit()"
-                                        class="flex-1 py-2 rounded-lg bg-[#facc15] text-[#1e3a8a] font-bold hover:bg-yellow-300 transition-all focus:outline-none focus:ring-2 focus:ring-[#1e3a8a]">
-                                        Confirmar y Enviar Pedido
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                @else
-                    <button disabled
-                        class="w-full bg-yellow-100 text-gray-400 font-bold py-2 rounded-lg text-base cursor-not-allowed">
-                        Confirmar Pedido
-                    </button>
                 @endif
+                <div class="flex justify-between text-gray-700 mb-2 text-base">
+                <span>Total:</span>
+                <span class="font-extrabold text-xl text-[#1e3a8a]">L {{ number_format($total ?? 0, 2) }}</span>
+                </div>
+            </div>
+            @if (count($carrito) > 0)
+                <form x-data="{ showModal: false }" action="{{ route('carrito.confirmar') }}" method="POST"
+                @submit.prevent="showModal = true">
+                @csrf
+                <button type="submit"
+                    class="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-yellow-400 via-yellow-300 to-yellow-500 hover:from-yellow-500 hover:to-yellow-400 text-[#1e3a8a] font-extrabold py-3 rounded-xl text-lg shadow-lg transition-all hover:scale-105 focus:outline-none focus:ring-2 focus:ring-[#1e3a8a]">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2"
+                    viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                    Confirmar Pedido
+                </button>
+                <!-- Modal de confirmación estilo Amazon -->
+                <div x-show="showModal" x-transition:enter="transition ease-out duration-200"
+                    x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+                    x-transition:leave="transition ease-in duration-150"
+                    x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
+                    class="fixed inset-0 z-50 flex items-center justify-center px-2" style="display: none;">
+                    <!-- Fondo oscuro -->
+                    <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" @click="showModal = false"></div>
+                    <!-- Modal -->
+                    <div class="relative bg-white rounded-2xl shadow-2xl max-w-sm w-full mx-2 p-0 flex flex-col overflow-hidden">
+                    <div class="flex items-center gap-2 bg-gradient-to-r from-yellow-100 to-yellow-50 px-6 py-4 border-b border-yellow-200">
+                        <svg class="w-8 h-8 text-yellow-400" fill="none" stroke="currentColor"
+                        stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13l-1.35 2.7A2 2 0 0 0 7.5 19h9a2 2 0 0 0 1.85-1.3L17 13M7 13V6h13">
+                        </path>
+                        </svg>
+                        <h2 class="text-lg font-extrabold text-[#1e3a8a]">¿Listo para confirmar tu pedido?</h2>
+                    </div>
+                    <div class="p-6 flex flex-col gap-4">
+                        <div class="bg-gray-50 rounded-lg p-4 border border-gray-100 flex flex-col gap-2">
+                        <div class="flex justify-between items-center text-base">
+                            <span class="text-gray-700">Productos:</span>
+                            <span class="font-bold text-[#1e3a8a]">{{ $totalProductos ?? 0 }}</span>
+                        </div>
+                        @if (($totalRebajas ?? 0) > 0)
+                            <div class="flex justify-between items-center text-base">
+                            <span class="text-red-700">Total Rebaja:</span>
+                            <span class="font-bold text-red-700">- L
+                                {{ number_format($totalRebajas ?? 0, 2) }}</span>
+                            </div>
+                        @endif
+                        <div class="flex justify-between items-center text-lg">
+                            <span class="text-gray-700 font-semibold">Total a pagar:</span>
+                            <span class="font-extrabold text-2xl text-[#1e3a8a]">L
+                            {{ number_format($total ?? 0, 2) }}</span>
+                        </div>
+                        </div>
+                        <div class="flex gap-2 mt-2">
+                        <button type="button" @click="showModal = false"
+                            class="flex-1 py-3 rounded-lg bg-gray-100 text-gray-600 font-bold hover:bg-gray-200 transition-all focus:outline-none focus:ring-2 focus:ring-[#1e3a8a]">
+                            ❌ Cancelar
+                        </button>
+                        <button type="button" @click="$el.closest('form').submit()"
+                            class="flex-1 py-3 rounded-lg bg-gradient-to-r from-yellow-400 via-yellow-300 to-yellow-500 text-[#1e3a8a] font-extrabold hover:from-yellow-500 hover:to-yellow-400 transition-all focus:outline-none focus:ring-2 focus:ring-[#1e3a8a] flex items-center justify-center gap-2">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor"
+                            stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            Confirmar y Enviar Pedido
+                        </button>
+                        </div>
+                        <div class="text-xs text-gray-400 text-center mt-2">
+                        Al confirmar, recibirás un resumen de tu pedido y nos pondremos en contacto para definir fecha de entrega.
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                </form>
+            @else
+                <button disabled
+                class="w-full bg-yellow-100 text-gray-400 font-bold py-3 rounded-xl text-lg cursor-not-allowed flex items-center justify-center gap-2">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2"
+                    viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
+                </svg>
+                Confirmar Pedido
+                </button>
+            @endif
             </div>
         </div>
     </div>
+    @if (session('ajustes_carrito'))
+        <div x-data="{ open: true }" x-show="open"
+            class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+            <div class="bg-white w-full max-w-md mx-auto rounded-xl shadow-lg p-6 text-center relative">
+                <h2 class="text-lg font-bold text-[#1e3a8a] mb-4">
+                    ⚠️ Se detectaron cambios en tu carrito
+                </h2>
+
+                <ul
+                    class="text-sm text-gray-700 mb-4 text-left list-disc list-inside space-y-1 max-h-52 overflow-y-auto">
+                    @foreach (session('ajustes_carrito') as $mensaje)
+                        <li>{{ $mensaje }}</li>
+                    @endforeach
+                </ul>
+
+                <button @click="open = false"
+                    class="px-4 py-2 bg-[#facc15] text-[#1e3a8a] font-bold rounded-lg hover:bg-yellow-300 transition-all focus:outline-none focus:ring-2 focus:ring-[#1e3a8a]">
+                    Aceptar
+                </button>
+            </div>
+        </div>
+    @endif
 
     @push('scripts')
         <script>
