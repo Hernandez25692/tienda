@@ -215,13 +215,14 @@
                                             <form action="{{ route('carrito.eliminar', $key) }}" method="POST">
                                                 @csrf
                                                 <button type="submit"
-                                                    class="inline-flex items-center gap-1 text-[#1e3a8a] hover:underline font-semibold text-xs px-2 py-1 rounded hover:bg-blue-50 transition-all focus:outline-none focus:ring-2 focus:ring-[#1e3a8a]">
-                                                    <svg class="w-4 h-4" fill="none" stroke="currentColor"
+                                                    class="inline-flex items-center justify-center text-[#1e3a8a] hover:bg-red-100 hover:text-red-700 rounded-full p-2 transition-all focus:outline-none focus:ring-2 focus:ring-[#1e3a8a]"
+                                                    title="Eliminar">
+                                                    <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor"
                                                         stroke-width="2" viewBox="0 0 24 24">
                                                         <path stroke-linecap="round" stroke-linejoin="round"
                                                             d="M6 18L18 6M6 6l12 12"></path>
                                                     </svg>
-                                                    Eliminar
+                                                    <span class="sr-only">Eliminar</span>
                                                 </button>
                                             </form>
                                         </div>
