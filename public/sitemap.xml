@@ -22,18 +22,5 @@
         <priority>0.9</priority>
     </url>
 
-    <!-- Catálogo alternativo libre -->
-    <url>
-        <loc>https://www.encargayahn.com/catalogo-libre</loc>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-
-    <!-- Página de ayuda -->
-    <url>
-        <loc>https://www.encargayahn.com/ayuda</loc>
-        <changefreq>monthly</changefreq>
-        <priority>0.6</priority>
-    </url>
 
 </urlset>
