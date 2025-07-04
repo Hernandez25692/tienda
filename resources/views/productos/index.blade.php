@@ -295,6 +295,9 @@
                                     </button>
                                 </form>
                             </div>
+                            @if(!$producto->visible)
+                                <span class="absolute top-2 left-2 bg-red-600 text-white text-[10px] px-2 py-0.5 rounded shadow z-10 font-bold">OCULTO</span>
+                            @endif
                         @endif
                     @endauth
                     <!-- En móvil, toda la tarjeta es clickeable -->
