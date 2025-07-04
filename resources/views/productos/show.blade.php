@@ -105,7 +105,7 @@
 
             <!-- Detalles del producto -->
             <div class="flex flex-col gap-2 md:gap-3">
-                <h1 class="text-lg md:text-2xl font-bold text-indigo-900 mb-1 truncate">{{ $producto->nombre }}</h1>
+                <h1 class="text-base md:text-2xl font-bold text-indigo-900 mb-1 break-words whitespace-normal w-full">{{ $producto->nombre }}</h1>
                 <div class="flex items-center gap-2 mb-1 flex-wrap">
                     @php
                         $ofertaVigente =
