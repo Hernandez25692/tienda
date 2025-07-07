@@ -93,6 +93,7 @@ class PedidoController extends Controller
                     'user_id' => $admin->id,
                     'titulo' => '🛒 Nuevo pedido recibido',
                     'mensaje' => 'El usuario ' . Auth::user()->name . ' ha realizado un pedido (#' . $pedido->id . ').',
+                    'url' => route('admin.pedidos.edit', $pedido),
                 ]);
             }
 

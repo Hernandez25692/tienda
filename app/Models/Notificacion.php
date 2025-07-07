@@ -15,6 +15,7 @@ class Notificacion extends Model
         'user_id',
         'titulo',
         'mensaje',
+        'url',
         'leido',
     ];
 

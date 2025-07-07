@@ -34,6 +34,7 @@ class PagoController extends Controller
                 'user_id' => $admin->id,
                 'titulo' => '💰 Nuevo pago registrado',
                 'mensaje' => 'El usuario ' . auth()->user()->name . ' ha registrado un pago para el pedido #' . $pedido->id . '.',
+                'url' => route('admin.pedidos.edit', $pedido),
             ]);
         }
 

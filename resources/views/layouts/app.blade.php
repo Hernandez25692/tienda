@@ -236,54 +236,70 @@
 
                     <!-- Mobile menu button panel principal -->
                     <div class="md:hidden flex items-center space-x-4">
+                        <!-- Carrito -->
                         <a href="{{ route('carrito.index') }}" class="relative text-gray-700 hover:text-yellow-600">
                             <i class="fas fa-shopping-cart text-xl"></i>
                             @if (auth()->check() && optional(auth()->user()->cartItems)->count() > 0)
                                 <span
-                                    class="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
+                                    class="absolute -top-1 -right-2 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center z-10">
                                     {{ auth()->user()->cartItems->count() }}
                                 </span>
                             @endif
                         </a>
+                        <!-- Notificaciones -->
                         <div x-data="{ mobileNotiOpen: false }" class="relative">
                             <button @click="mobileNotiOpen = !mobileNotiOpen"
                                 class="relative text-gray-700 hover:text-yellow-600 focus:outline-none">
                                 <i class="fas fa-bell text-xl"></i>
                                 @if (isset($cantidadNoLeidas) && $cantidadNoLeidas > 0)
-                                    <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
+                                    <span class="absolute -top-1 -right-2 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center z-10">
                                         {{ $cantidadNoLeidas }}
                                     </span>
                                 @endif
                             </button>
-                            <div x-show="mobileNotiOpen" @click.outside="mobileNotiOpen = false"
-                                class="absolute right-0 mt-2 w-72 bg-white border rounded-lg shadow-lg z-50"
+                            <div 
+                                x-show="mobileNotiOpen" 
+                                @click.outside="mobileNotiOpen = false"
+                                class="absolute right-0 mt-2 w-80 max-w-xs sm:max-w-sm bg-white border rounded-lg shadow-xl z-50"
                                 x-transition:enter="transition ease-out duration-100"
                                 x-transition:enter-start="opacity-0 scale-95"
                                 x-transition:enter-end="opacity-100 scale-100"
                                 x-transition:leave="transition ease-in duration-75"
                                 x-transition:leave-start="opacity-100 scale-100"
-                                x-transition:leave-end="opacity-0 scale-95">
-                                <div class="p-3 border-b font-semibold text-gray-800">
+                                x-transition:leave-end="opacity-0 scale-95"
+                                style="min-width: 260px;"
+                            >
+                                <div class="p-3 border-b font-semibold text-gray-800 bg-gray-50 rounded-t-lg">
                                     Notificaciones
                                 </div>
-                                @if (isset($notificaciones))
-                                    @forelse ($notificaciones as $n)
-                                        <div class="px-4 py-2 border-b hover:bg-yellow-50">
-                                            <p class="text-sm font-semibold text-gray-700">{{ $n->titulo }}</p>
-                                            <p class="text-xs text-gray-600">{{ $n->mensaje }}</p>
-                                            <small class="text-xs text-gray-400">{{ $n->created_at->diffForHumans() }}</small>
-                                        </div>
-                                    @empty
-                                        <div class="p-4 text-center text-sm text-gray-500">
-                                            No tienes notificaciones nuevas
-                                        </div>
-                                    @endforelse
-                                @endif
-                                <div class="text-center p-2">
+                                <div class="max-h-72 overflow-y-auto divide-y divide-gray-100">
+                                    @if (isset($notificaciones))
+                                        @forelse ($notificaciones as $n)
+                                            <div class="px-4 py-2 hover:bg-yellow-50 transition">
+                                                <div class="flex items-start gap-2">
+                                                    <div class="flex-shrink-0 pt-1">
+                                                        <i class="fas fa-info-circle text-yellow-400"></i>
+                                                    </div>
+                                                    <div class="flex-1 min-w-0">
+                                                        <p class="text-sm font-semibold text-gray-700 truncate">{{ $n->titulo }}</p>
+                                                        <p class="text-xs text-gray-600 break-words">{{ $n->mensaje }}</p>
+                                                        <small class="text-xs text-gray-400">{{ $n->created_at->diffForHumans() }}</small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @empty
+                                            <div class="p-4 text-center text-sm text-gray-500">
+                                                No tienes notificaciones nuevas
+                                            </div>
+                                        @endforelse
+                                    @endif
+                                </div>
+                                <div class="text-center p-2 bg-gray-50 rounded-b-lg">
                                     <a href="{{ route('notificaciones') }}" class="text-sm text-blue-600 hover:underline">Ver todas</a>
                                 </div>
                             </div>
                         </div>
+                        <!-- Menú hamburguesa -->
                         <button @click="open = !open"
                             class="inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:bg-gray-100 focus:outline-none transition"
                             aria-label="Abrir menú">
