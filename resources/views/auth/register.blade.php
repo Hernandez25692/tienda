@@ -331,20 +331,6 @@
                         @enderror
                     </div>
 
-                    <!-- Correo secundario (opcional) -->
-                    <div>
-                        <label for="email_secundario"
-                            class="block text-xs sm:text-sm font-medium text-gray-700">Correo secundario <span
-                                class="text-gray-400">(opcional)</span></label>
-                        <input id="email_secundario" name="email_secundario" type="email"
-                            class="mt-1 w-full px-3 py-2 sm:px-4 sm:py-2 rounded border border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 shadow-sm text-xs sm:text-base"
-                            value="{{ old('email_secundario') }}" autocomplete="off">
-                        <span id="emailSecundarioError" class="text-red-500 text-xs"></span>
-                        @error('email_secundario')
-                            <span class="text-red-500 text-xs">{{ __($message) }}</span>
-                        @enderror
-                    </div>
-
                     <!-- Contraseña -->
                     <div>
                         <label for="password"
@@ -466,7 +452,7 @@
 
                     <script>
                         function showSummaryModal() {
-                            ['nameError', 'emailError', 'celularError', 'emailSecundarioError', 'passwordError',
+                            ['nameError', 'emailError', 'celularError', 'passwordError',
                                 'passwordConfirmationError'].forEach(
                                 id => {
                                     document.getElementById(id).textContent = '';
@@ -476,7 +462,6 @@
                             const name = document.getElementById('name').value.trim();
                             const email = document.getElementById('email').value.trim();
                             const celular = document.getElementById('celular').value.trim();
-                            const emailSecundario = document.getElementById('email_secundario').value.trim();
                             const pass = document.getElementById('password').value;
                             const passConfirm = document.getElementById('password_confirmation').value;
 
@@ -484,8 +469,6 @@
                             if (name.length < 3) missing.push('Nombre (mínimo 3 caracteres)');
                             if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) missing.push('Correo válido');
                             if (celular && !/^\d{4}-\d{4}$/.test(celular)) missing.push('Celular (formato 0000-0000)');
-                            if (emailSecundario && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailSecundario)) missing.push(
-                                'Correo secundario válido');
                             if (pass.length < 6) missing.push('Contraseña (mínimo 6 caracteres)');
                             if (pass !== passConfirm) missing.push('Confirmar contraseña igual a la anterior');
 
@@ -501,7 +484,6 @@
                                     <li><b>Nombre:</b> ${name}</li>
                                     <li><b>Correo:</b> ${email}</li>
                                     ${celular ? `<li><b>Celular:</b> ${celular}</li>` : ''}
-                                    ${emailSecundario ? `<li><b>Correo secundario:</b> ${emailSecundario}</li>` : ''}
                                 </ul>
                             `;
                             }
@@ -534,7 +516,7 @@
                         // Solo resetea si no hay errores de Laravel
                         @if (!$errors->any())
                             document.getElementById('registerForm').reset();
-                            ['name', 'email', 'celular', 'email_secundario', 'password', 'password_confirmation'].forEach(
+                            ['name', 'email', 'celular', 'password', 'password_confirmation'].forEach(
                             id => {
                                 document.getElementById(id).value = '';
                             });
@@ -552,7 +534,7 @@
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             const celularRegex = /^\d{4}-\d{4}$/;
 
-            ['nameError', 'emailError', 'celularError', 'emailSecundarioError', 'passwordError',
+            ['nameError', 'emailError', 'celularError', 'passwordError',
                 'passwordConfirmationError'
             ].forEach(
                 id => {
@@ -572,14 +554,9 @@
             }
 
             const celular = document.getElementById('celular').value.trim();
+            // Solo validar formato si hay valor
             if (celular && !celularRegex.test(celular)) {
                 document.getElementById('celularError').textContent = 'El formato debe ser 0000-0000.';
-                valid = false;
-            }
-
-            const emailSecundario = document.getElementById('email_secundario').value.trim();
-            if (emailSecundario && !emailRegex.test(emailSecundario)) {
-                document.getElementById('emailSecundarioError').textContent = 'Correo secundario inválido.';
                 valid = false;
             }
 
