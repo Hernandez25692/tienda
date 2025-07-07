@@ -429,25 +429,63 @@
 
                     <!-- Modal Política de Privacidad -->
                     <div id="privacyModal"
-                        class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 hidden">
-                        <div class="bg-white rounded-lg shadow-lg max-w-xs sm:max-w-sm w-full p-4 sm:p-6 relative">
-                            <h3 class="text-base sm:text-lg font-bold mb-2 sm:mb-4 text-gray-700">Política de
-                                Privacidad</h3>
-                            <div class="mb-2 sm:mb-4 text-gray-600 text-xs sm:text-sm">
-                                Tu información personal se utiliza únicamente para gestionar el inicio de sesión y
-                                facilitar una comunicación efectiva contigo. El número de teléfono es opcional y puedes
-                                agregar un correo secundario si lo prefieres. No compartimos tus datos con terceros y
-                                puedes solicitar su eliminación en cualquier momento.
+                        class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+                        <div class="relative w-[92vw] max-w-md mx-auto bg-gradient-to-br from-indigo-50 via-white to-purple-100 rounded-2xl shadow-2xl border border-indigo-100 p-5 sm:p-8 animate-fade-in">
+                            <!-- Icono de escudo -->
+                            <div class="flex justify-center mb-4">
+                                <div class="bg-indigo-100 rounded-full p-3 shadow">
+                                    <i class="fas fa-shield-alt text-indigo-600 text-2xl sm:text-3xl animate-pulse"></i>
+                                </div>
                             </div>
-                            <div class="flex justify-end">
+                            <h3 class="text-lg sm:text-xl font-bold mb-3 text-indigo-800 text-center drop-shadow">Política de Privacidad</h3>
+                            <div class="mb-4 text-gray-700 text-sm sm:text-base text-center leading-relaxed">
+                                <span class="inline-block bg-yellow-100 text-yellow-700 px-2 py-1 rounded mb-2 text-xs font-semibold">
+                                    <i class="fa fa-info-circle mr-1"></i>
+                                    Tu privacidad es nuestra prioridad
+                                </span>
+                                <br>
+                                <b>¿Cómo usamos tus datos?</b><br>
+                                Solo utilizamos tu información personal para gestionar tu cuenta y mejorar tu experiencia en EncargaYa.<br>
+                                <b>¿Qué datos solicitamos?</b><br>
+                                Nombre, correo electrónico y, opcionalmente, tu número de celular.<br>
+                                <span class="block mt-2 text-indigo-700 font-medium">
+                                    No compartimos tus datos con terceros. Puedes solicitar la eliminación de tu información en cualquier momento.
+                                </span>
+                            </div>
+                            <div class="flex flex-col sm:flex-row justify-center sm:justify-end gap-2 mt-2">
                                 <button onclick="closePrivacyModal()"
-                                    class="px-3 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 text-xs sm:text-base">Cerrar</button>
+                                    class="w-full sm:w-auto px-4 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg font-semibold shadow hover:from-indigo-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-indigo-400 transition text-sm sm:text-base">
+                                    <i class="fa fa-check-circle mr-2"></i>Entendido
+                                </button>
                             </div>
                             <button onclick="closePrivacyModal()"
-                                class="absolute top-2 right-2 text-gray-400 hover:text-gray-600">
-                                <i class="fas fa-times"></i>
+                                class="absolute top-2 right-2 text-gray-400 hover:text-indigo-600 transition" aria-label="Cerrar">
+                                <i class="fas fa-times text-lg"></i>
                             </button>
                         </div>
+                        <style>
+                            .animate-fade-in {
+                                animation: fadeInModal 0.3s cubic-bezier(.4, 0, .2, 1);
+                            }
+                            @keyframes fadeInModal {
+                                from {
+                                    opacity: 0;
+                                    transform: translateY(30px) scale(0.97);
+                                }
+                                to {
+                                    opacity: 1;
+                                    transform: translateY(0) scale(1);
+                                }
+                            }
+                            @media (max-width: 480px) {
+                                #privacyModal .max-w-md {
+                                    padding: 1.2rem !important;
+                                }
+                                #privacyModal h3 {
+                                    font-size: 1.1rem !important;
+                                }
+                            }
+                        </style>
                     </div>
 
                     <script>
