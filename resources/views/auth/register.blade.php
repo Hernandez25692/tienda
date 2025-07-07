@@ -11,21 +11,61 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>
         @media (max-width: 640px) {
-            .max-w-6xl { max-width: 100vw !important; }
-            .rounded-2xl { border-radius: 1rem !important; }
-            .p-10 { padding: 1.25rem !important; }
-            .md\:grid-cols-2 { grid-template-columns: 1fr !important; }
-            .text-3xl { font-size: 1.5rem !important; }
-            .h-36 { height: 3.5rem !important; }
-            .w-40, .h-40 { width: 3.5rem !important; height: 3.5rem !important; }
-            .max-w-\[320px\] { max-width: 180px !important; }
-            .mb-10 { margin-bottom: 1rem !important; }
-            .space-y-5> :not([hidden])~ :not([hidden]) { margin-top: 1rem !important; }
-            .max-w-sm { max-width: 95vw !important; }
+            .max-w-6xl {
+                max-width: 100vw !important;
+            }
+
+            .rounded-2xl {
+                border-radius: 1rem !important;
+            }
+
+            .p-10 {
+                padding: 1.25rem !important;
+            }
+
+            .md\:grid-cols-2 {
+                grid-template-columns: 1fr !important;
+            }
+
+            .text-3xl {
+                font-size: 1.5rem !important;
+            }
+
+            .h-36 {
+                height: 3.5rem !important;
+            }
+
+            .w-40,
+            .h-40 {
+                width: 3.5rem !important;
+                height: 3.5rem !important;
+            }
+
+            .max-w-\[320px\] {
+                max-width: 180px !important;
+            }
+
+            .mb-10 {
+                margin-bottom: 1rem !important;
+            }
+
+            .space-y-5> :not([hidden])~ :not([hidden]) {
+                margin-top: 1rem !important;
+            }
+
+            .max-w-sm {
+                max-width: 95vw !important;
+            }
         }
+
         @media (max-width: 400px) {
-            .p-10 { padding: 0.5rem !important; }
-            .rounded-2xl { border-radius: 0.5rem !important; }
+            .p-10 {
+                padding: 0.5rem !important;
+            }
+
+            .rounded-2xl {
+                border-radius: 0.5rem !important;
+            }
         }
     </style>
 </head>
@@ -33,22 +73,26 @@
 <body class="bg-gray-100 text-gray-800 m-0 p-0">
 
     <!-- Modal Política de Privacidad Inicial -->
-    <div id="initialPrivacyModal"
-        class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-        <div class="relative w-[92vw] max-w-md mx-auto bg-gradient-to-br from-indigo-50 via-white to-purple-100 rounded-2xl shadow-2xl border border-indigo-100 p-5 sm:p-8 animate-fade-in">
+    <div id="initialPrivacyModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div
+            class="relative w-[92vw] max-w-md mx-auto bg-gradient-to-br from-indigo-50 via-white to-purple-100 rounded-2xl shadow-2xl border border-indigo-100 p-5 sm:p-8 animate-fade-in">
             <!-- Icono de alerta -->
             <div class="flex justify-center mb-4">
                 <div class="bg-indigo-100 rounded-full p-3 shadow">
                     <i class="fas fa-shield-alt text-indigo-600 text-2xl sm:text-3xl animate-pulse"></i>
                 </div>
             </div>
-            <h3 class="text-lg sm:text-xl font-bold mb-3 text-indigo-800 text-center drop-shadow">Política de Privacidad</h3>
+            <h3 class="text-lg sm:text-xl font-bold mb-3 text-indigo-800 text-center drop-shadow">Política de Privacidad
+            </h3>
             <div class="mb-4 text-gray-700 text-sm sm:text-base text-center leading-relaxed">
-                <span class="inline-block bg-yellow-100 text-yellow-700 px-2 py-1 rounded mb-2 text-xs font-semibold"><i class="fa fa-info-circle mr-1"></i>Tu privacidad es importante</span>
+                <span class="inline-block bg-yellow-100 text-yellow-700 px-2 py-1 rounded mb-2 text-xs font-semibold"><i
+                        class="fa fa-info-circle mr-1"></i>Tu privacidad es importante</span>
                 <br>
-                Tu información personal se utiliza <b>solo</b> para gestionar el inicio de sesión y facilitar una comunicación efectiva contigo.<br>
+                Tu información personal se utiliza <b>solo</b> para gestionar el inicio de sesión y facilitar una
+                comunicación efectiva contigo.<br>
                 El número de teléfono es <b>opcional</b> y puedes agregar un correo secundario si lo prefieres.<br>
-                <span class="block mt-2 text-indigo-700 font-medium">No compartimos tus datos con terceros y puedes solicitar su eliminación en cualquier momento.</span>
+                <span class="block mt-2 text-indigo-700 font-medium">No compartimos tus datos con terceros y puedes
+                    solicitar su eliminación en cualquier momento.</span>
             </div>
             <div class="flex flex-col sm:flex-row justify-center sm:justify-end gap-2 mt-2">
                 <button onclick="acceptPrivacyPolicy()"
@@ -57,23 +101,32 @@
                 </button>
             </div>
             <button onclick="acceptPrivacyPolicy()"
-                class="absolute top-2 right-2 text-gray-400 hover:text-indigo-600 transition"
-                aria-label="Cerrar">
+                class="absolute top-2 right-2 text-gray-400 hover:text-indigo-600 transition" aria-label="Cerrar">
                 <i class="fas fa-times text-lg"></i>
             </button>
         </div>
         <style>
             .animate-fade-in {
-                animation: fadeInModal 0.3s cubic-bezier(.4,0,.2,1);
+                animation: fadeInModal 0.3s cubic-bezier(.4, 0, .2, 1);
             }
+
             @keyframes fadeInModal {
-                from { opacity: 0; transform: translateY(30px) scale(0.97);}
-                to { opacity: 1; transform: translateY(0) scale(1);}
+                from {
+                    opacity: 0;
+                    transform: translateY(30px) scale(0.97);
+                }
+
+                to {
+                    opacity: 1;
+                    transform: translateY(0) scale(1);
+                }
             }
+
             @media (max-width: 480px) {
                 #initialPrivacyModal .max-w-md {
                     padding: 1.2rem !important;
                 }
+
                 #initialPrivacyModal h3 {
                     font-size: 1.1rem !important;
                 }
@@ -149,25 +202,66 @@
                 </div>
                 <style>
                     @keyframes bounce-slow {
-                        0%, 100% { transform: translateY(0);}
-                        50% { transform: translateY(-30px);}
+
+                        0%,
+                        100% {
+                            transform: translateY(0);
+                        }
+
+                        50% {
+                            transform: translateY(-30px);
+                        }
                     }
-                    .animate-bounce-slow { animation: bounce-slow 4s infinite;}
+
+                    .animate-bounce-slow {
+                        animation: bounce-slow 4s infinite;
+                    }
+
                     @keyframes float {
-                        0%, 100% { transform: translateY(0) scale(1);}
-                        50% { transform: translateY(20px) scale(1.05);}
+
+                        0%,
+                        100% {
+                            transform: translateY(0) scale(1);
+                        }
+
+                        50% {
+                            transform: translateY(20px) scale(1.05);
+                        }
                     }
-                    .animate-float { animation: float 6s ease-in-out infinite;}
+
+                    .animate-float {
+                        animation: float 6s ease-in-out infinite;
+                    }
+
                     @keyframes float-reverse {
-                        0%, 100% { transform: translateY(0) scale(1);}
-                        50% { transform: translateY(-20px) scale(1.1);}
+
+                        0%,
+                        100% {
+                            transform: translateY(0) scale(1);
+                        }
+
+                        50% {
+                            transform: translateY(-20px) scale(1.1);
+                        }
                     }
-                    .animate-float-reverse { animation: float-reverse 7s ease-in-out infinite;}
+
+                    .animate-float-reverse {
+                        animation: float-reverse 7s ease-in-out infinite;
+                    }
+
                     @keyframes spin-slow {
-                        0% { transform: rotate(0deg);}
-                        100% { transform: rotate(360deg);}
+                        0% {
+                            transform: rotate(0deg);
+                        }
+
+                        100% {
+                            transform: rotate(360deg);
+                        }
                     }
-                    .animate-spin-slow { animation: spin-slow 10s linear infinite;}
+
+                    .animate-spin-slow {
+                        animation: spin-slow 10s linear infinite;
+                    }
                 </style>
             </div>
 
@@ -179,7 +273,8 @@
 
                     {{-- Resumen general de errores --}}
                     @if ($errors->any())
-                        <div class="mb-4 bg-red-100 border border-red-400 text-red-700 px-4 py-2 rounded text-xs sm:text-sm">
+                        <div
+                            class="mb-4 bg-red-100 border border-red-400 text-red-700 px-4 py-2 rounded text-xs sm:text-sm">
                             <ul class="list-disc pl-5">
                                 @foreach ($errors->all() as $error)
                                     <li>{{ __($error) }}</li>
@@ -238,7 +333,9 @@
 
                     <!-- Correo secundario (opcional) -->
                     <div>
-                        <label for="email_secundario" class="block text-xs sm:text-sm font-medium text-gray-700">Correo secundario <span class="text-gray-400">(opcional)</span></label>
+                        <label for="email_secundario"
+                            class="block text-xs sm:text-sm font-medium text-gray-700">Correo secundario <span
+                                class="text-gray-400">(opcional)</span></label>
                         <input id="email_secundario" name="email_secundario" type="email"
                             class="mt-1 w-full px-3 py-2 sm:px-4 sm:py-2 rounded border border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 shadow-sm text-xs sm:text-base"
                             value="{{ old('email_secundario') }}" autocomplete="off">
@@ -256,7 +353,8 @@
                             <input id="password" name="password" type="password" required
                                 class="mt-1 w-full px-3 py-2 sm:px-4 sm:py-2 rounded border border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 shadow-sm pr-8 sm:pr-10 text-xs sm:text-base"
                                 autocomplete="new-password">
-                            <button type="button" tabindex="-1" onclick="togglePasswordVisibility('password', this)"
+                            <button type="button" tabindex="-1"
+                                onclick="togglePasswordVisibility('password', this)"
                                 class="absolute inset-y-0 right-0 px-2 sm:px-3 flex items-center text-gray-400 hover:text-indigo-600 focus:outline-none"
                                 aria-label="Mostrar/Ocultar contraseña">
                                 <i class="fa fa-eye"></i>
@@ -347,9 +445,13 @@
                     <div id="privacyModal"
                         class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 hidden">
                         <div class="bg-white rounded-lg shadow-lg max-w-xs sm:max-w-sm w-full p-4 sm:p-6 relative">
-                            <h3 class="text-base sm:text-lg font-bold mb-2 sm:mb-4 text-gray-700">Política de Privacidad</h3>
+                            <h3 class="text-base sm:text-lg font-bold mb-2 sm:mb-4 text-gray-700">Política de
+                                Privacidad</h3>
                             <div class="mb-2 sm:mb-4 text-gray-600 text-xs sm:text-sm">
-                                Tu información personal se utiliza únicamente para gestionar el inicio de sesión y facilitar una comunicación efectiva contigo. El número de teléfono es opcional y puedes agregar un correo secundario si lo prefieres. No compartimos tus datos con terceros y puedes solicitar su eliminación en cualquier momento.
+                                Tu información personal se utiliza únicamente para gestionar el inicio de sesión y
+                                facilitar una comunicación efectiva contigo. El número de teléfono es opcional y puedes
+                                agregar un correo secundario si lo prefieres. No compartimos tus datos con terceros y
+                                puedes solicitar su eliminación en cualquier momento.
                             </div>
                             <div class="flex justify-end">
                                 <button onclick="closePrivacyModal()"
@@ -364,7 +466,8 @@
 
                     <script>
                         function showSummaryModal() {
-                            ['nameError', 'emailError', 'celularError', 'emailSecundarioError', 'passwordError', 'passwordConfirmationError'].forEach(
+                            ['nameError', 'emailError', 'celularError', 'emailSecundarioError', 'passwordError',
+                                'passwordConfirmationError'].forEach(
                                 id => {
                                     document.getElementById(id).textContent = '';
                                 }
@@ -381,7 +484,8 @@
                             if (name.length < 3) missing.push('Nombre (mínimo 3 caracteres)');
                             if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) missing.push('Correo válido');
                             if (celular && !/^\d{4}-\d{4}$/.test(celular)) missing.push('Celular (formato 0000-0000)');
-                            if (emailSecundario && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailSecundario)) missing.push('Correo secundario válido');
+                            if (emailSecundario && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailSecundario)) missing.push(
+                                'Correo secundario válido');
                             if (pass.length < 6) missing.push('Contraseña (mínimo 6 caracteres)');
                             if (pass !== passConfirm) missing.push('Confirmar contraseña igual a la anterior');
 
@@ -429,10 +533,11 @@
                     window.addEventListener('DOMContentLoaded', function() {
                         // Solo resetea si no hay errores de Laravel
                         @if (!$errors->any())
-                        document.getElementById('registerForm').reset();
-                        ['name', 'email', 'celular', 'email_secundario', 'password', 'password_confirmation'].forEach(id => {
-                            document.getElementById(id).value = '';
-                        });
+                            document.getElementById('registerForm').reset();
+                            ['name', 'email', 'celular', 'email_secundario', 'password', 'password_confirmation'].forEach(
+                            id => {
+                                document.getElementById(id).value = '';
+                            });
                         @endif
                     });
                 </script>
@@ -447,7 +552,9 @@
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             const celularRegex = /^\d{4}-\d{4}$/;
 
-            ['nameError', 'emailError', 'celularError', 'emailSecundarioError', 'passwordError', 'passwordConfirmationError'].forEach(
+            ['nameError', 'emailError', 'celularError', 'emailSecundarioError', 'passwordError',
+                'passwordConfirmationError'
+            ].forEach(
                 id => {
                     document.getElementById(id).textContent = '';
                 });
@@ -501,7 +608,9 @@
         // Modal de privacidad inicial
         function acceptPrivacyPolicy() {
             document.getElementById('initialPrivacyModal').style.display = 'none';
+            document.body.style.overflow = ''; // ✅ Restaurar scroll al aceptar
         }
+
         // Bloquea scroll y acceso al formulario hasta aceptar
         document.body.style.overflow = 'hidden';
         window.addEventListener('DOMContentLoaded', function() {
@@ -515,4 +624,5 @@
         });
     </script>
 </body>
+
 </html>
