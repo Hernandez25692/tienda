@@ -13,6 +13,7 @@ use App\Http\Controllers\PagoController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\NotificacionController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -103,6 +104,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/carrito/actualizar/{key}', [CarritoController::class, 'actualizarProducto'])->name('carrito.actualizar');
     Route::post('/carrito/guardar/{key}', [CarritoController::class, 'guardarProducto'])->name('carrito.guardar');
     Route::post('/carrito/confirmar', [CarritoController::class, 'confirmarPedido'])->name('carrito.confirmar');
+    Route::get('/notificaciones', [NotificacionController::class, 'index'])->middleware('auth')->name('notificaciones');
+    Route::post('/notificaciones/{id}/leer', [NotificacionController::class, 'marcarLeida'])->middleware('auth')->name('notificaciones.leer');
 
     /*
     |--------------------------------------------------------------------------

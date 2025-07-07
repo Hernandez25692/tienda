@@ -6,6 +6,8 @@ use App\Models\Pago;
 use App\Models\Pedido;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use App\Models\Notificacion;
+
 
 class PagoController extends Controller
 {
@@ -32,6 +34,17 @@ class PagoController extends Controller
     {
         $pago->update(['confirmado' => true]);
 
-        return redirect()->back()->with('success', 'Pago confirmado correctamente.');
+        // Obtener el cliente del pedido
+        $pedido = Pedido::find($pago->pedido_id);
+
+        if ($pedido && $pedido->user_id) {
+            Notificacion::create([
+                'user_id' => $pedido->user_id,
+                'titulo' => 'Pago confirmado',
+                'mensaje' => 'Tu pago del pedido #' . $pedido->id . ' ha sido confirmado. Pronto comenzaremos con el despacho.',
+            ]);
+        }
+
+        return redirect()->back()->with('success', 'Pago confirmado correctamente y cliente notificado.');
     }
 }

@@ -148,6 +148,57 @@
                                 </div>
                             </div>
                         @endif
+                        @php
+                            $notificaciones = \App\Models\Notificacion::where('user_id', Auth::id())
+                                ->where('leido', false)
+                                ->latest()
+                                ->take(5)
+                                ->get();
+                            $cantidadNoLeidas = $notificaciones->count();
+                        @endphp
+
+                        <div x-data="{ notiOpen: false }" class="relative">
+                            <button @click="notiOpen = !notiOpen"
+                                class="relative px-4 py-2 text-gray-700 hover:text-yellow-600">
+                                <i class="fas fa-bell text-yellow-500 text-lg"></i>
+                                @if ($cantidadNoLeidas > 0)
+                                    <span class="absolute top-1 right-1 bg-red-500 text-white text-xs rounded-full px-1.5">
+                                        {{ $cantidadNoLeidas }}
+                                    </span>
+                                @endif
+                            </button>
+
+                            <div x-show="notiOpen" @click.outside="notiOpen = false"
+                                class="absolute right-0 mt-2 w-80 bg-white border rounded-lg shadow-lg z-50"
+                                x-transition:enter="transition ease-out duration-100"
+                                x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100"
+                                x-transition:leave="transition ease-in duration-75"
+                                x-transition:leave-start="opacity-100 scale-100"
+                                x-transition:leave-end="opacity-0 scale-95">
+
+                                <div class="p-3 border-b font-semibold text-gray-800">
+                                    Notificaciones
+                                </div>
+
+                                @forelse ($notificaciones as $n)
+                                    <div class="px-4 py-2 border-b hover:bg-yellow-50">
+                                        <p class="text-sm font-semibold text-gray-700">{{ $n->titulo }}</p>
+                                        <p class="text-xs text-gray-600">{{ $n->mensaje }}</p>
+                                        <small class="text-xs text-gray-400">{{ $n->created_at->diffForHumans() }}</small>
+                                    </div>
+                                @empty
+                                    <div class="p-4 text-center text-sm text-gray-500">
+                                        No tienes notificaciones nuevas
+                                    </div>
+                                @endforelse
+
+                                <div class="text-center p-2">
+                                    <a href="{{ route('notificaciones') }}"
+                                        class="text-sm text-blue-600 hover:underline">Ver todas</a>
+                                </div>
+                            </div>
+                        </div>
+
                         <div x-data="{ profileMenuOpen: false }" class="relative">
                             <button @click="profileMenuOpen = !profileMenuOpen"
                                 class="flex items-center gap-2 px-4 py-2 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors duration-200">
@@ -158,9 +209,11 @@
                             </button>
                             <div x-show="profileMenuOpen" @click.outside="profileMenuOpen = false"
                                 x-transition:enter="transition ease-out duration-100"
-                                x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100"
+                                x-transition:enter-start="opacity-0 scale-95"
+                                x-transition:enter-end="opacity-100 scale-100"
                                 x-transition:leave="transition ease-in duration-75"
-                                x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95"
+                                x-transition:leave-start="opacity-100 scale-100"
+                                x-transition:leave-end="opacity-0 scale-95"
                                 class="absolute right-0 mt-2 w-48 origin-top-right bg-white rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 z-50">
                                 <div class="py-1">
                                     <a href="{{ route('profile.index') }}"
@@ -181,7 +234,7 @@
                         </div>
                     </div>
 
-                    <!-- Mobile menu button -->
+                    <!-- Mobile menu button panel principal -->
                     <div class="md:hidden flex items-center space-x-4">
                         <a href="{{ route('carrito.index') }}" class="relative text-gray-700 hover:text-yellow-600">
                             <i class="fas fa-shopping-cart text-xl"></i>
@@ -192,6 +245,45 @@
                                 </span>
                             @endif
                         </a>
+                        <div x-data="{ mobileNotiOpen: false }" class="relative">
+                            <button @click="mobileNotiOpen = !mobileNotiOpen"
+                                class="relative text-gray-700 hover:text-yellow-600 focus:outline-none">
+                                <i class="fas fa-bell text-xl"></i>
+                                @if (isset($cantidadNoLeidas) && $cantidadNoLeidas > 0)
+                                    <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
+                                        {{ $cantidadNoLeidas }}
+                                    </span>
+                                @endif
+                            </button>
+                            <div x-show="mobileNotiOpen" @click.outside="mobileNotiOpen = false"
+                                class="absolute right-0 mt-2 w-72 bg-white border rounded-lg shadow-lg z-50"
+                                x-transition:enter="transition ease-out duration-100"
+                                x-transition:enter-start="opacity-0 scale-95"
+                                x-transition:enter-end="opacity-100 scale-100"
+                                x-transition:leave="transition ease-in duration-75"
+                                x-transition:leave-start="opacity-100 scale-100"
+                                x-transition:leave-end="opacity-0 scale-95">
+                                <div class="p-3 border-b font-semibold text-gray-800">
+                                    Notificaciones
+                                </div>
+                                @if (isset($notificaciones))
+                                    @forelse ($notificaciones as $n)
+                                        <div class="px-4 py-2 border-b hover:bg-yellow-50">
+                                            <p class="text-sm font-semibold text-gray-700">{{ $n->titulo }}</p>
+                                            <p class="text-xs text-gray-600">{{ $n->mensaje }}</p>
+                                            <small class="text-xs text-gray-400">{{ $n->created_at->diffForHumans() }}</small>
+                                        </div>
+                                    @empty
+                                        <div class="p-4 text-center text-sm text-gray-500">
+                                            No tienes notificaciones nuevas
+                                        </div>
+                                    @endforelse
+                                @endif
+                                <div class="text-center p-2">
+                                    <a href="{{ route('notificaciones') }}" class="text-sm text-blue-600 hover:underline">Ver todas</a>
+                                </div>
+                            </div>
+                        </div>
                         <button @click="open = !open"
                             class="inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:bg-gray-100 focus:outline-none transition"
                             aria-label="Abrir menú">
@@ -265,6 +357,7 @@
                     </div>
                     <span>Carrito</span>
                 </a>
+                
                 @if (Auth::user()->role === 'admin')
                     <div x-data="{ adminMobileMenuOpen: false }" class="border-b border-gray-100">
                         <button @click="adminMobileMenuOpen = !adminMobileMenuOpen"
@@ -292,6 +385,7 @@
                         </div>
                     </div>
                 @endif
+                
                 <a href="{{ route('profile.index') }}"
                     class="group flex items-center gap-3 px-3 py-3 rounded-lg text-gray-700 hover:bg-yellow-50 transition-colors duration-200 font-medium">
                     <i class="fas fa-user-circle text-yellow-500 w-6 text-center"></i>

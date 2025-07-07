@@ -9,11 +9,12 @@ use App\Models\PedidoProducto;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use App\Models\Notificacion;
 
 
 class PedidoController extends Controller
 {
-    
+
     public function agregarProducto(Request $request)
     {
         $producto = Producto::findOrFail($request->producto_id);
@@ -168,7 +169,14 @@ class PedidoController extends Controller
             'fecha_entrega_estimada' => $request->fecha_entrega_estimada,
         ]);
 
-        return redirect()->route('admin.pedidos.index')->with('success', 'Pedido actualizado correctamente.');
+        // Notificar al cliente
+        Notificacion::create([
+            'user_id' => $pedido->user_id,
+            'titulo' => 'Actualización de pedido',
+            'mensaje' => 'El estado de tu pedido #' . $pedido->id . ' ha sido actualizado a "' . $pedido->estado . '".',
+        ]);
+
+        return redirect()->route('admin.pedidos.index')->with('success', 'Pedido actualizado y notificación enviada.');
     }
     // Subir comprobante de pago
     public function subirComprobante(Request $request, Pedido $pedido)
@@ -198,6 +206,4 @@ class PedidoController extends Controller
         $carrito = session()->get('carrito', []);
         return view('carrito.index', compact('carrito'));
     }
-
-    
 }
