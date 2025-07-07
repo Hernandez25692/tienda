@@ -10,68 +10,76 @@
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>
-        /* Mejoras para móviles */
         @media (max-width: 640px) {
-            .max-w-6xl {
-                max-width: 100vw !important;
-            }
-
-            .rounded-2xl {
-                border-radius: 1rem !important;
-            }
-
-            .p-10 {
-                padding: 1.25rem !important;
-            }
-
-            .md\:grid-cols-2 {
-                grid-template-columns: 1fr !important;
-            }
-
-            .text-3xl {
-                font-size: 1.5rem !important;
-            }
-
-            .h-36 {
-                height: 3.5rem !important;
-            }
-
-            .w-40,
-            .h-40 {
-                width: 3.5rem !important;
-                height: 3.5rem !important;
-            }
-
-            .max-w-\[320px\] {
-                max-width: 180px !important;
-            }
-
-            .mb-10 {
-                margin-bottom: 1rem !important;
-            }
-
-            .space-y-5> :not([hidden])~ :not([hidden]) {
-                margin-top: 1rem !important;
-            }
-
-            .max-w-sm {
-                max-width: 95vw !important;
-            }
+            .max-w-6xl { max-width: 100vw !important; }
+            .rounded-2xl { border-radius: 1rem !important; }
+            .p-10 { padding: 1.25rem !important; }
+            .md\:grid-cols-2 { grid-template-columns: 1fr !important; }
+            .text-3xl { font-size: 1.5rem !important; }
+            .h-36 { height: 3.5rem !important; }
+            .w-40, .h-40 { width: 3.5rem !important; height: 3.5rem !important; }
+            .max-w-\[320px\] { max-width: 180px !important; }
+            .mb-10 { margin-bottom: 1rem !important; }
+            .space-y-5> :not([hidden])~ :not([hidden]) { margin-top: 1rem !important; }
+            .max-w-sm { max-width: 95vw !important; }
         }
-
         @media (max-width: 400px) {
-            .p-10 {
-                padding: 0.5rem !important;
-            }
-
-            .rounded-2xl {
-                border-radius: 0.5rem !important;
-            }
+            .p-10 { padding: 0.5rem !important; }
+            .rounded-2xl { border-radius: 0.5rem !important; }
         }
     </style>
 </head>
 
 <body class="bg-gray-100 text-gray-800 m-0 p-0">
+
+    <!-- Modal Política de Privacidad Inicial -->
+    <div id="initialPrivacyModal"
+        class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div class="relative w-[92vw] max-w-md mx-auto bg-gradient-to-br from-indigo-50 via-white to-purple-100 rounded-2xl shadow-2xl border border-indigo-100 p-5 sm:p-8 animate-fade-in">
+            <!-- Icono de alerta -->
+            <div class="flex justify-center mb-4">
+                <div class="bg-indigo-100 rounded-full p-3 shadow">
+                    <i class="fas fa-shield-alt text-indigo-600 text-2xl sm:text-3xl animate-pulse"></i>
+                </div>
+            </div>
+            <h3 class="text-lg sm:text-xl font-bold mb-3 text-indigo-800 text-center drop-shadow">Política de Privacidad</h3>
+            <div class="mb-4 text-gray-700 text-sm sm:text-base text-center leading-relaxed">
+                <span class="inline-block bg-yellow-100 text-yellow-700 px-2 py-1 rounded mb-2 text-xs font-semibold"><i class="fa fa-info-circle mr-1"></i>Tu privacidad es importante</span>
+                <br>
+                Tu información personal se utiliza <b>solo</b> para gestionar el inicio de sesión y facilitar una comunicación efectiva contigo.<br>
+                El número de teléfono es <b>opcional</b> y puedes agregar un correo secundario si lo prefieres.<br>
+                <span class="block mt-2 text-indigo-700 font-medium">No compartimos tus datos con terceros y puedes solicitar su eliminación en cualquier momento.</span>
+            </div>
+            <div class="flex flex-col sm:flex-row justify-center sm:justify-end gap-2 mt-2">
+                <button onclick="acceptPrivacyPolicy()"
+                    class="w-full sm:w-auto px-4 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg font-semibold shadow hover:from-indigo-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-indigo-400 transition text-sm sm:text-base">
+                    <i class="fa fa-check-circle mr-2"></i>Aceptar y Continuar
+                </button>
+            </div>
+            <button onclick="acceptPrivacyPolicy()"
+                class="absolute top-2 right-2 text-gray-400 hover:text-indigo-600 transition"
+                aria-label="Cerrar">
+                <i class="fas fa-times text-lg"></i>
+            </button>
+        </div>
+        <style>
+            .animate-fade-in {
+                animation: fadeInModal 0.3s cubic-bezier(.4,0,.2,1);
+            }
+            @keyframes fadeInModal {
+                from { opacity: 0; transform: translateY(30px) scale(0.97);}
+                to { opacity: 1; transform: translateY(0) scale(1);}
+            }
+            @media (max-width: 480px) {
+                #initialPrivacyModal .max-w-md {
+                    padding: 1.2rem !important;
+                }
+                #initialPrivacyModal h3 {
+                    font-size: 1.1rem !important;
+                }
+            }
+        </style>
+    </div>
 
     <section
         class="min-h-screen w-full flex items-center justify-center px-2 sm:px-4 bg-gradient-to-br from-indigo-100 via-white to-blue-50 relative overflow-hidden">
@@ -139,69 +147,27 @@
                         ¿Ya tienes cuenta? Iniciar sesión
                     </a>
                 </div>
-                <!-- Animaciones personalizadas -->
                 <style>
                     @keyframes bounce-slow {
-
-                        0%,
-                        100% {
-                            transform: translateY(0);
-                        }
-
-                        50% {
-                            transform: translateY(-30px);
-                        }
+                        0%, 100% { transform: translateY(0);}
+                        50% { transform: translateY(-30px);}
                     }
-
-                    .animate-bounce-slow {
-                        animation: bounce-slow 4s infinite;
-                    }
-
+                    .animate-bounce-slow { animation: bounce-slow 4s infinite;}
                     @keyframes float {
-
-                        0%,
-                        100% {
-                            transform: translateY(0) scale(1);
-                        }
-
-                        50% {
-                            transform: translateY(20px) scale(1.05);
-                        }
+                        0%, 100% { transform: translateY(0) scale(1);}
+                        50% { transform: translateY(20px) scale(1.05);}
                     }
-
-                    .animate-float {
-                        animation: float 6s ease-in-out infinite;
-                    }
-
+                    .animate-float { animation: float 6s ease-in-out infinite;}
                     @keyframes float-reverse {
-
-                        0%,
-                        100% {
-                            transform: translateY(0) scale(1);
-                        }
-
-                        50% {
-                            transform: translateY(-20px) scale(1.1);
-                        }
+                        0%, 100% { transform: translateY(0) scale(1);}
+                        50% { transform: translateY(-20px) scale(1.1);}
                     }
-
-                    .animate-float-reverse {
-                        animation: float-reverse 7s ease-in-out infinite;
-                    }
-
+                    .animate-float-reverse { animation: float-reverse 7s ease-in-out infinite;}
                     @keyframes spin-slow {
-                        0% {
-                            transform: rotate(0deg);
-                        }
-
-                        100% {
-                            transform: rotate(360deg);
-                        }
+                        0% { transform: rotate(0deg);}
+                        100% { transform: rotate(360deg);}
                     }
-
-                    .animate-spin-slow {
-                        animation: spin-slow 10s linear infinite;
-                    }
+                    .animate-spin-slow { animation: spin-slow 10s linear infinite;}
                 </style>
             </div>
 
@@ -211,305 +177,342 @@
                     class="w-full max-w-xs sm:max-w-sm space-y-4 sm:space-y-5" autocomplete="off">
                     @csrf
 
-                                        {{-- Resumen general de errores --}}
-                                        @if ($errors->any())
-                                            <div class="mb-4 bg-red-100 border border-red-400 text-red-700 px-4 py-2 rounded text-xs sm:text-sm">
-                                                <ul class="list-disc pl-5">
-                                                    @foreach ($errors->all() as $error)
-                                                        <li>{{ __($error) }}</li>
-                                                    @endforeach
-                                                </ul>
-                                            </div>
-                                        @endif
+                    {{-- Resumen general de errores --}}
+                    @if ($errors->any())
+                        <div class="mb-4 bg-red-100 border border-red-400 text-red-700 px-4 py-2 rounded text-xs sm:text-sm">
+                            <ul class="list-disc pl-5">
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ __($error) }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
 
-                                        <h2 class="text-xl sm:text-2xl font-bold text-center text-gray-700 mb-2 sm:mb-4">Crear cuenta</h2>
+                    <h2 class="text-xl sm:text-2xl font-bold text-center text-gray-700 mb-2 sm:mb-4">Crear cuenta</h2>
 
-                                        <!-- Nombre -->
-                                        <div>
-                                            <label for="name" class="block text-xs sm:text-sm font-medium text-gray-700">Nombre
-                                                completo</label>
-                                            <input id="name" name="name" type="text" required
-                                                class="mt-1 w-full px-3 py-2 sm:px-4 sm:py-2 rounded border border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 shadow-sm text-xs sm:text-base"
-                                                value="{{ old('name') }}"
-                                                oninput="
-                                                    this.value = this.value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, '');
-                                                    this.value = this.value.replace(/\b\w+\b/g, function(word) {
-                                                        return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
-                                                    });
-                                                "
-                                                autocomplete="off">
-                                            <span id="nameError" class="text-red-500 text-xs"></span>
-                                            @error('name')
-                                                <span class="text-red-500 text-xs">{{ __($message) }}</span>
-                                            @enderror
-                                        </div>
+                    <!-- Nombre -->
+                    <div>
+                        <label for="name" class="block text-xs sm:text-sm font-medium text-gray-700">Nombre
+                            completo</label>
+                        <input id="name" name="name" type="text" required
+                            class="mt-1 w-full px-3 py-2 sm:px-4 sm:py-2 rounded border border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 shadow-sm text-xs sm:text-base"
+                            value="{{ old('name') }}"
+                            oninput="
+                                this.value = this.value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, '');
+                                this.value = this.value.replace(/\b\w+\b/g, function(word) {
+                                    return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+                                });
+                            "
+                            autocomplete="off">
+                        <span id="nameError" class="text-red-500 text-xs"></span>
+                        @error('name')
+                            <span class="text-red-500 text-xs">{{ __($message) }}</span>
+                        @enderror
+                    </div>
 
-                                        <!-- Correo -->
-                                        <div>
-                                            <label for="email" class="block text-xs sm:text-sm font-medium text-gray-700">Correo
-                                                electrónico</label>
-                                            <input id="email" name="email" type="email" required
-                                                class="mt-1 w-full px-3 py-2 sm:px-4 sm:py-2 rounded border border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 shadow-sm text-xs sm:text-base"
-                                                value="{{ old('email') }}" autocomplete="off">
-                                            <span id="emailError" class="text-red-500 text-xs"></span>
-                                            @error('email')
-                                                <span class="text-red-500 text-xs">{{ __($message) }}</span>
-                                            @enderror
-                                        </div>
+                    <!-- Correo -->
+                    <div>
+                        <label for="email" class="block text-xs sm:text-sm font-medium text-gray-700">Correo
+                            electrónico</label>
+                        <input id="email" name="email" type="email" required
+                            class="mt-1 w-full px-3 py-2 sm:px-4 sm:py-2 rounded border border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 shadow-sm text-xs sm:text-base"
+                            value="{{ old('email') }}" autocomplete="off">
+                        <span id="emailError" class="text-red-500 text-xs"></span>
+                        @error('email')
+                            <span class="text-red-500 text-xs">{{ __($message) }}</span>
+                        @enderror
+                    </div>
 
-                                        <!-- Celular -->
-                                        <div>
-                                            <label for="celular" class="block text-xs sm:text-sm font-medium text-gray-700">Número de
-                                                celular</label>
-                                            <input id="celular" name="celular" type="text" maxlength="9" placeholder="0000-0000"
-                                                required
-                                                class="mt-1 w-full px-3 py-2 sm:px-4 sm:py-2 rounded border border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 shadow-sm text-xs sm:text-base"
-                                                value="{{ old('celular') }}" autocomplete="off">
-                                            <span id="celularError" class="text-red-500 text-xs"></span>
-                                            @error('celular')
-                                                <span class="text-red-500 text-xs">{{ __($message) }}</span>
-                                            @enderror
-                                        </div>
+                    <!-- Celular (opcional) -->
+                    <div>
+                        <label for="celular" class="block text-xs sm:text-sm font-medium text-gray-700">Número de
+                            celular <span class="text-gray-400">(opcional)</span></label>
+                        <input id="celular" name="celular" type="text" maxlength="9" placeholder="0000-0000"
+                            class="mt-1 w-full px-3 py-2 sm:px-4 sm:py-2 rounded border border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 shadow-sm text-xs sm:text-base"
+                            value="{{ old('celular') }}" autocomplete="off">
+                        <span id="celularError" class="text-red-500 text-xs"></span>
+                        @error('celular')
+                            <span class="text-red-500 text-xs">{{ __($message) }}</span>
+                        @enderror
+                    </div>
 
-                                        <!-- Contraseña -->
-                                        <div>
-                                            <label for="password"
-                                                class="block text-xs sm:text-sm font-medium text-gray-700">Contraseña</label>
-                                            <div class="relative">
-                                                <input id="password" name="password" type="password" required
-                                                    class="mt-1 w-full px-3 py-2 sm:px-4 sm:py-2 rounded border border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 shadow-sm pr-8 sm:pr-10 text-xs sm:text-base"
-                                                    autocomplete="new-password">
-                                                <button type="button" tabindex="-1" onclick="togglePasswordVisibility('password', this)"
-                                                    class="absolute inset-y-0 right-0 px-2 sm:px-3 flex items-center text-gray-400 hover:text-indigo-600 focus:outline-none"
-                                                    aria-label="Mostrar/Ocultar contraseña">
-                                                    <i class="fa fa-eye"></i>
-                                                </button>
-                                            </div>
-                                            <span id="passwordError" class="text-red-500 text-xs"></span>
-                                            @error('password')
-                                                <span class="text-red-500 text-xs">{{ __($message) }}</span>
-                                            @enderror
-                                        </div>
+                    <!-- Correo secundario (opcional) -->
+                    <div>
+                        <label for="email_secundario" class="block text-xs sm:text-sm font-medium text-gray-700">Correo secundario <span class="text-gray-400">(opcional)</span></label>
+                        <input id="email_secundario" name="email_secundario" type="email"
+                            class="mt-1 w-full px-3 py-2 sm:px-4 sm:py-2 rounded border border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 shadow-sm text-xs sm:text-base"
+                            value="{{ old('email_secundario') }}" autocomplete="off">
+                        <span id="emailSecundarioError" class="text-red-500 text-xs"></span>
+                        @error('email_secundario')
+                            <span class="text-red-500 text-xs">{{ __($message) }}</span>
+                        @enderror
+                    </div>
 
-                                        <!-- Confirmar -->
-                                        <div>
-                                            <label for="password_confirmation"
-                                                class="block text-xs sm:text-sm font-medium text-gray-700">Confirmar
-                                                contraseña</label>
-                                            <div class="relative">
-                                                <input id="password_confirmation" name="password_confirmation" type="password" required
-                                                    class="mt-1 w-full px-3 py-2 sm:px-4 sm:py-2 rounded border border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 shadow-sm pr-8 sm:pr-10 text-xs sm:text-base"
-                                                    autocomplete="new-password">
-                                                <button type="button" tabindex="-1"
-                                                    onclick="togglePasswordVisibility('password_confirmation', this)"
-                                                    class="absolute inset-y-0 right-0 px-2 sm:px-3 flex items-center text-gray-400 hover:text-indigo-600 focus:outline-none"
-                                                    aria-label="Mostrar/Ocultar contraseña">
-                                                    <i class="fa fa-eye"></i>
-                                                </button>
-                                            </div>
-                                            <span id="passwordConfirmationError" class="text-red-500 text-xs"></span>
-                                            @error('password_confirmation')
-                                                <span class="text-red-500 text-xs">{{ __($message) }}</span>
-                                            @enderror
-                                        </div>
+                    <!-- Contraseña -->
+                    <div>
+                        <label for="password"
+                            class="block text-xs sm:text-sm font-medium text-gray-700">Contraseña</label>
+                        <div class="relative">
+                            <input id="password" name="password" type="password" required
+                                class="mt-1 w-full px-3 py-2 sm:px-4 sm:py-2 rounded border border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 shadow-sm pr-8 sm:pr-10 text-xs sm:text-base"
+                                autocomplete="new-password">
+                            <button type="button" tabindex="-1" onclick="togglePasswordVisibility('password', this)"
+                                class="absolute inset-y-0 right-0 px-2 sm:px-3 flex items-center text-gray-400 hover:text-indigo-600 focus:outline-none"
+                                aria-label="Mostrar/Ocultar contraseña">
+                                <i class="fa fa-eye"></i>
+                            </button>
+                        </div>
+                        <span id="passwordError" class="text-red-500 text-xs"></span>
+                        @error('password')
+                            <span class="text-red-500 text-xs">{{ __($message) }}</span>
+                        @enderror
+                    </div>
 
-                                        <script>
-                                            function togglePasswordVisibility(fieldId, btn) {
-                                                const input = document.getElementById(fieldId);
-                                                const icon = btn.querySelector('i');
-                                                if (input.type === 'password') {
-                                                    input.type = 'text';
-                                                    icon.classList.remove('fa-eye');
-                                                    icon.classList.add('fa-eye-slash');
-                                                } else {
-                                                    input.type = 'password';
-                                                    icon.classList.remove('fa-eye-slash');
-                                                    icon.classList.add('fa-eye');
-                                                }
-                                            }
-                                        </script>
+                    <!-- Confirmar -->
+                    <div>
+                        <label for="password_confirmation"
+                            class="block text-xs sm:text-sm font-medium text-gray-700">Confirmar
+                            contraseña</label>
+                        <div class="relative">
+                            <input id="password_confirmation" name="password_confirmation" type="password" required
+                                class="mt-1 w-full px-3 py-2 sm:px-4 sm:py-2 rounded border border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 shadow-sm pr-8 sm:pr-10 text-xs sm:text-base"
+                                autocomplete="new-password">
+                            <button type="button" tabindex="-1"
+                                onclick="togglePasswordVisibility('password_confirmation', this)"
+                                class="absolute inset-y-0 right-0 px-2 sm:px-3 flex items-center text-gray-400 hover:text-indigo-600 focus:outline-none"
+                                aria-label="Mostrar/Ocultar contraseña">
+                                <i class="fa fa-eye"></i>
+                            </button>
+                        </div>
+                        <span id="passwordConfirmationError" class="text-red-500 text-xs"></span>
+                        @error('password_confirmation')
+                            <span class="text-red-500 text-xs">{{ __($message) }}</span>
+                        @enderror
+                    </div>
 
-                                        <!-- Botón -->
-                                        <div>
-                                            <button type="button" onclick="showSummaryModal()"
-                                                class="w-full py-2 px-4 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded shadow transition text-xs sm:text-base">
-                                                Registrarse
-                                            </button>
-                                        </div>
+                    <script>
+                        function togglePasswordVisibility(fieldId, btn) {
+                            const input = document.getElementById(fieldId);
+                            const icon = btn.querySelector('i');
+                            if (input.type === 'password') {
+                                input.type = 'text';
+                                icon.classList.remove('fa-eye');
+                                icon.classList.add('fa-eye-slash');
+                            } else {
+                                input.type = 'password';
+                                icon.classList.remove('fa-eye-slash');
+                                icon.classList.add('fa-eye');
+                            }
+                        }
+                    </script>
 
-                                        <!-- Botón Política de Privacidad -->
-                                        <div class="flex justify-center mt-2">
-                                            <button type="button"
-                                                class="text-xs sm:text-sm text-indigo-600 underline hover:text-indigo-800 transition"
-                                                onclick="showPrivacyModal()">
-                                                Política de Privacidad
-                                            </button>
-                                        </div>
+                    <!-- Botón -->
+                    <div>
+                        <button type="button" onclick="showSummaryModal()"
+                            class="w-full py-2 px-4 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded shadow transition text-xs sm:text-base">
+                            Registrarse
+                        </button>
+                    </div>
 
-                                        <!-- Modal de resumen/confirmación -->
-                                        <div id="summaryModal"
-                                            class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 hidden">
-                                            <div class="bg-white rounded-lg shadow-lg max-w-xs sm:max-w-sm w-full p-4 sm:p-6 relative">
-                                                <h3 class="text-base sm:text-lg font-bold mb-2 sm:mb-4 text-gray-700">Confirmar registro
-                                                </h3>
-                                                <div id="summaryContent" class="mb-2 sm:mb-4 text-gray-600 text-xs sm:text-sm"></div>
-                                                <div class="flex justify-end space-x-2">
-                                                    <button onclick="closeSummaryModal()"
-                                                        class="px-3 py-2 bg-gray-200 rounded hover:bg-gray-300 text-xs sm:text-base">Cancelar</button>
-                                                    <button onclick="submitRegisterForm()"
-                                                        class="px-3 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 text-xs sm:text-base">Confirmar</button>
-                                                </div>
-                                                <button onclick="closeSummaryModal()"
-                                                    class="absolute top-2 right-2 text-gray-400 hover:text-gray-600">
-                                                    <i class="fas fa-times"></i>
-                                                </button>
-                                            </div>
-                                        </div>
+                    <!-- Botón Política de Privacidad -->
+                    <div class="flex justify-center mt-2">
+                        <button type="button"
+                            class="text-xs sm:text-sm text-indigo-600 underline hover:text-indigo-800 transition"
+                            onclick="showPrivacyModal()">
+                            Política de Privacidad
+                        </button>
+                    </div>
 
-                                        <!-- Modal Política de Privacidad -->
-                                        <div id="privacyModal"
-                                            class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 hidden">
-                                            <div class="bg-white rounded-lg shadow-lg max-w-xs sm:max-w-sm w-full p-4 sm:p-6 relative">
-                                                <h3 class="text-base sm:text-lg font-bold mb-2 sm:mb-4 text-gray-700">Política de Privacidad</h3>
-                                                <div class="mb-2 sm:mb-4 text-gray-600 text-xs sm:text-sm">
-                                                    Tus datos personales serán utilizados únicamente para fines relacionados con la gestión de tus pedidos en EncargaYa. Toda la información proporcionada es encriptada y almacenada de manera segura. No compartimos tus datos con terceros y puedes solicitar su eliminación en cualquier momento.
-                                                </div>
-                                                <div class="flex justify-end">
-                                                    <button onclick="closePrivacyModal()"
-                                                        class="px-3 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 text-xs sm:text-base">Cerrar</button>
-                                                </div>
-                                                <button onclick="closePrivacyModal()"
-                                                    class="absolute top-2 right-2 text-gray-400 hover:text-gray-600">
-                                                    <i class="fas fa-times"></i>
-                                                </button>
-                                            </div>
-                                        </div>
-
-                                        <script>
-                                            function showSummaryModal() {
-                                                ['nameError', 'emailError', 'celularError', 'passwordError', 'passwordConfirmationError'].forEach(
-                                                    id => {
-                                                        document.getElementById(id).textContent = '';
-                                                    }
-                                                );
-
-                                                const name = document.getElementById('name').value.trim();
-                                                const email = document.getElementById('email').value.trim();
-                                                const celular = document.getElementById('celular').value.trim();
-                                                const pass = document.getElementById('password').value;
-                                                const passConfirm = document.getElementById('password_confirmation').value;
-
-                                                let missing = [];
-                                                if (name.length < 3) missing.push('Nombre (mínimo 3 caracteres)');
-                                                if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) missing.push('Correo válido');
-                                                if (!/^\d{4}-\d{4}$/.test(celular)) missing.push('Celular (formato 0000-0000)');
-                                                if (pass.length < 6) missing.push('Contraseña (mínimo 6 caracteres)');
-                                                if (pass !== passConfirm) missing.push('Confirmar contraseña igual a la anterior');
-
-                                                let summary = '';
-                                                if (missing.length > 0) {
-                                                    summary =
-                                                        `<div class="text-red-500 mb-2 font-semibold">Faltan o hay errores en:</div><ul class="list-disc pl-5">` +
-                                                        missing.map(item => `<li>${item}</li>`).join('') + `</ul>`;
-                                                } else {
-                                                    summary = `
-                                                    <div class="mb-2">¿Deseas confirmar tu registro con estos datos?</div>
-                                                    <ul class="pl-2">
-                                                        <li><b>Nombre:</b> ${name}</li>
-                                                        <li><b>Correo:</b> ${email}</li>
-                                                        <li><b>Celular:</b> ${celular}</li>
-                                                    </ul>
-                                                `;
-                                                }
-                                                document.getElementById('summaryContent').innerHTML = summary;
-                                                document.getElementById('summaryModal').classList.remove('hidden');
-                                                document.querySelector('#summaryModal button[onclick="submitRegisterForm()"]').disabled = missing.length > 0;
-                                                document.querySelector('#summaryModal button[onclick="submitRegisterForm()"]').classList.toggle('opacity-50',
-                                                    missing.length > 0);
-                                            }
-
-                                            function closeSummaryModal() {
-                                                document.getElementById('summaryModal').classList.add('hidden');
-                                            }
-
-                                            function submitRegisterForm() {
-                                                document.getElementById('registerForm').submit();
-                                            }
-
-                                            function showPrivacyModal() {
-                                                document.getElementById('privacyModal').classList.remove('hidden');
-                                            }
-
-                                            function closePrivacyModal() {
-                                                document.getElementById('privacyModal').classList.add('hidden');
-                                            }
-                                        </script>
-                                    </form>
-                                    <script>
-                                        window.addEventListener('DOMContentLoaded', function() {
-                                            // Solo resetea si no hay errores de Laravel
-                                            @if (!$errors->any())
-                                            document.getElementById('registerForm').reset();
-                                            ['name', 'email', 'celular', 'password', 'password_confirmation'].forEach(id => {
-                                                document.getElementById(id).value = '';
-                                            });
-                                            @endif
-                                        });
-                                    </script>
-                                </div>
+                    <!-- Modal de resumen/confirmación -->
+                    <div id="summaryModal"
+                        class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 hidden">
+                        <div class="bg-white rounded-lg shadow-lg max-w-xs sm:max-w-sm w-full p-4 sm:p-6 relative">
+                            <h3 class="text-base sm:text-lg font-bold mb-2 sm:mb-4 text-gray-700">Confirmar registro
+                            </h3>
+                            <div id="summaryContent" class="mb-2 sm:mb-4 text-gray-600 text-xs sm:text-sm"></div>
+                            <div class="flex justify-end space-x-2">
+                                <button onclick="closeSummaryModal()"
+                                    class="px-3 py-2 bg-gray-200 rounded hover:bg-gray-300 text-xs sm:text-base">Cancelar</button>
+                                <button onclick="submitRegisterForm()"
+                                    class="px-3 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 text-xs sm:text-base">Confirmar</button>
                             </div>
-                        </section>
+                            <button onclick="closeSummaryModal()"
+                                class="absolute top-2 right-2 text-gray-400 hover:text-gray-600">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
 
-                        <!-- Validación rápida -->
-                        <script>
-                            document.getElementById('registerForm').addEventListener('submit', function(e) {
-                                let valid = true;
-                                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                                const celularRegex = /^\d{4}-\d{4}$/;
+                    <!-- Modal Política de Privacidad -->
+                    <div id="privacyModal"
+                        class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 hidden">
+                        <div class="bg-white rounded-lg shadow-lg max-w-xs sm:max-w-sm w-full p-4 sm:p-6 relative">
+                            <h3 class="text-base sm:text-lg font-bold mb-2 sm:mb-4 text-gray-700">Política de Privacidad</h3>
+                            <div class="mb-2 sm:mb-4 text-gray-600 text-xs sm:text-sm">
+                                Tu información personal se utiliza únicamente para gestionar el inicio de sesión y facilitar una comunicación efectiva contigo. El número de teléfono es opcional y puedes agregar un correo secundario si lo prefieres. No compartimos tus datos con terceros y puedes solicitar su eliminación en cualquier momento.
+                            </div>
+                            <div class="flex justify-end">
+                                <button onclick="closePrivacyModal()"
+                                    class="px-3 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 text-xs sm:text-base">Cerrar</button>
+                            </div>
+                            <button onclick="closePrivacyModal()"
+                                class="absolute top-2 right-2 text-gray-400 hover:text-gray-600">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
 
-                                ['nameError', 'emailError', 'celularError', 'passwordError', 'passwordConfirmationError'].forEach(
-                                    id => {
-                                        document.getElementById(id).textContent = '';
-                                    });
-
-                                const name = document.getElementById('name').value.trim();
-                                if (name.length < 3) {
-                                    document.getElementById('nameError').textContent = 'Debe tener al menos 3 caracteres.';
-                                    valid = false;
+                    <script>
+                        function showSummaryModal() {
+                            ['nameError', 'emailError', 'celularError', 'emailSecundarioError', 'passwordError', 'passwordConfirmationError'].forEach(
+                                id => {
+                                    document.getElementById(id).textContent = '';
                                 }
+                            );
 
-                                const email = document.getElementById('email').value.trim();
-                                if (!emailRegex.test(email)) {
-                                    document.getElementById('emailError').textContent = 'Correo inválido.';
-                                    valid = false;
-                                }
+                            const name = document.getElementById('name').value.trim();
+                            const email = document.getElementById('email').value.trim();
+                            const celular = document.getElementById('celular').value.trim();
+                            const emailSecundario = document.getElementById('email_secundario').value.trim();
+                            const pass = document.getElementById('password').value;
+                            const passConfirm = document.getElementById('password_confirmation').value;
 
-                                const celular = document.getElementById('celular').value.trim();
-                                if (!celularRegex.test(celular)) {
-                                    document.getElementById('celularError').textContent = 'El formato debe ser 0000-0000.';
-                                    valid = false;
-                                }
+                            let missing = [];
+                            if (name.length < 3) missing.push('Nombre (mínimo 3 caracteres)');
+                            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) missing.push('Correo válido');
+                            if (celular && !/^\d{4}-\d{4}$/.test(celular)) missing.push('Celular (formato 0000-0000)');
+                            if (emailSecundario && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailSecundario)) missing.push('Correo secundario válido');
+                            if (pass.length < 6) missing.push('Contraseña (mínimo 6 caracteres)');
+                            if (pass !== passConfirm) missing.push('Confirmar contraseña igual a la anterior');
 
-                                const pass = document.getElementById('password').value;
-                                const passConfirm = document.getElementById('password_confirmation').value;
-                                if (pass.length < 6) {
-                                    document.getElementById('passwordError').textContent = 'Debe tener al menos 6 caracteres.';
-                                    valid = false;
-                                }
-                                if (pass !== passConfirm) {
-                                    document.getElementById('passwordConfirmationError').textContent = 'Las contraseñas no coinciden.';
-                                    valid = false;
-                                }
+                            let summary = '';
+                            if (missing.length > 0) {
+                                summary =
+                                    `<div class="text-red-500 mb-2 font-semibold">Faltan o hay errores en:</div><ul class="list-disc pl-5">` +
+                                    missing.map(item => `<li>${item}</li>`).join('') + `</ul>`;
+                            } else {
+                                summary = `
+                                <div class="mb-2">¿Deseas confirmar tu registro con estos datos?</div>
+                                <ul class="pl-2">
+                                    <li><b>Nombre:</b> ${name}</li>
+                                    <li><b>Correo:</b> ${email}</li>
+                                    ${celular ? `<li><b>Celular:</b> ${celular}</li>` : ''}
+                                    ${emailSecundario ? `<li><b>Correo secundario:</b> ${emailSecundario}</li>` : ''}
+                                </ul>
+                            `;
+                            }
+                            document.getElementById('summaryContent').innerHTML = summary;
+                            document.getElementById('summaryModal').classList.remove('hidden');
+                            document.querySelector('#summaryModal button[onclick="submitRegisterForm()"]').disabled = missing.length > 0;
+                            document.querySelector('#summaryModal button[onclick="submitRegisterForm()"]').classList.toggle('opacity-50',
+                                missing.length > 0);
+                        }
 
-                                if (!valid) e.preventDefault();
-                            });
+                        function closeSummaryModal() {
+                            document.getElementById('summaryModal').classList.add('hidden');
+                        }
 
-                            document.getElementById('celular').addEventListener('input', function(e) {
-                                let value = e.target.value.replace(/\D/g, '');
-                                if (value.length > 4) {
-                                    value = value.slice(0, 4) + '-' + value.slice(4, 8);
-                                }
-                                e.target.value = value.slice(0, 9);
-                            });
-                        </script>
+                        function submitRegisterForm() {
+                            document.getElementById('registerForm').submit();
+                        }
 
+                        function showPrivacyModal() {
+                            document.getElementById('privacyModal').classList.remove('hidden');
+                        }
+
+                        function closePrivacyModal() {
+                            document.getElementById('privacyModal').classList.add('hidden');
+                        }
+                    </script>
+                </form>
+                <script>
+                    window.addEventListener('DOMContentLoaded', function() {
+                        // Solo resetea si no hay errores de Laravel
+                        @if (!$errors->any())
+                        document.getElementById('registerForm').reset();
+                        ['name', 'email', 'celular', 'email_secundario', 'password', 'password_confirmation'].forEach(id => {
+                            document.getElementById(id).value = '';
+                        });
+                        @endif
+                    });
+                </script>
+            </div>
+        </div>
+    </section>
+
+    <!-- Validación rápida -->
+    <script>
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            let valid = true;
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            const celularRegex = /^\d{4}-\d{4}$/;
+
+            ['nameError', 'emailError', 'celularError', 'emailSecundarioError', 'passwordError', 'passwordConfirmationError'].forEach(
+                id => {
+                    document.getElementById(id).textContent = '';
+                });
+
+            const name = document.getElementById('name').value.trim();
+            if (name.length < 3) {
+                document.getElementById('nameError').textContent = 'Debe tener al menos 3 caracteres.';
+                valid = false;
+            }
+
+            const email = document.getElementById('email').value.trim();
+            if (!emailRegex.test(email)) {
+                document.getElementById('emailError').textContent = 'Correo inválido.';
+                valid = false;
+            }
+
+            const celular = document.getElementById('celular').value.trim();
+            if (celular && !celularRegex.test(celular)) {
+                document.getElementById('celularError').textContent = 'El formato debe ser 0000-0000.';
+                valid = false;
+            }
+
+            const emailSecundario = document.getElementById('email_secundario').value.trim();
+            if (emailSecundario && !emailRegex.test(emailSecundario)) {
+                document.getElementById('emailSecundarioError').textContent = 'Correo secundario inválido.';
+                valid = false;
+            }
+
+            const pass = document.getElementById('password').value;
+            const passConfirm = document.getElementById('password_confirmation').value;
+            if (pass.length < 6) {
+                document.getElementById('passwordError').textContent = 'Debe tener al menos 6 caracteres.';
+                valid = false;
+            }
+            if (pass !== passConfirm) {
+                document.getElementById('passwordConfirmationError').textContent = 'Las contraseñas no coinciden.';
+                valid = false;
+            }
+
+            if (!valid) e.preventDefault();
+        });
+
+        document.getElementById('celular').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length > 4) {
+                value = value.slice(0, 4) + '-' + value.slice(4, 8);
+            }
+            e.target.value = value.slice(0, 9);
+        });
+
+        // Modal de privacidad inicial
+        function acceptPrivacyPolicy() {
+            document.getElementById('initialPrivacyModal').style.display = 'none';
+        }
+        // Bloquea scroll y acceso al formulario hasta aceptar
+        document.body.style.overflow = 'hidden';
+        window.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('initialPrivacyModal').style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        });
+        document.getElementById('initialPrivacyModal').addEventListener('transitionend', function() {
+            if (this.style.display === 'none') {
+                document.body.style.overflow = '';
+            }
+        });
+    </script>
+</body>
+</html>

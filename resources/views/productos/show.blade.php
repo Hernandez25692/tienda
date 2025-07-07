@@ -230,8 +230,11 @@
                     placeholder="Ej: Talla M, color negro, modelo ajustado"></textarea>
                 @if ($producto->disponible)
                     <button type="submit"
-                        class="w-full bg-[#facc15] hover:bg-yellow-400 text-indigo-900 font-bold py-2 md:py-3 px-4 rounded-lg shadow transition text-base md:text-lg active:scale-95">
-                        Solicitar producto
+                        class="w-full bg-gradient-to-r from-yellow-300 via-[#facc15] to-yellow-400 hover:from-yellow-400 hover:to-yellow-300 text-indigo-900 font-extrabold py-2 md:py-3 px-4 rounded-xl shadow-lg transition-all duration-200 text-base md:text-lg active:scale-95 flex items-center justify-center gap-2 border-2 border-yellow-200 hover:border-yellow-400 focus:outline-none focus:ring-2 focus:ring-yellow-400">
+                        <svg class="w-5 h-5 text-indigo-900" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13l-1.35 2.7A1 1 0 0 0 6.6 17h10.8a1 1 0 0 0 .95-.7L21 13M7 13V6h13" />
+                        </svg>
+                        Agregar al Carrito
                     </button>
                 @else
                     <button type="button"
