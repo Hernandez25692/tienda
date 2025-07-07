@@ -169,13 +169,15 @@
                         class="absolute bottom-2 left-1/3 w-8 h-8 sm:w-16 sm:h-16 bg-indigo-200 opacity-20 rounded-full blur-xl animate-float-reverse">
                     </div>
                 </div>
-                <div class="relative flex justify-center mb-6 sm:mb-10">
-                    <span class="absolute inset-0 flex items-center justify-center">
-                        <span
-                            class="animate-spin-slow rounded-full border-2 sm:border-4 border-yellow-300 border-t-indigo-500 border-b-purple-400 w-24 h-24 sm:w-40 sm:h-40"></span>
-                    </span>
-                    <img src="{{ asset('storage/logos/logo1.png') }}" alt="Logo"
-                        class="relative z-10 h-20 sm:h-36 w-auto max-w-[180px] sm:max-w-[320px] drop-shadow-lg transition-transform duration-300 hover:scale-105 hover:drop-shadow-2xl">
+                <div class="relative flex flex-col items-center mb-6 sm:mb-10">
+                    <a href="{{ route('login') }}" class="group">
+                        <span class="absolute inset-0 flex items-center justify-center">
+                            <span
+                                class="animate-spin-slow rounded-full border-2 sm:border-4 border-yellow-300 border-t-indigo-500 border-b-purple-400 w-24 h-24 sm:w-40 sm:h-40"></span>
+                        </span>
+                        <img src="{{ asset('storage/logos/logo1.png') }}" alt="Logo"
+                            class="relative z-10 h-20 sm:h-36 w-auto max-w-[180px] sm:max-w-[320px] drop-shadow-lg transition-transform duration-300 group-hover:scale-105 group-hover:drop-shadow-2xl">
+                    </a>
                 </div>
                 <h1
                     class="relative z-10 text-2xl sm:text-3xl font-bold leading-snug drop-shadow-lg text-center sm:text-left">
