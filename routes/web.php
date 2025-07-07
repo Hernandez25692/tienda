@@ -64,6 +64,9 @@ Route::middleware(['auth'])->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
+    //notificaciones
+    Route::get('/notificaciones', [NotificacionController::class, 'index'])->middleware('auth')->name('notificaciones');
+    Route::post('/notificaciones/{id}/leer', [NotificacionController::class, 'marcarLeida'])->middleware('auth')->name('notificaciones.leer');
     /*
     |--------------------------------------------------------------------------
     | CATEGORÍAS (ADMIN)
@@ -104,8 +107,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/carrito/actualizar/{key}', [CarritoController::class, 'actualizarProducto'])->name('carrito.actualizar');
     Route::post('/carrito/guardar/{key}', [CarritoController::class, 'guardarProducto'])->name('carrito.guardar');
     Route::post('/carrito/confirmar', [CarritoController::class, 'confirmarPedido'])->name('carrito.confirmar');
-    Route::get('/notificaciones', [NotificacionController::class, 'index'])->middleware('auth')->name('notificaciones');
-    Route::post('/notificaciones/{id}/leer', [NotificacionController::class, 'marcarLeida'])->middleware('auth')->name('notificaciones.leer');
+
 
     /*
     |--------------------------------------------------------------------------
