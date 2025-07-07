@@ -26,6 +26,16 @@ class PagoController extends Controller
             'comprobante' => $ruta,
             'fecha_pago' => now(),
         ]);
+        // Notificar a administradores
+        $admins = \App\Models\User::where('role', 'admin')->get();
+
+        foreach ($admins as $admin) {
+            Notificacion::create([
+                'user_id' => $admin->id,
+                'titulo' => '💰 Nuevo pago registrado',
+                'mensaje' => 'El usuario ' . auth()->user()->name . ' ha registrado un pago para el pedido #' . $pedido->id . '.',
+            ]);
+        }
 
         return redirect()->back()->with('success', 'Pago registrado correctamente. En espera de confirmación.');
     }

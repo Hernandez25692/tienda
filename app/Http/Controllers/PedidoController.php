@@ -85,6 +85,16 @@ class PedidoController extends Controller
 
 
             DB::commit();
+            // Notificar a todos los administradores
+            $admins = \App\Models\User::where('role', 'admin')->get();
+
+            foreach ($admins as $admin) {
+                Notificacion::create([
+                    'user_id' => $admin->id,
+                    'titulo' => '🛒 Nuevo pedido recibido',
+                    'mensaje' => 'El usuario ' . Auth::user()->name . ' ha realizado un pedido (#' . $pedido->id . ').',
+                ]);
+            }
 
             // Vaciar el carrito
             session()->forget('carrito');
