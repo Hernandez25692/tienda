@@ -14,11 +14,28 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\NotificacionController;
+use App\Http\Controllers\AvisoController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
 |--------------------------------------------------------------------------
 */
+// ADMIN - Gestión de avisos
+Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () {
+    Route::get('/avisos', [AvisoController::class, 'index'])->name('avisos.index');
+    Route::get('/avisos/crear', [AvisoController::class, 'create'])->name('avisos.create');
+    Route::post('/avisos', [AvisoController::class, 'store'])->name('avisos.store');
+    Route::get('/avisos/{aviso}/editar', [AvisoController::class, 'edit'])->name('avisos.edit');
+    Route::put('/avisos/{aviso}', [AvisoController::class, 'update'])->name('avisos.update');
+    Route::delete('/avisos/{aviso}', [AvisoController::class, 'destroy'])->name('avisos.destroy');
+});
+
+// CLIENTE - Marcar aviso como leído
+Route::post('/avisos/{aviso}/leido', [AvisoController::class, 'marcarLeido'])
+    ->name('avisos.marcarLeido')
+    ->middleware('auth');
+
+
 
 Route::get('/login', function (Request $request) {
     // 🔒 Forzar logout si hay sesión activa

@@ -58,4 +58,11 @@ class User extends Authenticatable
     {
         return $this->role === 'admin';
     }
+
+    public function avisos()
+    {
+        return $this->belongsToMany(\App\Models\Aviso::class, 'aviso_user')
+            ->withPivot('leido')
+            ->withTimestamps();
+    }
 }

@@ -144,6 +144,12 @@
                                             <i class="fas fa-tags text-yellow-500 w-5"></i>
                                             Categorías
                                         </a>
+                                        <a href="{{ route('admin.avisos.index') }}"
+                                            class="flex items-center gap-2 px-4 py-2 text-gray-700 hover:bg-yellow-50 hover:text-yellow-600 transition-colors duration-200">
+                                            <i class="fas fa-bullhorn text-yellow-500 w-5"></i>
+                                            Avisos Generales
+                                        </a>
+
                                     </div>
                                 </div>
                             </div>
@@ -252,23 +258,20 @@
                                 class="relative text-gray-700 hover:text-yellow-600 focus:outline-none">
                                 <i class="fas fa-bell text-xl"></i>
                                 @if (isset($cantidadNoLeidas) && $cantidadNoLeidas > 0)
-                                    <span class="absolute -top-1 -right-2 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center z-10">
+                                    <span
+                                        class="absolute -top-1 -right-2 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center z-10">
                                         {{ $cantidadNoLeidas }}
                                     </span>
                                 @endif
                             </button>
-                            <div 
-                                x-show="mobileNotiOpen" 
-                                @click.outside="mobileNotiOpen = false"
+                            <div x-show="mobileNotiOpen" @click.outside="mobileNotiOpen = false"
                                 class="absolute right-0 mt-2 w-80 max-w-xs sm:max-w-sm bg-white border rounded-lg shadow-xl z-50"
                                 x-transition:enter="transition ease-out duration-100"
                                 x-transition:enter-start="opacity-0 scale-95"
                                 x-transition:enter-end="opacity-100 scale-100"
                                 x-transition:leave="transition ease-in duration-75"
                                 x-transition:leave-start="opacity-100 scale-100"
-                                x-transition:leave-end="opacity-0 scale-95"
-                                style="min-width: 260px;"
-                            >
+                                x-transition:leave-end="opacity-0 scale-95" style="min-width: 260px;">
                                 <div class="p-3 border-b font-semibold text-gray-800 bg-gray-50 rounded-t-lg">
                                     Notificaciones
                                 </div>
@@ -281,9 +284,12 @@
                                                         <i class="fas fa-info-circle text-yellow-400"></i>
                                                     </div>
                                                     <div class="flex-1 min-w-0">
-                                                        <p class="text-sm font-semibold text-gray-700 truncate">{{ $n->titulo }}</p>
-                                                        <p class="text-xs text-gray-600 break-words">{{ $n->mensaje }}</p>
-                                                        <small class="text-xs text-gray-400">{{ $n->created_at->diffForHumans() }}</small>
+                                                        <p class="text-sm font-semibold text-gray-700 truncate">
+                                                            {{ $n->titulo }}</p>
+                                                        <p class="text-xs text-gray-600 break-words">{{ $n->mensaje }}
+                                                        </p>
+                                                        <small
+                                                            class="text-xs text-gray-400">{{ $n->created_at->diffForHumans() }}</small>
                                                     </div>
                                                 </div>
                                             </div>
@@ -295,7 +301,8 @@
                                     @endif
                                 </div>
                                 <div class="text-center p-2 bg-gray-50 rounded-b-lg">
-                                    <a href="{{ route('notificaciones') }}" class="text-sm text-blue-600 hover:underline">Ver todas</a>
+                                    <a href="{{ route('notificaciones') }}"
+                                        class="text-sm text-blue-600 hover:underline">Ver todas</a>
                                 </div>
                             </div>
                         </div>
@@ -373,7 +380,7 @@
                     </div>
                     <span>Carrito</span>
                 </a>
-                
+
                 @if (Auth::user()->role === 'admin')
                     <div x-data="{ adminMobileMenuOpen: false }" class="border-b border-gray-100">
                         <button @click="adminMobileMenuOpen = !adminMobileMenuOpen"
@@ -398,10 +405,16 @@
                                 class="block px-3 py-2 text-gray-700 hover:bg-yellow-100 hover:text-yellow-600 transition-colors duration-200 rounded">
                                 Categorías
                             </a>
+                            <a href="{{ route('admin.avisos.index') }}"
+                                class="flex items-center gap-2 px-4 py-2 text-gray-700 hover:bg-yellow-50 hover:text-yellow-600 transition-colors duration-200">
+                                <i class="fas fa-bullhorn text-yellow-500 w-5"></i>
+                                Avisos Generales
+                            </a>
+
                         </div>
                     </div>
                 @endif
-                
+
                 <a href="{{ route('profile.index') }}"
                     class="group flex items-center gap-3 px-3 py-3 rounded-lg text-gray-700 hover:bg-yellow-50 transition-colors duration-200 font-medium">
                     <i class="fas fa-user-circle text-yellow-500 w-6 text-center"></i>
@@ -427,6 +440,98 @@
             </main>
         </div>
     @endauth
+    @php
+        $avisoPendiente = \App\Models\Aviso::where('activo', true)
+            ->where(function ($q) {
+                $q->whereNull('mostrar_desde')->orWhere('mostrar_desde', '<=', now());
+            })
+            ->where(function ($q) {
+                $q->whereNull('mostrar_hasta')->orWhere('mostrar_hasta', '>=', now());
+            })
+            ->whereDoesntHave('usuarios', function ($sub) {
+                $sub->where('user_id', auth()->id())->where('leido', true);
+            })
+            ->orderBy('created_at', 'desc')
+            ->first();
+    @endphp
+
+    @if ($avisoPendiente)
+        <div 
+            x-data="{ showAviso: true }" 
+            x-show="showAviso"
+            class="fixed inset-0 flex items-center justify-center z-[100]"
+            style="backdrop-filter: blur(3px);"
+        >
+            <div 
+                class="relative bg-white rounded-2xl shadow-2xl flex flex-col w-[95vw] max-w-md mx-2 p-0 overflow-hidden border-2 border-blue-900"
+                style="box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);"
+            >
+                <div class="flex flex-col items-center py-7 px-6">
+                    <div class="w-full flex flex-col items-center mb-4">
+                        @if ($avisoPendiente->imagen)
+                            <div class="w-full flex justify-center mb-4">
+                                <img 
+                                    src="{{ asset('storage/' . $avisoPendiente->imagen) }}" 
+                                    alt="Aviso"
+                                    class="max-w-xs w-full h-auto rounded-lg border border-blue-200 shadow"
+                                    style="object-fit: contain; background: #f8fafc;"
+                                >
+                            </div>
+                        @endif
+                    </div>
+                    @if (!empty($avisoPendiente->titulo))
+                        <h2 class="text-2xl font-bold text-blue-900 mb-2 text-center leading-tight">
+                            {{ $avisoPendiente->titulo }}
+                        </h2>
+                    @endif
+                    @if (!empty($avisoPendiente->contenido))
+                        <p class="text-base text-gray-700 mb-6 text-center whitespace-pre-line leading-relaxed">
+                            {{ $avisoPendiente->contenido }}
+                        </p>
+                    @endif
+                    <div 
+                        x-data="{
+                            marcarLeido() {
+                                fetch('{{ route('avisos.marcarLeido', $avisoPendiente->id) }}', {
+                                    method: 'POST',
+                                    headers: {
+                                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                                        'Content-Type': 'application/json',
+                                    },
+                                    body: JSON.stringify({})
+                                })
+                                .then(response => response.json())
+                                .then(data => {
+                                    if (data.success) {
+                                        showAviso = false;
+                                    } else {
+                                        alert('Error al marcar como leído.');
+                                    }
+                                })
+                                .catch(() => alert('Error en la conexión.'));
+                            }
+                        }"
+                        class="w-full"
+                    >
+                        <button 
+                            @click="marcarLeido"
+                            class="w-full bg-blue-900 hover:bg-blue-800 text-white font-semibold py-2 rounded-lg transition mb-2 text-base shadow focus:outline-none focus:ring-2 focus:ring-blue-400"
+                        >
+                            No volver a mostrar
+                        </button>
+                    </div>
+                </div>
+                <button 
+                    @click="showAviso = false"
+                    class="absolute top-3 right-4 text-blue-900 hover:text-red-600 text-3xl font-bold focus:outline-none transition"
+                    aria-label="Cerrar aviso"
+                    style="background: none;"
+                >
+                    &times;
+                </button>
+            </div>
+        </div>
+    @endif
 
     @guest
         <div class="min-h-screen flex flex-col justify-center items-center bg-gray-100">

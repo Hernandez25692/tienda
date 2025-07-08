@@ -69,7 +69,7 @@ class ProductoController extends Controller
                 break;
         }
 
-        $productos = $query->paginate(40)->withQueryString();
+        $productos = $query->paginate(15)->withQueryString();
 
         return view('productos.index', compact('productos'));
     }
