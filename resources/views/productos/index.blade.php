@@ -32,7 +32,7 @@
                 request()->filled('ordenar');
         @endphp
 
-        <!-- Filtros Modal Mejorado -->
+        <!-- Filtros Modal Mejorado res-->
         <div x-data="{ open: false, showAdvanced: false }" class="mb-2 sm:mb-4">
             <button id="btn-filtros" @click="open = true"
                 class="fixed bottom-3 left-1/2 -translate-x-1/2 z-50 sm:static sm:translate-x-0 sm:bottom-auto sm:left-auto flex items-center gap-1
