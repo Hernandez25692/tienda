@@ -21,7 +21,7 @@
         @endif
     @endauth
 
-    <div class="container mx-auto px-2 sm:px-4 bg-gray-100 min-h-screen py-2 sm:py-4">
+    <div class="container mx-auto px-2 sm:px-4 min-h-screen py-2 sm:py-4">
         @php
             $hayFiltro =
                 request()->filled('nombre') ||
@@ -54,8 +54,8 @@
                 class="fixed inset-0 z-40 flex items-center justify-center bg-black bg-opacity-40" role="dialog"
                 aria-modal="true" id="modal-filtros">
                 <div @click.away="open = false"
-                    class="relative w-11/12 max-w-xs sm:max-w-md md:max-w-lg bg-white rounded-xl shadow-2xl border border-gray-200 p-2 sm:p-6 mx-2 flex flex-col"
-                    style="max-height: 90vh; overflow-y:auto;">
+                    class="relative w-full max-w-xs sm:max-w-md md:max-w-lg bg-white rounded-xl shadow-2xl border border-gray-200 p-2 sm:p-6 mx-2 flex flex-col"
+                    style="max-height: 95vh;">
                     <button @click="open = false"
                         class="absolute top-2 right-2 text-gray-400 hover:text-indigo-900 transition focus:outline-none focus:ring-2 focus:ring-indigo-500"
                         aria-label="Cerrar filtros">
@@ -173,7 +173,6 @@
         </div>
         <script src="//unpkg.com/alpinejs" defer></script>
         <script>
-            // Oculta el botón Filtros en móvil al llegar al pie de página
             document.addEventListener('DOMContentLoaded', function() {
                 function toggleFiltrosBtn() {
                     const btn = document.getElementById('btn-filtros');
@@ -204,13 +203,13 @@
 
         <!-- Grid de productos -->
         <div id="productos-lista"
-            class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-1 sm:gap-4 overflow-y-auto"
-            style="max-height: calc(100vh - 140px);" role="list" aria-label="Lista de productos">
+            class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 sm:gap-4 w-full"
+            role="list" aria-label="Lista de productos">
             @foreach ($productos as $producto)
-                <div class="bg-white border border-gray-200 rounded-xl shadow group relative flex flex-col p-1 sm:p-3 min-h-0 h-full transition-all duration-200"
+                <div class="bg-white border border-gray-200 rounded-xl shadow group relative flex flex-col p-2 sm:p-3 h-full transition-all duration-200"
                     role="listitem">
                     <a href="{{ route('productos.show', $producto->id) }}"
-                        class="block rounded-lg overflow-hidden aspect-square bg-gray-100 flex items-center justify-center h-36 sm:h-44 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+                        class="block rounded-lg overflow-hidden w-full aspect-square bg-gray-100 flex items-center justify-center"
                         tabindex="0">
                         @if ($producto->imagenes->first())
                             <img src="{{ asset('storage/' . $producto->imagenes->first()->ruta) }}"
@@ -225,12 +224,11 @@
                             </svg>
                         @endif
                     </a>
-                    <div class="flex-1 flex flex-col mt-1 sm:mt-3 min-h-0">
+                    <div class="flex-1 flex flex-col mt-2 min-h-0">
                         <h3 class="text-xs sm:text-sm font-bold text-indigo-900 truncate mb-1 leading-tight"
                             title="{{ $producto->nombre }}">
                             {{ $producto->nombre }}
                         </h3>
-
                         @php
                             $ofertaVigente =
                                 $producto->precio_oferta &&
@@ -266,8 +264,8 @@
                                 L {{ number_format($producto->precio_venta, 2) }}
                             </span>
                         @endif
-
                     </div>
+                    
                     <!-- Acciones admin solo en desktop/hover -->
                     @auth
                         @if (Auth::user()->role === 'admin')
@@ -295,9 +293,6 @@
                             @endif
                         @endif
                     @endauth
-                    <!-- En móvil, toda la tarjeta es clickeable -->
-                    <a href="{{ route('productos.show', $producto->id) }}" class="sm:hidden absolute inset-0 z-0"
-                        tabindex="-1" aria-label="Ver producto"></a>
                 </div>
             @endforeach
         </div>
@@ -345,14 +340,14 @@
 
             document.addEventListener('DOMContentLoaded', function() {
                 let lista = document.getElementById('productos-lista');
-                lista.addEventListener('scroll', function() {
-                    if (lista.scrollTop + lista.clientHeight >= lista.scrollHeight - 100) {
+                window.addEventListener('scroll', function() {
+                    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 100) {
                         cargarMasProductos();
                     }
                 });
 
                 function autoCargar() {
-                    if (paginaActual < ultimaPagina && lista.scrollHeight <= lista.clientHeight + 10) {
+                    if (paginaActual < ultimaPagina && lista.scrollHeight <= window.innerHeight + 10) {
                         cargarMasProductos();
                         setTimeout(autoCargar, 500);
                     }
@@ -409,21 +404,13 @@
 
         <style>
             @media (max-width: 640px) {
-                .productos-scroll {
-                    display: flex;
-                    overflow-x: auto;
-                    gap: 1rem;
-                    padding-bottom: 0.5rem;
+                #productos-lista {
+                    grid-template-columns: repeat(1, minmax(0, 1fr));
+                    gap: 0.75rem;
                 }
-
-                .productos-scroll>div {
-                    min-width: 85vw;
-                    flex: 0 0 auto;
-                }
-
-                #productos-lista>div {
-                    min-height: 0;
-                    padding: 0.25rem !important;
+                #productos-lista > div {
+                    min-width: 0;
+                    padding: 0.5rem !important;
                 }
             }
         </style>
