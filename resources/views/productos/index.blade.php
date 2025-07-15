@@ -21,7 +21,7 @@
         @endif
     @endauth
 
-    <div class="container mx-auto px-2 sm:px-4 min-h-screen py-2 sm:py-4">
+    <div class="container mx-auto px-2 sm:px-4 min-h-[100dvh] py-2 sm:py-4" style="min-height: -webkit-fill-available;">
         @php
             $hayFiltro =
                 request()->filled('nombre') ||
@@ -203,7 +203,7 @@
 
         <!-- Grid de productos -->
         <div id="productos-lista"
-            class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 sm:gap-4 w-full"
+            class="grid grid-cols-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 sm:gap-4 w-full"
             role="list" aria-label="Lista de productos">
             @foreach ($productos as $producto)
                 <div class="bg-white border border-gray-200 rounded-xl shadow group relative flex flex-col p-2 sm:p-3 h-full transition-all duration-200"
@@ -405,13 +405,22 @@
         <style>
             @media (max-width: 640px) {
                 #productos-lista {
-                    grid-template-columns: repeat(1, minmax(0, 1fr));
+                    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
                     gap: 0.75rem;
                 }
                 #productos-lista > div {
                     min-width: 0;
                     padding: 0.5rem !important;
                 }
+            }
+            @media (max-width: 480px) {
+                #productos-lista {
+                    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+                }
+            }
+            html, body {
+                min-height: 100dvh;
+                min-height: -webkit-fill-available;
             }
         </style>
     </div>
